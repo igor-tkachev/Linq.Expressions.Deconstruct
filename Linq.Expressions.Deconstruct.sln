@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq.Expressions.Deconstruct", "Linq.Expressions.Deconstruct\Linq.Expressions.Deconstruct.csproj", "{A6003EF1-12FF-4765-A686-E7426A4ED88A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{F9656396-C968-4898-8254-D8F41C51CC91}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6003EF1-12FF-4765-A686-E7426A4ED88A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6003EF1-12FF-4765-A686-E7426A4ED88A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6003EF1-12FF-4765-A686-E7426A4ED88A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6003EF1-12FF-4765-A686-E7426A4ED88A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9656396-C968-4898-8254-D8F41C51CC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9656396-C968-4898-8254-D8F41C51CC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9656396-C968-4898-8254-D8F41C51CC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9656396-C968-4898-8254-D8F41C51CC91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76E0BE6C-4F25-476F-B1DE-FA567F734C9E}
+	EndGlobalSection
+EndGlobal
