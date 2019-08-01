@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-using Linq.Expressions.Deconstruct;
-
 using NUnit.Framework;
 
 using static Linq.Expressions.Deconstruct.Expr;
 
-namespace Tests
+namespace Linq.Expressions.Deconstruct.Tests
 {
 	[TestFixture]
 	public class Tests
