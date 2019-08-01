@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
+#nullable enable
+
 namespace Linq.Expressions.Deconstruct
 {
 	public abstract partial class Expr
@@ -63,8 +65,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator <#= item.Expression #>(<#= item.Expr #> expr) => expr.Expr;
-			public static implicit operator <#= item.Expr #>(<#= item.Expression #> expr) => new <#= item.Expr #>(expr);
+			public static implicit operator <#= item.Expression #>?(<#= item.Expr #>? expr) => expr?.Expr;
+			public static implicit operator <#= item.Expr #>?(<#= item.Expression #>? expr) => expr == null ? null : new <#= item.Expr #>(expr);
 		}
 
 		#endregion
@@ -98,17 +100,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(<#= item #> expr) => expr.Expr;
-			public static implicit operator <#= item #>(BinaryExpression expr) => new <#= item #>(expr);
+			public static implicit operator BinaryExpression?(<#= item #>? expr) => expr?.Expr;
+			public static implicit operator <#= item #>?(BinaryExpression? expr) => expr == null ? null : new <#= item #>(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -142,16 +144,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(<#= item #> expr) => expr.Expr;
-			public static implicit operator <#= item #>(UnaryExpression expr) => new <#= item #>(expr);
+			public static implicit operator UnaryExpression?(<#= item #>? expr) => expr?.Expr;
+			public static implicit operator <#= item #>?(UnaryExpression? expr) => expr == null ? null : new <#= item #>(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -208,7 +210,7 @@ namespace Linq.Expressions.Deconstruct
 
 			for (var j = 0; j <= i; j++)
 			{
-				#>, out <#= item.PItem #> item<#= j #><#
+				#>, out <#= item.PItem #>? item<#= j #><#
 			}
 
 			#>)

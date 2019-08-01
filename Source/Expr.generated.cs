@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
+#nullable enable
+
 namespace Linq.Expressions.Deconstruct
 {
 	public abstract partial class Expr
@@ -25,8 +27,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator MethodCallExpression(Call expr) => expr.Expr;
-			public static implicit operator Call(MethodCallExpression expr) => new Call(expr);
+			public static implicit operator MethodCallExpression?(Call? expr) => expr?.Expr;
+			public static implicit operator Call?(MethodCallExpression? expr) => expr == null ? null : new Call(expr);
 		}
 
 		#endregion
@@ -44,8 +46,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator ConditionalExpression(Conditional expr) => expr.Expr;
-			public static implicit operator Conditional(ConditionalExpression expr) => new Conditional(expr);
+			public static implicit operator ConditionalExpression?(Conditional? expr) => expr?.Expr;
+			public static implicit operator Conditional?(ConditionalExpression? expr) => expr == null ? null : new Conditional(expr);
 		}
 
 		#endregion
@@ -63,8 +65,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator InvocationExpression(Invoke expr) => expr.Expr;
-			public static implicit operator Invoke(InvocationExpression expr) => new Invoke(expr);
+			public static implicit operator InvocationExpression?(Invoke? expr) => expr?.Expr;
+			public static implicit operator Invoke?(InvocationExpression? expr) => expr == null ? null : new Invoke(expr);
 		}
 
 		#endregion
@@ -82,8 +84,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator LambdaExpression(Lambda expr) => expr.Expr;
-			public static implicit operator Lambda(LambdaExpression expr) => new Lambda(expr);
+			public static implicit operator LambdaExpression?(Lambda? expr) => expr?.Expr;
+			public static implicit operator Lambda?(LambdaExpression? expr) => expr == null ? null : new Lambda(expr);
 		}
 
 		#endregion
@@ -101,8 +103,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator ListInitExpression(ListInit expr) => expr.Expr;
-			public static implicit operator ListInit(ListInitExpression expr) => new ListInit(expr);
+			public static implicit operator ListInitExpression?(ListInit? expr) => expr?.Expr;
+			public static implicit operator ListInit?(ListInitExpression? expr) => expr == null ? null : new ListInit(expr);
 		}
 
 		#endregion
@@ -120,8 +122,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator MemberExpression(Member expr) => expr.Expr;
-			public static implicit operator Member(MemberExpression expr) => new Member(expr);
+			public static implicit operator MemberExpression?(Member? expr) => expr?.Expr;
+			public static implicit operator Member?(MemberExpression? expr) => expr == null ? null : new Member(expr);
 		}
 
 		#endregion
@@ -139,8 +141,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator MemberInitExpression(MemberInit expr) => expr.Expr;
-			public static implicit operator MemberInit(MemberInitExpression expr) => new MemberInit(expr);
+			public static implicit operator MemberInitExpression?(MemberInit? expr) => expr?.Expr;
+			public static implicit operator MemberInit?(MemberInitExpression? expr) => expr == null ? null : new MemberInit(expr);
 		}
 
 		#endregion
@@ -158,8 +160,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator NewExpression(New expr) => expr.Expr;
-			public static implicit operator New(NewExpression expr) => new New(expr);
+			public static implicit operator NewExpression?(New? expr) => expr?.Expr;
+			public static implicit operator New?(NewExpression? expr) => expr == null ? null : new New(expr);
 		}
 
 		#endregion
@@ -177,8 +179,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator NewArrayExpression(NewArrayBounds expr) => expr.Expr;
-			public static implicit operator NewArrayBounds(NewArrayExpression expr) => new NewArrayBounds(expr);
+			public static implicit operator NewArrayExpression?(NewArrayBounds? expr) => expr?.Expr;
+			public static implicit operator NewArrayBounds?(NewArrayExpression? expr) => expr == null ? null : new NewArrayBounds(expr);
 		}
 
 		#endregion
@@ -196,8 +198,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator NewArrayExpression(NewArrayInit expr) => expr.Expr;
-			public static implicit operator NewArrayInit(NewArrayExpression expr) => new NewArrayInit(expr);
+			public static implicit operator NewArrayExpression?(NewArrayInit? expr) => expr?.Expr;
+			public static implicit operator NewArrayInit?(NewArrayExpression? expr) => expr == null ? null : new NewArrayInit(expr);
 		}
 
 		#endregion
@@ -215,8 +217,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator TypeBinaryExpression(TypeEqual expr) => expr.Expr;
-			public static implicit operator TypeEqual(TypeBinaryExpression expr) => new TypeEqual(expr);
+			public static implicit operator TypeBinaryExpression?(TypeEqual? expr) => expr?.Expr;
+			public static implicit operator TypeEqual?(TypeBinaryExpression? expr) => expr == null ? null : new TypeEqual(expr);
 		}
 
 		#endregion
@@ -234,8 +236,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator TypeBinaryExpression(TypeIs expr) => expr.Expr;
-			public static implicit operator TypeIs(TypeBinaryExpression expr) => new TypeIs(expr);
+			public static implicit operator TypeBinaryExpression?(TypeIs? expr) => expr?.Expr;
+			public static implicit operator TypeIs?(TypeBinaryExpression? expr) => expr == null ? null : new TypeIs(expr);
 		}
 
 		#endregion
@@ -253,8 +255,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BlockExpression(Block expr) => expr.Expr;
-			public static implicit operator Block(BlockExpression expr) => new Block(expr);
+			public static implicit operator BlockExpression?(Block? expr) => expr?.Expr;
+			public static implicit operator Block?(BlockExpression? expr) => expr == null ? null : new Block(expr);
 		}
 
 		#endregion
@@ -272,8 +274,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator DynamicExpression(Dynamic expr) => expr.Expr;
-			public static implicit operator Dynamic(DynamicExpression expr) => new Dynamic(expr);
+			public static implicit operator DynamicExpression?(Dynamic? expr) => expr?.Expr;
+			public static implicit operator Dynamic?(DynamicExpression? expr) => expr == null ? null : new Dynamic(expr);
 		}
 
 		#endregion
@@ -291,8 +293,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator GotoExpression(Goto expr) => expr.Expr;
-			public static implicit operator Goto(GotoExpression expr) => new Goto(expr);
+			public static implicit operator GotoExpression?(Goto? expr) => expr?.Expr;
+			public static implicit operator Goto?(GotoExpression? expr) => expr == null ? null : new Goto(expr);
 		}
 
 		#endregion
@@ -310,8 +312,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator IndexExpression(Index expr) => expr.Expr;
-			public static implicit operator Index(IndexExpression expr) => new Index(expr);
+			public static implicit operator IndexExpression?(Index? expr) => expr?.Expr;
+			public static implicit operator Index?(IndexExpression? expr) => expr == null ? null : new Index(expr);
 		}
 
 		#endregion
@@ -329,8 +331,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator LabelExpression(Label expr) => expr.Expr;
-			public static implicit operator Label(LabelExpression expr) => new Label(expr);
+			public static implicit operator LabelExpression?(Label? expr) => expr?.Expr;
+			public static implicit operator Label?(LabelExpression? expr) => expr == null ? null : new Label(expr);
 		}
 
 		#endregion
@@ -348,8 +350,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator RuntimeVariablesExpression(RuntimeVariables expr) => expr.Expr;
-			public static implicit operator RuntimeVariables(RuntimeVariablesExpression expr) => new RuntimeVariables(expr);
+			public static implicit operator RuntimeVariablesExpression?(RuntimeVariables? expr) => expr?.Expr;
+			public static implicit operator RuntimeVariables?(RuntimeVariablesExpression? expr) => expr == null ? null : new RuntimeVariables(expr);
 		}
 
 		#endregion
@@ -367,8 +369,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator LoopExpression(Loop expr) => expr.Expr;
-			public static implicit operator Loop(LoopExpression expr) => new Loop(expr);
+			public static implicit operator LoopExpression?(Loop? expr) => expr?.Expr;
+			public static implicit operator Loop?(LoopExpression? expr) => expr == null ? null : new Loop(expr);
 		}
 
 		#endregion
@@ -386,8 +388,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator SwitchExpression(Switch expr) => expr.Expr;
-			public static implicit operator Switch(SwitchExpression expr) => new Switch(expr);
+			public static implicit operator SwitchExpression?(Switch? expr) => expr?.Expr;
+			public static implicit operator Switch?(SwitchExpression? expr) => expr == null ? null : new Switch(expr);
 		}
 
 		#endregion
@@ -405,8 +407,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator TryExpression(Try expr) => expr.Expr;
-			public static implicit operator Try(TryExpression expr) => new Try(expr);
+			public static implicit operator TryExpression?(Try? expr) => expr?.Expr;
+			public static implicit operator Try?(TryExpression? expr) => expr == null ? null : new Try(expr);
 		}
 
 		#endregion
@@ -424,8 +426,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator Expression(Extension expr) => expr.Expr;
-			public static implicit operator Extension(Expression expr) => new Extension(expr);
+			public static implicit operator Expression?(Extension? expr) => expr?.Expr;
+			public static implicit operator Extension?(Expression? expr) => expr == null ? null : new Extension(expr);
 		}
 
 		#endregion
@@ -443,8 +445,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator DebugInfoExpression(DebugInfo expr) => expr.Expr;
-			public static implicit operator DebugInfo(DebugInfoExpression expr) => new DebugInfo(expr);
+			public static implicit operator DebugInfoExpression?(DebugInfo? expr) => expr?.Expr;
+			public static implicit operator DebugInfo?(DebugInfoExpression? expr) => expr == null ? null : new DebugInfo(expr);
 		}
 
 		#endregion
@@ -462,8 +464,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator ParameterExpression(Parameter expr) => expr.Expr;
-			public static implicit operator Parameter(ParameterExpression expr) => new Parameter(expr);
+			public static implicit operator ParameterExpression?(Parameter? expr) => expr?.Expr;
+			public static implicit operator Parameter?(ParameterExpression? expr) => expr == null ? null : new Parameter(expr);
 		}
 
 		#endregion
@@ -481,8 +483,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator ConstantExpression(Constant expr) => expr.Expr;
-			public static implicit operator Constant(ConstantExpression expr) => new Constant(expr);
+			public static implicit operator ConstantExpression?(Constant? expr) => expr?.Expr;
+			public static implicit operator Constant?(ConstantExpression? expr) => expr == null ? null : new Constant(expr);
 		}
 
 		#endregion
@@ -500,8 +502,8 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator DefaultExpression(Default expr) => expr.Expr;
-			public static implicit operator Default(DefaultExpression expr) => new Default(expr);
+			public static implicit operator DefaultExpression?(Default? expr) => expr?.Expr;
+			public static implicit operator Default?(DefaultExpression? expr) => expr == null ? null : new Default(expr);
 		}
 
 		#endregion
@@ -519,17 +521,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Add expr) => expr.Expr;
-			public static implicit operator Add(BinaryExpression expr) => new Add(expr);
+			public static implicit operator BinaryExpression?(Add? expr) => expr?.Expr;
+			public static implicit operator Add?(BinaryExpression? expr) => expr == null ? null : new Add(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -551,17 +553,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(AddChecked expr) => expr.Expr;
-			public static implicit operator AddChecked(BinaryExpression expr) => new AddChecked(expr);
+			public static implicit operator BinaryExpression?(AddChecked? expr) => expr?.Expr;
+			public static implicit operator AddChecked?(BinaryExpression? expr) => expr == null ? null : new AddChecked(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -583,17 +585,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(And expr) => expr.Expr;
-			public static implicit operator And(BinaryExpression expr) => new And(expr);
+			public static implicit operator BinaryExpression?(And? expr) => expr?.Expr;
+			public static implicit operator And?(BinaryExpression? expr) => expr == null ? null : new And(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -615,17 +617,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(AndAlso expr) => expr.Expr;
-			public static implicit operator AndAlso(BinaryExpression expr) => new AndAlso(expr);
+			public static implicit operator BinaryExpression?(AndAlso? expr) => expr?.Expr;
+			public static implicit operator AndAlso?(BinaryExpression? expr) => expr == null ? null : new AndAlso(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -647,17 +649,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(ArrayIndex expr) => expr.Expr;
-			public static implicit operator ArrayIndex(BinaryExpression expr) => new ArrayIndex(expr);
+			public static implicit operator BinaryExpression?(ArrayIndex? expr) => expr?.Expr;
+			public static implicit operator ArrayIndex?(BinaryExpression? expr) => expr == null ? null : new ArrayIndex(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -679,17 +681,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Assign expr) => expr.Expr;
-			public static implicit operator Assign(BinaryExpression expr) => new Assign(expr);
+			public static implicit operator BinaryExpression?(Assign? expr) => expr?.Expr;
+			public static implicit operator Assign?(BinaryExpression? expr) => expr == null ? null : new Assign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -711,17 +713,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Coalesce expr) => expr.Expr;
-			public static implicit operator Coalesce(BinaryExpression expr) => new Coalesce(expr);
+			public static implicit operator BinaryExpression?(Coalesce? expr) => expr?.Expr;
+			public static implicit operator Coalesce?(BinaryExpression? expr) => expr == null ? null : new Coalesce(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -743,17 +745,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Divide expr) => expr.Expr;
-			public static implicit operator Divide(BinaryExpression expr) => new Divide(expr);
+			public static implicit operator BinaryExpression?(Divide? expr) => expr?.Expr;
+			public static implicit operator Divide?(BinaryExpression? expr) => expr == null ? null : new Divide(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -775,17 +777,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Equal expr) => expr.Expr;
-			public static implicit operator Equal(BinaryExpression expr) => new Equal(expr);
+			public static implicit operator BinaryExpression?(Equal? expr) => expr?.Expr;
+			public static implicit operator Equal?(BinaryExpression? expr) => expr == null ? null : new Equal(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -807,17 +809,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(ExclusiveOr expr) => expr.Expr;
-			public static implicit operator ExclusiveOr(BinaryExpression expr) => new ExclusiveOr(expr);
+			public static implicit operator BinaryExpression?(ExclusiveOr? expr) => expr?.Expr;
+			public static implicit operator ExclusiveOr?(BinaryExpression? expr) => expr == null ? null : new ExclusiveOr(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -839,17 +841,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(GreaterThan expr) => expr.Expr;
-			public static implicit operator GreaterThan(BinaryExpression expr) => new GreaterThan(expr);
+			public static implicit operator BinaryExpression?(GreaterThan? expr) => expr?.Expr;
+			public static implicit operator GreaterThan?(BinaryExpression? expr) => expr == null ? null : new GreaterThan(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -871,17 +873,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(GreaterThanOrEqual expr) => expr.Expr;
-			public static implicit operator GreaterThanOrEqual(BinaryExpression expr) => new GreaterThanOrEqual(expr);
+			public static implicit operator BinaryExpression?(GreaterThanOrEqual? expr) => expr?.Expr;
+			public static implicit operator GreaterThanOrEqual?(BinaryExpression? expr) => expr == null ? null : new GreaterThanOrEqual(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -903,17 +905,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(LeftShift expr) => expr.Expr;
-			public static implicit operator LeftShift(BinaryExpression expr) => new LeftShift(expr);
+			public static implicit operator BinaryExpression?(LeftShift? expr) => expr?.Expr;
+			public static implicit operator LeftShift?(BinaryExpression? expr) => expr == null ? null : new LeftShift(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -935,17 +937,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(LessThan expr) => expr.Expr;
-			public static implicit operator LessThan(BinaryExpression expr) => new LessThan(expr);
+			public static implicit operator BinaryExpression?(LessThan? expr) => expr?.Expr;
+			public static implicit operator LessThan?(BinaryExpression? expr) => expr == null ? null : new LessThan(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -967,17 +969,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(LessThanOrEqual expr) => expr.Expr;
-			public static implicit operator LessThanOrEqual(BinaryExpression expr) => new LessThanOrEqual(expr);
+			public static implicit operator BinaryExpression?(LessThanOrEqual? expr) => expr?.Expr;
+			public static implicit operator LessThanOrEqual?(BinaryExpression? expr) => expr == null ? null : new LessThanOrEqual(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -999,17 +1001,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Modulo expr) => expr.Expr;
-			public static implicit operator Modulo(BinaryExpression expr) => new Modulo(expr);
+			public static implicit operator BinaryExpression?(Modulo? expr) => expr?.Expr;
+			public static implicit operator Modulo?(BinaryExpression? expr) => expr == null ? null : new Modulo(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1031,17 +1033,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Multiply expr) => expr.Expr;
-			public static implicit operator Multiply(BinaryExpression expr) => new Multiply(expr);
+			public static implicit operator BinaryExpression?(Multiply? expr) => expr?.Expr;
+			public static implicit operator Multiply?(BinaryExpression? expr) => expr == null ? null : new Multiply(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1063,17 +1065,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(MultiplyChecked expr) => expr.Expr;
-			public static implicit operator MultiplyChecked(BinaryExpression expr) => new MultiplyChecked(expr);
+			public static implicit operator BinaryExpression?(MultiplyChecked? expr) => expr?.Expr;
+			public static implicit operator MultiplyChecked?(BinaryExpression? expr) => expr == null ? null : new MultiplyChecked(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1095,17 +1097,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(NotEqual expr) => expr.Expr;
-			public static implicit operator NotEqual(BinaryExpression expr) => new NotEqual(expr);
+			public static implicit operator BinaryExpression?(NotEqual? expr) => expr?.Expr;
+			public static implicit operator NotEqual?(BinaryExpression? expr) => expr == null ? null : new NotEqual(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1127,17 +1129,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Or expr) => expr.Expr;
-			public static implicit operator Or(BinaryExpression expr) => new Or(expr);
+			public static implicit operator BinaryExpression?(Or? expr) => expr?.Expr;
+			public static implicit operator Or?(BinaryExpression? expr) => expr == null ? null : new Or(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1159,17 +1161,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(OrElse expr) => expr.Expr;
-			public static implicit operator OrElse(BinaryExpression expr) => new OrElse(expr);
+			public static implicit operator BinaryExpression?(OrElse? expr) => expr?.Expr;
+			public static implicit operator OrElse?(BinaryExpression? expr) => expr == null ? null : new OrElse(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1191,17 +1193,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Power expr) => expr.Expr;
-			public static implicit operator Power(BinaryExpression expr) => new Power(expr);
+			public static implicit operator BinaryExpression?(Power? expr) => expr?.Expr;
+			public static implicit operator Power?(BinaryExpression? expr) => expr == null ? null : new Power(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1223,17 +1225,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(RightShift expr) => expr.Expr;
-			public static implicit operator RightShift(BinaryExpression expr) => new RightShift(expr);
+			public static implicit operator BinaryExpression?(RightShift? expr) => expr?.Expr;
+			public static implicit operator RightShift?(BinaryExpression? expr) => expr == null ? null : new RightShift(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1255,17 +1257,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(Subtract expr) => expr.Expr;
-			public static implicit operator Subtract(BinaryExpression expr) => new Subtract(expr);
+			public static implicit operator BinaryExpression?(Subtract? expr) => expr?.Expr;
+			public static implicit operator Subtract?(BinaryExpression? expr) => expr == null ? null : new Subtract(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1287,17 +1289,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(SubtractChecked expr) => expr.Expr;
-			public static implicit operator SubtractChecked(BinaryExpression expr) => new SubtractChecked(expr);
+			public static implicit operator BinaryExpression?(SubtractChecked? expr) => expr?.Expr;
+			public static implicit operator SubtractChecked?(BinaryExpression? expr) => expr == null ? null : new SubtractChecked(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1319,17 +1321,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(AddAssign expr) => expr.Expr;
-			public static implicit operator AddAssign(BinaryExpression expr) => new AddAssign(expr);
+			public static implicit operator BinaryExpression?(AddAssign? expr) => expr?.Expr;
+			public static implicit operator AddAssign?(BinaryExpression? expr) => expr == null ? null : new AddAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1351,17 +1353,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(AndAssign expr) => expr.Expr;
-			public static implicit operator AndAssign(BinaryExpression expr) => new AndAssign(expr);
+			public static implicit operator BinaryExpression?(AndAssign? expr) => expr?.Expr;
+			public static implicit operator AndAssign?(BinaryExpression? expr) => expr == null ? null : new AndAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1383,17 +1385,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(DivideAssign expr) => expr.Expr;
-			public static implicit operator DivideAssign(BinaryExpression expr) => new DivideAssign(expr);
+			public static implicit operator BinaryExpression?(DivideAssign? expr) => expr?.Expr;
+			public static implicit operator DivideAssign?(BinaryExpression? expr) => expr == null ? null : new DivideAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1415,17 +1417,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(ExclusiveOrAssign expr) => expr.Expr;
-			public static implicit operator ExclusiveOrAssign(BinaryExpression expr) => new ExclusiveOrAssign(expr);
+			public static implicit operator BinaryExpression?(ExclusiveOrAssign? expr) => expr?.Expr;
+			public static implicit operator ExclusiveOrAssign?(BinaryExpression? expr) => expr == null ? null : new ExclusiveOrAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1447,17 +1449,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(LeftShiftAssign expr) => expr.Expr;
-			public static implicit operator LeftShiftAssign(BinaryExpression expr) => new LeftShiftAssign(expr);
+			public static implicit operator BinaryExpression?(LeftShiftAssign? expr) => expr?.Expr;
+			public static implicit operator LeftShiftAssign?(BinaryExpression? expr) => expr == null ? null : new LeftShiftAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1479,17 +1481,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(ModuloAssign expr) => expr.Expr;
-			public static implicit operator ModuloAssign(BinaryExpression expr) => new ModuloAssign(expr);
+			public static implicit operator BinaryExpression?(ModuloAssign? expr) => expr?.Expr;
+			public static implicit operator ModuloAssign?(BinaryExpression? expr) => expr == null ? null : new ModuloAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1511,17 +1513,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(MultiplyAssign expr) => expr.Expr;
-			public static implicit operator MultiplyAssign(BinaryExpression expr) => new MultiplyAssign(expr);
+			public static implicit operator BinaryExpression?(MultiplyAssign? expr) => expr?.Expr;
+			public static implicit operator MultiplyAssign?(BinaryExpression? expr) => expr == null ? null : new MultiplyAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1543,17 +1545,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(OrAssign expr) => expr.Expr;
-			public static implicit operator OrAssign(BinaryExpression expr) => new OrAssign(expr);
+			public static implicit operator BinaryExpression?(OrAssign? expr) => expr?.Expr;
+			public static implicit operator OrAssign?(BinaryExpression? expr) => expr == null ? null : new OrAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1575,17 +1577,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(PowerAssign expr) => expr.Expr;
-			public static implicit operator PowerAssign(BinaryExpression expr) => new PowerAssign(expr);
+			public static implicit operator BinaryExpression?(PowerAssign? expr) => expr?.Expr;
+			public static implicit operator PowerAssign?(BinaryExpression? expr) => expr == null ? null : new PowerAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1607,17 +1609,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(RightShiftAssign expr) => expr.Expr;
-			public static implicit operator RightShiftAssign(BinaryExpression expr) => new RightShiftAssign(expr);
+			public static implicit operator BinaryExpression?(RightShiftAssign? expr) => expr?.Expr;
+			public static implicit operator RightShiftAssign?(BinaryExpression? expr) => expr == null ? null : new RightShiftAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1639,17 +1641,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(SubtractAssign expr) => expr.Expr;
-			public static implicit operator SubtractAssign(BinaryExpression expr) => new SubtractAssign(expr);
+			public static implicit operator BinaryExpression?(SubtractAssign? expr) => expr?.Expr;
+			public static implicit operator SubtractAssign?(BinaryExpression? expr) => expr == null ? null : new SubtractAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1671,17 +1673,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(AddAssignChecked expr) => expr.Expr;
-			public static implicit operator AddAssignChecked(BinaryExpression expr) => new AddAssignChecked(expr);
+			public static implicit operator BinaryExpression?(AddAssignChecked? expr) => expr?.Expr;
+			public static implicit operator AddAssignChecked?(BinaryExpression? expr) => expr == null ? null : new AddAssignChecked(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1703,17 +1705,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(MultiplyAssignChecked expr) => expr.Expr;
-			public static implicit operator MultiplyAssignChecked(BinaryExpression expr) => new MultiplyAssignChecked(expr);
+			public static implicit operator BinaryExpression?(MultiplyAssignChecked? expr) => expr?.Expr;
+			public static implicit operator MultiplyAssignChecked?(BinaryExpression? expr) => expr == null ? null : new MultiplyAssignChecked(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1735,17 +1737,17 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator BinaryExpression(SubtractAssignChecked expr) => expr.Expr;
-			public static implicit operator SubtractAssignChecked(BinaryExpression expr) => new SubtractAssignChecked(expr);
+			public static implicit operator BinaryExpression?(SubtractAssignChecked? expr) => expr?.Expr;
+			public static implicit operator SubtractAssignChecked?(BinaryExpression? expr) => expr == null ? null : new SubtractAssignChecked(expr);
 
-			public void Deconstruct(out Type type, out Expr left, out Expr right)
+			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr left, out Expr right)
+			public void Deconstruct(out Expr? left, out Expr? right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
@@ -1767,16 +1769,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(ArrayLength expr) => expr.Expr;
-			public static implicit operator ArrayLength(UnaryExpression expr) => new ArrayLength(expr);
+			public static implicit operator UnaryExpression?(ArrayLength? expr) => expr?.Expr;
+			public static implicit operator ArrayLength?(UnaryExpression? expr) => expr == null ? null : new ArrayLength(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -1797,16 +1799,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(Convert expr) => expr.Expr;
-			public static implicit operator Convert(UnaryExpression expr) => new Convert(expr);
+			public static implicit operator UnaryExpression?(Convert? expr) => expr?.Expr;
+			public static implicit operator Convert?(UnaryExpression? expr) => expr == null ? null : new Convert(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -1827,16 +1829,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(ConvertChecked expr) => expr.Expr;
-			public static implicit operator ConvertChecked(UnaryExpression expr) => new ConvertChecked(expr);
+			public static implicit operator UnaryExpression?(ConvertChecked? expr) => expr?.Expr;
+			public static implicit operator ConvertChecked?(UnaryExpression? expr) => expr == null ? null : new ConvertChecked(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -1857,16 +1859,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(Negate expr) => expr.Expr;
-			public static implicit operator Negate(UnaryExpression expr) => new Negate(expr);
+			public static implicit operator UnaryExpression?(Negate? expr) => expr?.Expr;
+			public static implicit operator Negate?(UnaryExpression? expr) => expr == null ? null : new Negate(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -1887,16 +1889,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(NegateChecked expr) => expr.Expr;
-			public static implicit operator NegateChecked(UnaryExpression expr) => new NegateChecked(expr);
+			public static implicit operator UnaryExpression?(NegateChecked? expr) => expr?.Expr;
+			public static implicit operator NegateChecked?(UnaryExpression? expr) => expr == null ? null : new NegateChecked(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -1917,16 +1919,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(Not expr) => expr.Expr;
-			public static implicit operator Not(UnaryExpression expr) => new Not(expr);
+			public static implicit operator UnaryExpression?(Not? expr) => expr?.Expr;
+			public static implicit operator Not?(UnaryExpression? expr) => expr == null ? null : new Not(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -1947,16 +1949,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(Quote expr) => expr.Expr;
-			public static implicit operator Quote(UnaryExpression expr) => new Quote(expr);
+			public static implicit operator UnaryExpression?(Quote? expr) => expr?.Expr;
+			public static implicit operator Quote?(UnaryExpression? expr) => expr == null ? null : new Quote(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -1977,16 +1979,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(TypeAs expr) => expr.Expr;
-			public static implicit operator TypeAs(UnaryExpression expr) => new TypeAs(expr);
+			public static implicit operator UnaryExpression?(TypeAs? expr) => expr?.Expr;
+			public static implicit operator TypeAs?(UnaryExpression? expr) => expr == null ? null : new TypeAs(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2007,16 +2009,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(UnaryPlus expr) => expr.Expr;
-			public static implicit operator UnaryPlus(UnaryExpression expr) => new UnaryPlus(expr);
+			public static implicit operator UnaryExpression?(UnaryPlus? expr) => expr?.Expr;
+			public static implicit operator UnaryPlus?(UnaryExpression? expr) => expr == null ? null : new UnaryPlus(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2037,16 +2039,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(Decrement expr) => expr.Expr;
-			public static implicit operator Decrement(UnaryExpression expr) => new Decrement(expr);
+			public static implicit operator UnaryExpression?(Decrement? expr) => expr?.Expr;
+			public static implicit operator Decrement?(UnaryExpression? expr) => expr == null ? null : new Decrement(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2067,16 +2069,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(Increment expr) => expr.Expr;
-			public static implicit operator Increment(UnaryExpression expr) => new Increment(expr);
+			public static implicit operator UnaryExpression?(Increment? expr) => expr?.Expr;
+			public static implicit operator Increment?(UnaryExpression? expr) => expr == null ? null : new Increment(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2097,16 +2099,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(IsFalse expr) => expr.Expr;
-			public static implicit operator IsFalse(UnaryExpression expr) => new IsFalse(expr);
+			public static implicit operator UnaryExpression?(IsFalse? expr) => expr?.Expr;
+			public static implicit operator IsFalse?(UnaryExpression? expr) => expr == null ? null : new IsFalse(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2127,16 +2129,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(IsTrue expr) => expr.Expr;
-			public static implicit operator IsTrue(UnaryExpression expr) => new IsTrue(expr);
+			public static implicit operator UnaryExpression?(IsTrue? expr) => expr?.Expr;
+			public static implicit operator IsTrue?(UnaryExpression? expr) => expr == null ? null : new IsTrue(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2157,16 +2159,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(Throw expr) => expr.Expr;
-			public static implicit operator Throw(UnaryExpression expr) => new Throw(expr);
+			public static implicit operator UnaryExpression?(Throw? expr) => expr?.Expr;
+			public static implicit operator Throw?(UnaryExpression? expr) => expr == null ? null : new Throw(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2187,16 +2189,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(Unbox expr) => expr.Expr;
-			public static implicit operator Unbox(UnaryExpression expr) => new Unbox(expr);
+			public static implicit operator UnaryExpression?(Unbox? expr) => expr?.Expr;
+			public static implicit operator Unbox?(UnaryExpression? expr) => expr == null ? null : new Unbox(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2217,16 +2219,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(PreIncrementAssign expr) => expr.Expr;
-			public static implicit operator PreIncrementAssign(UnaryExpression expr) => new PreIncrementAssign(expr);
+			public static implicit operator UnaryExpression?(PreIncrementAssign? expr) => expr?.Expr;
+			public static implicit operator PreIncrementAssign?(UnaryExpression? expr) => expr == null ? null : new PreIncrementAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2247,16 +2249,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(PreDecrementAssign expr) => expr.Expr;
-			public static implicit operator PreDecrementAssign(UnaryExpression expr) => new PreDecrementAssign(expr);
+			public static implicit operator UnaryExpression?(PreDecrementAssign? expr) => expr?.Expr;
+			public static implicit operator PreDecrementAssign?(UnaryExpression? expr) => expr == null ? null : new PreDecrementAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2277,16 +2279,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(PostIncrementAssign expr) => expr.Expr;
-			public static implicit operator PostIncrementAssign(UnaryExpression expr) => new PostIncrementAssign(expr);
+			public static implicit operator UnaryExpression?(PostIncrementAssign? expr) => expr?.Expr;
+			public static implicit operator PostIncrementAssign?(UnaryExpression? expr) => expr == null ? null : new PostIncrementAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2307,16 +2309,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(PostDecrementAssign expr) => expr.Expr;
-			public static implicit operator PostDecrementAssign(UnaryExpression expr) => new PostDecrementAssign(expr);
+			public static implicit operator UnaryExpression?(PostDecrementAssign? expr) => expr?.Expr;
+			public static implicit operator PostDecrementAssign?(UnaryExpression? expr) => expr == null ? null : new PostDecrementAssign(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2337,16 +2339,16 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			public static implicit operator UnaryExpression(OnesComplement expr) => expr.Expr;
-			public static implicit operator OnesComplement(UnaryExpression expr) => new OnesComplement(expr);
+			public static implicit operator UnaryExpression?(OnesComplement? expr) => expr?.Expr;
+			public static implicit operator OnesComplement?(UnaryExpression? expr) => expr == null ? null : new OnesComplement(expr);
 
-			public void Deconstruct(out Type type, out Expr operand)
+			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
 				operand = Expr.Operand.ToExpr();
 			}
 
-			public void Deconstruct(out Expr operand)
+			public void Deconstruct(out Expr? operand)
 			{
 				operand = Expr.Operand.ToExpr();
 			}
@@ -2375,7 +2377,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0)
+			out int count, out ElementInit? item0)
 		{
 			if (list == null) { count = -1; item0 = default; return; }
 
@@ -2402,7 +2404,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0, out ElementInit item1)
+			out int count, out ElementInit? item0, out ElementInit? item1)
 		{
 			if (list == null) { count = -1; item0 = item1 = default; return; }
 
@@ -2439,7 +2441,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0, out ElementInit item1, out ElementInit item2)
+			out int count, out ElementInit? item0, out ElementInit? item1, out ElementInit? item2)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = default; return; }
 
@@ -2486,7 +2488,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0, out ElementInit item1, out ElementInit item2, out ElementInit item3)
+			out int count, out ElementInit? item0, out ElementInit? item1, out ElementInit? item2, out ElementInit? item3)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = default; return; }
 
@@ -2543,7 +2545,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0, out ElementInit item1, out ElementInit item2, out ElementInit item3, out ElementInit item4)
+			out int count, out ElementInit? item0, out ElementInit? item1, out ElementInit? item2, out ElementInit? item3, out ElementInit? item4)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = default; return; }
 
@@ -2610,7 +2612,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0, out ElementInit item1, out ElementInit item2, out ElementInit item3, out ElementInit item4, out ElementInit item5)
+			out int count, out ElementInit? item0, out ElementInit? item1, out ElementInit? item2, out ElementInit? item3, out ElementInit? item4, out ElementInit? item5)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = default; return; }
 
@@ -2687,7 +2689,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0, out ElementInit item1, out ElementInit item2, out ElementInit item3, out ElementInit item4, out ElementInit item5, out ElementInit item6)
+			out int count, out ElementInit? item0, out ElementInit? item1, out ElementInit? item2, out ElementInit? item3, out ElementInit? item4, out ElementInit? item5, out ElementInit? item6)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = default; return; }
 
@@ -2774,7 +2776,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0, out ElementInit item1, out ElementInit item2, out ElementInit item3, out ElementInit item4, out ElementInit item5, out ElementInit item6, out ElementInit item7)
+			out int count, out ElementInit? item0, out ElementInit? item1, out ElementInit? item2, out ElementInit? item3, out ElementInit? item4, out ElementInit? item5, out ElementInit? item6, out ElementInit? item7)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = default; return; }
 
@@ -2871,7 +2873,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0, out ElementInit item1, out ElementInit item2, out ElementInit item3, out ElementInit item4, out ElementInit item5, out ElementInit item6, out ElementInit item7, out ElementInit item8)
+			out int count, out ElementInit? item0, out ElementInit? item1, out ElementInit? item2, out ElementInit? item3, out ElementInit? item4, out ElementInit? item5, out ElementInit? item6, out ElementInit? item7, out ElementInit? item8)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = default; return; }
 
@@ -2978,7 +2980,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ElementInit> list,
-			out int count, out ElementInit item0, out ElementInit item1, out ElementInit item2, out ElementInit item3, out ElementInit item4, out ElementInit item5, out ElementInit item6, out ElementInit item7, out ElementInit item8, out ElementInit item9)
+			out int count, out ElementInit? item0, out ElementInit? item1, out ElementInit? item2, out ElementInit? item3, out ElementInit? item4, out ElementInit? item5, out ElementInit? item6, out ElementInit? item7, out ElementInit? item8, out ElementInit? item9)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = item9 = default; return; }
 
@@ -3113,7 +3115,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0)
+			out int count, out CatchBlock? item0)
 		{
 			if (list == null) { count = -1; item0 = default; return; }
 
@@ -3140,7 +3142,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0, out CatchBlock item1)
+			out int count, out CatchBlock? item0, out CatchBlock? item1)
 		{
 			if (list == null) { count = -1; item0 = item1 = default; return; }
 
@@ -3177,7 +3179,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0, out CatchBlock item1, out CatchBlock item2)
+			out int count, out CatchBlock? item0, out CatchBlock? item1, out CatchBlock? item2)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = default; return; }
 
@@ -3224,7 +3226,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0, out CatchBlock item1, out CatchBlock item2, out CatchBlock item3)
+			out int count, out CatchBlock? item0, out CatchBlock? item1, out CatchBlock? item2, out CatchBlock? item3)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = default; return; }
 
@@ -3281,7 +3283,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0, out CatchBlock item1, out CatchBlock item2, out CatchBlock item3, out CatchBlock item4)
+			out int count, out CatchBlock? item0, out CatchBlock? item1, out CatchBlock? item2, out CatchBlock? item3, out CatchBlock? item4)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = default; return; }
 
@@ -3348,7 +3350,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0, out CatchBlock item1, out CatchBlock item2, out CatchBlock item3, out CatchBlock item4, out CatchBlock item5)
+			out int count, out CatchBlock? item0, out CatchBlock? item1, out CatchBlock? item2, out CatchBlock? item3, out CatchBlock? item4, out CatchBlock? item5)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = default; return; }
 
@@ -3425,7 +3427,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0, out CatchBlock item1, out CatchBlock item2, out CatchBlock item3, out CatchBlock item4, out CatchBlock item5, out CatchBlock item6)
+			out int count, out CatchBlock? item0, out CatchBlock? item1, out CatchBlock? item2, out CatchBlock? item3, out CatchBlock? item4, out CatchBlock? item5, out CatchBlock? item6)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = default; return; }
 
@@ -3512,7 +3514,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0, out CatchBlock item1, out CatchBlock item2, out CatchBlock item3, out CatchBlock item4, out CatchBlock item5, out CatchBlock item6, out CatchBlock item7)
+			out int count, out CatchBlock? item0, out CatchBlock? item1, out CatchBlock? item2, out CatchBlock? item3, out CatchBlock? item4, out CatchBlock? item5, out CatchBlock? item6, out CatchBlock? item7)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = default; return; }
 
@@ -3609,7 +3611,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0, out CatchBlock item1, out CatchBlock item2, out CatchBlock item3, out CatchBlock item4, out CatchBlock item5, out CatchBlock item6, out CatchBlock item7, out CatchBlock item8)
+			out int count, out CatchBlock? item0, out CatchBlock? item1, out CatchBlock? item2, out CatchBlock? item3, out CatchBlock? item4, out CatchBlock? item5, out CatchBlock? item6, out CatchBlock? item7, out CatchBlock? item8)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = default; return; }
 
@@ -3716,7 +3718,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<CatchBlock> list,
-			out int count, out CatchBlock item0, out CatchBlock item1, out CatchBlock item2, out CatchBlock item3, out CatchBlock item4, out CatchBlock item5, out CatchBlock item6, out CatchBlock item7, out CatchBlock item8, out CatchBlock item9)
+			out int count, out CatchBlock? item0, out CatchBlock? item1, out CatchBlock? item2, out CatchBlock? item3, out CatchBlock? item4, out CatchBlock? item5, out CatchBlock? item6, out CatchBlock? item7, out CatchBlock? item8, out CatchBlock? item9)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = item9 = default; return; }
 
@@ -3851,7 +3853,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0)
+			out int count, out SwitchCase? item0)
 		{
 			if (list == null) { count = -1; item0 = default; return; }
 
@@ -3878,7 +3880,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0, out SwitchCase item1)
+			out int count, out SwitchCase? item0, out SwitchCase? item1)
 		{
 			if (list == null) { count = -1; item0 = item1 = default; return; }
 
@@ -3915,7 +3917,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0, out SwitchCase item1, out SwitchCase item2)
+			out int count, out SwitchCase? item0, out SwitchCase? item1, out SwitchCase? item2)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = default; return; }
 
@@ -3962,7 +3964,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0, out SwitchCase item1, out SwitchCase item2, out SwitchCase item3)
+			out int count, out SwitchCase? item0, out SwitchCase? item1, out SwitchCase? item2, out SwitchCase? item3)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = default; return; }
 
@@ -4019,7 +4021,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0, out SwitchCase item1, out SwitchCase item2, out SwitchCase item3, out SwitchCase item4)
+			out int count, out SwitchCase? item0, out SwitchCase? item1, out SwitchCase? item2, out SwitchCase? item3, out SwitchCase? item4)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = default; return; }
 
@@ -4086,7 +4088,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0, out SwitchCase item1, out SwitchCase item2, out SwitchCase item3, out SwitchCase item4, out SwitchCase item5)
+			out int count, out SwitchCase? item0, out SwitchCase? item1, out SwitchCase? item2, out SwitchCase? item3, out SwitchCase? item4, out SwitchCase? item5)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = default; return; }
 
@@ -4163,7 +4165,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0, out SwitchCase item1, out SwitchCase item2, out SwitchCase item3, out SwitchCase item4, out SwitchCase item5, out SwitchCase item6)
+			out int count, out SwitchCase? item0, out SwitchCase? item1, out SwitchCase? item2, out SwitchCase? item3, out SwitchCase? item4, out SwitchCase? item5, out SwitchCase? item6)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = default; return; }
 
@@ -4250,7 +4252,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0, out SwitchCase item1, out SwitchCase item2, out SwitchCase item3, out SwitchCase item4, out SwitchCase item5, out SwitchCase item6, out SwitchCase item7)
+			out int count, out SwitchCase? item0, out SwitchCase? item1, out SwitchCase? item2, out SwitchCase? item3, out SwitchCase? item4, out SwitchCase? item5, out SwitchCase? item6, out SwitchCase? item7)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = default; return; }
 
@@ -4347,7 +4349,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0, out SwitchCase item1, out SwitchCase item2, out SwitchCase item3, out SwitchCase item4, out SwitchCase item5, out SwitchCase item6, out SwitchCase item7, out SwitchCase item8)
+			out int count, out SwitchCase? item0, out SwitchCase? item1, out SwitchCase? item2, out SwitchCase? item3, out SwitchCase? item4, out SwitchCase? item5, out SwitchCase? item6, out SwitchCase? item7, out SwitchCase? item8)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = default; return; }
 
@@ -4454,7 +4456,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<SwitchCase> list,
-			out int count, out SwitchCase item0, out SwitchCase item1, out SwitchCase item2, out SwitchCase item3, out SwitchCase item4, out SwitchCase item5, out SwitchCase item6, out SwitchCase item7, out SwitchCase item8, out SwitchCase item9)
+			out int count, out SwitchCase? item0, out SwitchCase? item1, out SwitchCase? item2, out SwitchCase? item3, out SwitchCase? item4, out SwitchCase? item5, out SwitchCase? item6, out SwitchCase? item7, out SwitchCase? item8, out SwitchCase? item9)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = item9 = default; return; }
 
@@ -4589,7 +4591,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0)
+			out int count, out MemberBinding? item0)
 		{
 			if (list == null) { count = -1; item0 = default; return; }
 
@@ -4616,7 +4618,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0, out MemberBinding item1)
+			out int count, out MemberBinding? item0, out MemberBinding? item1)
 		{
 			if (list == null) { count = -1; item0 = item1 = default; return; }
 
@@ -4653,7 +4655,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0, out MemberBinding item1, out MemberBinding item2)
+			out int count, out MemberBinding? item0, out MemberBinding? item1, out MemberBinding? item2)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = default; return; }
 
@@ -4700,7 +4702,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0, out MemberBinding item1, out MemberBinding item2, out MemberBinding item3)
+			out int count, out MemberBinding? item0, out MemberBinding? item1, out MemberBinding? item2, out MemberBinding? item3)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = default; return; }
 
@@ -4757,7 +4759,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0, out MemberBinding item1, out MemberBinding item2, out MemberBinding item3, out MemberBinding item4)
+			out int count, out MemberBinding? item0, out MemberBinding? item1, out MemberBinding? item2, out MemberBinding? item3, out MemberBinding? item4)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = default; return; }
 
@@ -4824,7 +4826,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0, out MemberBinding item1, out MemberBinding item2, out MemberBinding item3, out MemberBinding item4, out MemberBinding item5)
+			out int count, out MemberBinding? item0, out MemberBinding? item1, out MemberBinding? item2, out MemberBinding? item3, out MemberBinding? item4, out MemberBinding? item5)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = default; return; }
 
@@ -4901,7 +4903,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0, out MemberBinding item1, out MemberBinding item2, out MemberBinding item3, out MemberBinding item4, out MemberBinding item5, out MemberBinding item6)
+			out int count, out MemberBinding? item0, out MemberBinding? item1, out MemberBinding? item2, out MemberBinding? item3, out MemberBinding? item4, out MemberBinding? item5, out MemberBinding? item6)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = default; return; }
 
@@ -4988,7 +4990,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0, out MemberBinding item1, out MemberBinding item2, out MemberBinding item3, out MemberBinding item4, out MemberBinding item5, out MemberBinding item6, out MemberBinding item7)
+			out int count, out MemberBinding? item0, out MemberBinding? item1, out MemberBinding? item2, out MemberBinding? item3, out MemberBinding? item4, out MemberBinding? item5, out MemberBinding? item6, out MemberBinding? item7)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = default; return; }
 
@@ -5085,7 +5087,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0, out MemberBinding item1, out MemberBinding item2, out MemberBinding item3, out MemberBinding item4, out MemberBinding item5, out MemberBinding item6, out MemberBinding item7, out MemberBinding item8)
+			out int count, out MemberBinding? item0, out MemberBinding? item1, out MemberBinding? item2, out MemberBinding? item3, out MemberBinding? item4, out MemberBinding? item5, out MemberBinding? item6, out MemberBinding? item7, out MemberBinding? item8)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = default; return; }
 
@@ -5192,7 +5194,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<MemberBinding> list,
-			out int count, out MemberBinding item0, out MemberBinding item1, out MemberBinding item2, out MemberBinding item3, out MemberBinding item4, out MemberBinding item5, out MemberBinding item6, out MemberBinding item7, out MemberBinding item8, out MemberBinding item9)
+			out int count, out MemberBinding? item0, out MemberBinding? item1, out MemberBinding? item2, out MemberBinding? item3, out MemberBinding? item4, out MemberBinding? item5, out MemberBinding? item6, out MemberBinding? item7, out MemberBinding? item8, out MemberBinding? item9)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = item9 = default; return; }
 
@@ -5327,7 +5329,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0)
+			out int count, out Expr? item0)
 		{
 			if (list == null) { count = -1; item0 = default; return; }
 
@@ -5354,7 +5356,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0, out Expr item1)
+			out int count, out Expr? item0, out Expr? item1)
 		{
 			if (list == null) { count = -1; item0 = item1 = default; return; }
 
@@ -5391,7 +5393,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0, out Expr item1, out Expr item2)
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = default; return; }
 
@@ -5438,7 +5440,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0, out Expr item1, out Expr item2, out Expr item3)
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = default; return; }
 
@@ -5495,7 +5497,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0, out Expr item1, out Expr item2, out Expr item3, out Expr item4)
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = default; return; }
 
@@ -5562,7 +5564,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0, out Expr item1, out Expr item2, out Expr item3, out Expr item4, out Expr item5)
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = default; return; }
 
@@ -5639,7 +5641,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0, out Expr item1, out Expr item2, out Expr item3, out Expr item4, out Expr item5, out Expr item6)
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5, out Expr? item6)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = default; return; }
 
@@ -5726,7 +5728,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0, out Expr item1, out Expr item2, out Expr item3, out Expr item4, out Expr item5, out Expr item6, out Expr item7)
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5, out Expr? item6, out Expr? item7)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = default; return; }
 
@@ -5823,7 +5825,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0, out Expr item1, out Expr item2, out Expr item3, out Expr item4, out Expr item5, out Expr item6, out Expr item7, out Expr item8)
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5, out Expr? item6, out Expr? item7, out Expr? item8)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = default; return; }
 
@@ -5930,7 +5932,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<Expression> list,
-			out int count, out Expr item0, out Expr item1, out Expr item2, out Expr item3, out Expr item4, out Expr item5, out Expr item6, out Expr item7, out Expr item8, out Expr item9)
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5, out Expr? item6, out Expr? item7, out Expr? item8, out Expr? item9)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = item9 = default; return; }
 
@@ -6065,7 +6067,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0)
+			out int count, out Expr.Parameter? item0)
 		{
 			if (list == null) { count = -1; item0 = default; return; }
 
@@ -6092,7 +6094,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0, out Expr.Parameter item1)
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1)
 		{
 			if (list == null) { count = -1; item0 = item1 = default; return; }
 
@@ -6129,7 +6131,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0, out Expr.Parameter item1, out Expr.Parameter item2)
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = default; return; }
 
@@ -6176,7 +6178,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0, out Expr.Parameter item1, out Expr.Parameter item2, out Expr.Parameter item3)
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = default; return; }
 
@@ -6233,7 +6235,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0, out Expr.Parameter item1, out Expr.Parameter item2, out Expr.Parameter item3, out Expr.Parameter item4)
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = default; return; }
 
@@ -6300,7 +6302,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0, out Expr.Parameter item1, out Expr.Parameter item2, out Expr.Parameter item3, out Expr.Parameter item4, out Expr.Parameter item5)
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = default; return; }
 
@@ -6377,7 +6379,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0, out Expr.Parameter item1, out Expr.Parameter item2, out Expr.Parameter item3, out Expr.Parameter item4, out Expr.Parameter item5, out Expr.Parameter item6)
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5, out Expr.Parameter? item6)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = default; return; }
 
@@ -6464,7 +6466,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0, out Expr.Parameter item1, out Expr.Parameter item2, out Expr.Parameter item3, out Expr.Parameter item4, out Expr.Parameter item5, out Expr.Parameter item6, out Expr.Parameter item7)
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5, out Expr.Parameter? item6, out Expr.Parameter? item7)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = default; return; }
 
@@ -6561,7 +6563,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0, out Expr.Parameter item1, out Expr.Parameter item2, out Expr.Parameter item3, out Expr.Parameter item4, out Expr.Parameter item5, out Expr.Parameter item6, out Expr.Parameter item7, out Expr.Parameter item8)
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5, out Expr.Parameter? item6, out Expr.Parameter? item7, out Expr.Parameter? item8)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = default; return; }
 
@@ -6668,7 +6670,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		public static void Deconstruct(this IEnumerable<ParameterExpression> list,
-			out int count, out Expr.Parameter item0, out Expr.Parameter item1, out Expr.Parameter item2, out Expr.Parameter item3, out Expr.Parameter item4, out Expr.Parameter item5, out Expr.Parameter item6, out Expr.Parameter item7, out Expr.Parameter item8, out Expr.Parameter item9)
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5, out Expr.Parameter? item6, out Expr.Parameter? item7, out Expr.Parameter? item8, out Expr.Parameter? item9)
 		{
 			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = item9 = default; return; }
 

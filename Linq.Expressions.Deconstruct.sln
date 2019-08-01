@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq.Expressions.Deconstruct", "Linq.Expressions.Deconstruct\Linq.Expressions.Deconstruct.csproj", "{A6003EF1-12FF-4765-A686-E7426A4ED88A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Linq.Expressions.Deconstruct", "Source\Linq.Expressions.Deconstruct.csproj", "{A6003EF1-12FF-4765-A686-E7426A4ED88A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{F9656396-C968-4898-8254-D8F41C51CC91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Linq.Expressions.Deconstruct.Tests", "Tests\Linq.Expressions.Deconstruct.Tests.csproj", "{F9656396-C968-4898-8254-D8F41C51CC91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net40;netcoreapp2.0;netstandard2.0</TargetFrameworks>
+		<LangVersion>preview</LangVersion>
+		<NullableContextOptions>enable</NullableContextOptions>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+
+		<Compile Update="Expr.generated.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Expr.tt</DependentUpon>
+		</Compile>
+		<None Update="Expr.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>Expr.generated.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+</Project>
