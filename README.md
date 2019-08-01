@@ -1,5 +1,9 @@
 # Linq.Expressions.Deconstruct
 
+
+[![Build status](https://ci.appveyor.com/api/projects/status/j4dym9acp0i9aau0/branch/master?svg=true)](https://ci.appveyor.com/project/igor-tkachev/linq-expressions-deconstruct/branch/master)
+
+
 ```c#
 [Test]
 public void Test1()
