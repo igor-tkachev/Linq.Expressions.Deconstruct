@@ -13,8 +13,9 @@
 		<PackageProjectUrl>https://github.com/igor-tkachev/Linq.Expressions.Deconstruct</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/igor-tkachev/Linq.Expressions.Deconstruct</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>Linq.Expressions</PackageTags>
+		<PackageTags>System.Linq.Expressions Linq Expressions Deconstruct</PackageTags>
 		<Description>Pattern matching support for System.Linq.Expressions.</Description>
+		<Version>1.0.1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
