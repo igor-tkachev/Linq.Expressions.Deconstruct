@@ -123,16 +123,16 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class ListInit
 		{
-			public void Deconstruct(out Type type, out Expr? newExpression, out ReadOnlyCollection<ElementInit> initializers)
+			public void Deconstruct(out Type type, out New newExpression, out ReadOnlyCollection<ElementInit> initializers)
 			{
 				type          = Expr.Type;
-				newExpression = Expr.NewExpression.ToExpr();
+				newExpression = new New(Expr.NewExpression);
 				initializers  = Expr.Initializers;
 			}
 
-			public void Deconstruct(out Expr? newExpression, out ReadOnlyCollection<ElementInit> initializers)
+			public void Deconstruct(out Expr newExpression, out ReadOnlyCollection<ElementInit> initializers)
 			{
-				newExpression = Expr.NewExpression.ToExpr();
+				newExpression = new New(Expr.NewExpression);
 				initializers  = Expr.Initializers;
 			}
 		}
@@ -182,31 +182,39 @@ namespace Linq.Expressions.Deconstruct
 		public partial class New
 		{
 			public void Deconstruct(
-				out Type                           type,
-				out ConstructorInfo                constructor,
-				out ReadOnlyCollection<Expression> arguments,
-				out ReadOnlyCollection<MemberInfo> members)
+				out Type                            type,
+				out ConstructorInfo                 constructor,
+				out ReadOnlyCollection<MemberInfo>? members,
+				out ReadOnlyCollection<Expression>  arguments)
 			{
 				type        = Expr.Type;
 				constructor = Expr.Constructor;
-				arguments   = Expr.Arguments;
 				members     = Expr.Members;
+				arguments   = Expr.Arguments;
 			}
 
 			public void Deconstruct(
-				out ConstructorInfo                constructor,
-				out ReadOnlyCollection<Expression> arguments,
-				out ReadOnlyCollection<MemberInfo> members)
+				out ConstructorInfo                 constructor,
+				out ReadOnlyCollection<MemberInfo>? members,
+				out ReadOnlyCollection<Expression>  arguments)
 			{
 				constructor = Expr.Constructor;
-				arguments   = Expr.Arguments;
 				members     = Expr.Members;
+				arguments   = Expr.Arguments;
 			}
 
-			public void Deconstruct(out ConstructorInfo constructor, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(
+				out ReadOnlyCollection<MemberInfo>? members,
+				out ReadOnlyCollection<Expression>  arguments)
 			{
-				constructor = Expr.Constructor;
+				members     = Expr.Members;
 				arguments   = Expr.Arguments;
+			}
+
+			public void Deconstruct(
+				out ReadOnlyCollection<Expression> arguments)
+			{
+				arguments = Expr.Arguments;
 			}
 		}
 
@@ -660,6 +668,11 @@ namespace Linq.Expressions.Deconstruct
 		public static void Deconstruct(this ElementInit elementInit, out MethodInfo addMethod, out ReadOnlyCollection<Expression> arguments)
 		{
 			addMethod = elementInit.AddMethod;
+			arguments = elementInit.Arguments;
+		}
+
+		public static void Deconstruct(this ElementInit elementInit, out ReadOnlyCollection<Expression> arguments)
+		{
 			arguments = elementInit.Arguments;
 		}
 

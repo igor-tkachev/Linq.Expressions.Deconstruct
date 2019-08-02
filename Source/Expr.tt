@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 
 #nullable enable
 
@@ -177,6 +178,7 @@ namespace Linq.Expressions.Deconstruct
 		new { TItem = "CatchBlock",          PItem = "CatchBlock",     BConvert = "", AConvert = "" },
 		new { TItem = "SwitchCase",          PItem = "SwitchCase",     BConvert = "", AConvert = "" },
 		new { TItem = "MemberBinding",       PItem = "MemberBinding",  BConvert = "", AConvert = "" },
+		new { TItem = "MemberInfo",          PItem = "MemberInfo",     BConvert = "", AConvert = "" },
 		new { TItem = "Expression",          PItem = "Expr",           BConvert = "", AConvert = ".ToExpr()" },
 		new { TItem = "ParameterExpression", PItem = "Expr.Parameter", BConvert = "new Expr.Parameter(", AConvert = ")" },
 	})
