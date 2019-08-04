@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -694,6 +695,344 @@ namespace Linq.Expressions.Deconstruct
 		{
 			body       = switchCase.Body.ToExpr();
 			testValues = switchCase.TestValues;
+		}
+
+		#endregion
+
+		#region Transform
+
+		static IEnumerable<T> TransformInternal<T>(ICollection<T> source, Func<T,T> func)
+			where T : class
+		{
+			var modified = false;
+			var list = new List<T>();
+
+			foreach (var item in source)
+			{
+				var e = func(item);
+				list.Add(e);
+				modified = modified || e != item;
+			}
+
+			return modified ? list : source;
+		}
+
+		static IEnumerable<T?> TransformInternal<T>(ICollection<T> source, Func<Expression?,Expression?> func)
+			where T : Expression
+		{
+			var modified = false;
+			var list     = new List<T?>();
+
+			foreach (var item in source)
+			{
+				var e = TransformInternal(item, func);
+				list.Add((T?)e);
+				modified = modified || e != item;
+			}
+
+			return modified ? (IEnumerable<T?>)list : (IEnumerable<T?>)source;
+		}
+
+		/// <summary>
+		/// Transforms original expression.
+		/// </summary>
+		/// <typeparam name="T">Type of expression.</typeparam>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
+		/// <returns>Modified expression.</returns>
+		public static T Transform<T>(this T expr, Func<Expression?,Expression?> func)
+			where T : LambdaExpression
+		{
+			return (T)(TransformInternal(expr, func) ?? throw new InvalidOperationException());
+		}
+
+		/// <summary>
+		/// Transforms original expression.
+		/// </summary>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
+		/// <returns>Modified expression.</returns>
+		public static Expression? Transform(this Expression? expr, Func<Expression?,Expression?> func)
+		{
+			return TransformInternal(expr, func);
+		}
+
+		static Expression? TransformInternal(this Expression? expr, Func<Expression?,Expression?> func)
+		{
+			var ex = TransformInternal2(expr, func);
+			return ex == null ? null : func(ex);
+		}
+
+		static Expression? TransformInternal2(this Expression? expr, Func<Expression?,Expression?> func)
+		{
+			if (expr == null)
+				return null;
+
+			switch (expr.NodeType)
+			{
+				case ExpressionType.Add:
+				case ExpressionType.AddChecked:
+				case ExpressionType.And:
+				case ExpressionType.AndAlso:
+				case ExpressionType.ArrayIndex:
+				case ExpressionType.Assign:
+				case ExpressionType.Coalesce:
+				case ExpressionType.Divide:
+				case ExpressionType.Equal:
+				case ExpressionType.ExclusiveOr:
+				case ExpressionType.GreaterThan:
+				case ExpressionType.GreaterThanOrEqual:
+				case ExpressionType.LeftShift:
+				case ExpressionType.LessThan:
+				case ExpressionType.LessThanOrEqual:
+				case ExpressionType.Modulo:
+				case ExpressionType.Multiply:
+				case ExpressionType.MultiplyChecked:
+				case ExpressionType.NotEqual:
+				case ExpressionType.Or:
+				case ExpressionType.OrElse:
+				case ExpressionType.Power:
+				case ExpressionType.RightShift:
+				case ExpressionType.Subtract:
+				case ExpressionType.SubtractChecked:
+				case ExpressionType.AddAssign:
+				case ExpressionType.AndAssign:
+				case ExpressionType.DivideAssign:
+				case ExpressionType.ExclusiveOrAssign:
+				case ExpressionType.LeftShiftAssign:
+				case ExpressionType.ModuloAssign:
+				case ExpressionType.MultiplyAssign:
+				case ExpressionType.OrAssign:
+				case ExpressionType.PowerAssign:
+				case ExpressionType.RightShiftAssign:
+				case ExpressionType.SubtractAssign:
+				case ExpressionType.AddAssignChecked:
+				case ExpressionType.MultiplyAssignChecked:
+				case ExpressionType.SubtractAssignChecked:
+				{
+					var e = (BinaryExpression)expr;
+					return e.Update(
+						TransformInternal(e.Left, func),
+						(LambdaExpression?)TransformInternal(e.Conversion, func),
+						TransformInternal(e.Right, func));
+				}
+
+				case ExpressionType.ArrayLength:
+				case ExpressionType.Convert:
+				case ExpressionType.ConvertChecked:
+				case ExpressionType.Negate:
+				case ExpressionType.NegateChecked:
+				case ExpressionType.Not:
+				case ExpressionType.Quote:
+				case ExpressionType.TypeAs:
+				case ExpressionType.UnaryPlus:
+				case ExpressionType.Decrement:
+				case ExpressionType.Increment:
+				case ExpressionType.IsFalse:
+				case ExpressionType.IsTrue:
+				case ExpressionType.Throw:
+				case ExpressionType.Unbox:
+				case ExpressionType.PreIncrementAssign:
+				case ExpressionType.PreDecrementAssign:
+				case ExpressionType.PostIncrementAssign:
+				case ExpressionType.PostDecrementAssign:
+				case ExpressionType.OnesComplement:
+				{
+					var e = (UnaryExpression)expr;
+					return e.Update(TransformInternal(e.Operand, func));
+				}
+
+				case ExpressionType.Call:
+				{
+					var e = (MethodCallExpression)expr;
+					return e.Update(
+						TransformInternal(e.Object, func),
+						TransformInternal(e.Arguments, func));
+				}
+
+				case ExpressionType.Conditional:
+				{
+					var e = (ConditionalExpression)expr;
+					return e.Update(
+						TransformInternal(e.Test, func),
+						TransformInternal(e.IfTrue, func),
+						TransformInternal(e.IfFalse, func));
+				}
+
+				case ExpressionType.Invoke:
+				{
+					var e = (InvocationExpression)expr;
+					return e.Update(
+						TransformInternal(e.Expression, func),
+						TransformInternal(e.Arguments, func));
+				}
+
+				case ExpressionType.Lambda:
+				{
+					var e = (LambdaExpression)expr;
+					var b = TransformInternal(e.Body, func);
+					var p = TransformInternal(e.Parameters, func);
+
+					return b != e.Body || !ReferenceEquals(p, e.Parameters) ? Expression.Lambda(expr.Type, b, p.ToArray()) : expr;
+				}
+
+				case ExpressionType.ListInit:
+				{
+					var e = (ListInitExpression)expr;
+					return e.Update(
+						(NewExpression?)TransformInternal(e.NewExpression, func),
+						TransformInternal(
+							e.Initializers, p =>
+							{
+								var args = TransformInternal(p.Arguments, func);
+								return !ReferenceEquals(args, p.Arguments) ? Expression.ElementInit(p.AddMethod, args) : p;
+							}));
+				}
+
+				case ExpressionType.MemberAccess:
+				{
+					var e = (MemberExpression)expr;
+					return e.Update(TransformInternal(e.Expression, func));
+				}
+
+				case ExpressionType.MemberInit:
+				{
+					MemberBinding Modify(MemberBinding b)
+					{
+						switch (b.BindingType)
+						{
+							case MemberBindingType.Assignment:
+							{
+								var ma = (MemberAssignment)b;
+								return ma.Update(TransformInternal(ma.Expression, func));
+							}
+
+							case MemberBindingType.ListBinding:
+							{
+								var ml = (MemberListBinding)b;
+								return ml.Update(TransformInternal(ml.Initializers, p =>
+								{
+									var args = TransformInternal(p.Arguments, func);
+									return !ReferenceEquals(args, p.Arguments) ? Expression.ElementInit(p.AddMethod, args) : p;
+								}));
+							}
+
+							case MemberBindingType.MemberBinding:
+							{
+								var mm = (MemberMemberBinding)b;
+								return mm.Update(TransformInternal(mm.Bindings, Modify));
+							}
+						}
+
+						return b;
+					}
+
+					var e = (MemberInitExpression)expr;
+					return e.Update(
+						(NewExpression?)TransformInternal(e.NewExpression, func),
+						TransformInternal(e.Bindings, Modify));
+				}
+
+				case ExpressionType.New:
+				{
+					var e = (NewExpression)expr;
+					return e.Update(TransformInternal(e.Arguments, func));
+				}
+
+				case ExpressionType.NewArrayBounds:
+				case ExpressionType.NewArrayInit:
+				{
+					var e = (NewArrayExpression)expr;
+					return e.Update(TransformInternal(e.Expressions, func));
+				}
+
+				case ExpressionType.TypeEqual:
+				case ExpressionType.TypeIs:
+				{
+					var e = (TypeBinaryExpression)expr;
+					return e.Update(TransformInternal(e.Expression, func));
+				}
+
+				case ExpressionType.Block:
+				{
+					var e = (BlockExpression)expr;
+					return e.Update(
+						TransformInternal(e.Variables, func),
+						TransformInternal(e.Expressions, func));
+				}
+
+				case ExpressionType.DebugInfo:
+				case ExpressionType.Default:
+				case ExpressionType.Extension:
+				case ExpressionType.Constant:
+				case ExpressionType.Parameter:
+					return expr;
+
+				case ExpressionType.Dynamic:
+				{
+					var e = (DynamicExpression)expr;
+					return e.Update(TransformInternal(e.Arguments, func));
+				}
+
+				case ExpressionType.Goto:
+				{
+					var e = (GotoExpression)expr;
+					return e.Update(e.Target, TransformInternal(e.Value, func));
+				}
+
+				case ExpressionType.Index:
+				{
+					var e = (IndexExpression)expr;
+					return e.Update(
+						TransformInternal(e.Object, func),
+						TransformInternal(e.Arguments, func));
+				}
+
+				case ExpressionType.Label:
+				{
+					var e = (LabelExpression)expr;
+					return e.Update(e.Target, TransformInternal(e.DefaultValue, func));
+				}
+
+				case ExpressionType.RuntimeVariables:
+				{
+					var e = (RuntimeVariablesExpression)expr;
+					return e.Update(TransformInternal(e.Variables, func));
+				}
+
+				case ExpressionType.Loop:
+				{
+					var e = (LoopExpression)expr;
+					return e.Update(e.BreakLabel, e.ContinueLabel, TransformInternal(e.Body, func));
+				}
+
+				case ExpressionType.Switch:
+				{
+					var e = (SwitchExpression)expr;
+					return e.Update(
+						TransformInternal(e.SwitchValue, func),
+						TransformInternal(
+							e.Cases, cs => cs.Update(TransformInternal(cs.TestValues, func), TransformInternal(cs.Body, func))),
+						TransformInternal(e.DefaultBody, func));
+				}
+
+				case ExpressionType.Try:
+				{
+					var e = (TryExpression)expr;
+					return e.Update(
+						TransformInternal(e.Body, func),
+						TransformInternal(
+							e.Handlers,
+							h =>
+								h.Update(
+									(ParameterExpression?)TransformInternal(h.Variable, func), TransformInternal(h.Filter, func),
+									TransformInternal(h.Body, func))),
+						TransformInternal(e.Finally, func),
+						TransformInternal(e.Fault, func));
+				}
+			}
+
+			throw new InvalidOperationException();
 		}
 
 		#endregion

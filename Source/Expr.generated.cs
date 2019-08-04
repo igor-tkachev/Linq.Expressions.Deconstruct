@@ -28,6 +28,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Call? expr) => expr?.Expr;
 			public static implicit operator MethodCallExpression?(Call? expr) => expr?.Expr;
 			public static implicit operator Call?(MethodCallExpression? expr) => expr == null ? null : new Call(expr);
 		}
@@ -47,6 +48,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Conditional? expr) => expr?.Expr;
 			public static implicit operator ConditionalExpression?(Conditional? expr) => expr?.Expr;
 			public static implicit operator Conditional?(ConditionalExpression? expr) => expr == null ? null : new Conditional(expr);
 		}
@@ -66,6 +68,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Invoke? expr) => expr?.Expr;
 			public static implicit operator InvocationExpression?(Invoke? expr) => expr?.Expr;
 			public static implicit operator Invoke?(InvocationExpression? expr) => expr == null ? null : new Invoke(expr);
 		}
@@ -85,6 +88,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Lambda? expr) => expr?.Expr;
 			public static implicit operator LambdaExpression?(Lambda? expr) => expr?.Expr;
 			public static implicit operator Lambda?(LambdaExpression? expr) => expr == null ? null : new Lambda(expr);
 		}
@@ -104,6 +108,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(ListInit? expr) => expr?.Expr;
 			public static implicit operator ListInitExpression?(ListInit? expr) => expr?.Expr;
 			public static implicit operator ListInit?(ListInitExpression? expr) => expr == null ? null : new ListInit(expr);
 		}
@@ -123,6 +128,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Member? expr) => expr?.Expr;
 			public static implicit operator MemberExpression?(Member? expr) => expr?.Expr;
 			public static implicit operator Member?(MemberExpression? expr) => expr == null ? null : new Member(expr);
 		}
@@ -142,6 +148,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(MemberInit? expr) => expr?.Expr;
 			public static implicit operator MemberInitExpression?(MemberInit? expr) => expr?.Expr;
 			public static implicit operator MemberInit?(MemberInitExpression? expr) => expr == null ? null : new MemberInit(expr);
 		}
@@ -161,6 +168,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(New? expr) => expr?.Expr;
 			public static implicit operator NewExpression?(New? expr) => expr?.Expr;
 			public static implicit operator New?(NewExpression? expr) => expr == null ? null : new New(expr);
 		}
@@ -180,6 +188,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(NewArrayBounds? expr) => expr?.Expr;
 			public static implicit operator NewArrayExpression?(NewArrayBounds? expr) => expr?.Expr;
 			public static implicit operator NewArrayBounds?(NewArrayExpression? expr) => expr == null ? null : new NewArrayBounds(expr);
 		}
@@ -199,6 +208,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(NewArrayInit? expr) => expr?.Expr;
 			public static implicit operator NewArrayExpression?(NewArrayInit? expr) => expr?.Expr;
 			public static implicit operator NewArrayInit?(NewArrayExpression? expr) => expr == null ? null : new NewArrayInit(expr);
 		}
@@ -218,6 +228,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(TypeEqual? expr) => expr?.Expr;
 			public static implicit operator TypeBinaryExpression?(TypeEqual? expr) => expr?.Expr;
 			public static implicit operator TypeEqual?(TypeBinaryExpression? expr) => expr == null ? null : new TypeEqual(expr);
 		}
@@ -237,6 +248,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(TypeIs? expr) => expr?.Expr;
 			public static implicit operator TypeBinaryExpression?(TypeIs? expr) => expr?.Expr;
 			public static implicit operator TypeIs?(TypeBinaryExpression? expr) => expr == null ? null : new TypeIs(expr);
 		}
@@ -256,6 +268,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Block? expr) => expr?.Expr;
 			public static implicit operator BlockExpression?(Block? expr) => expr?.Expr;
 			public static implicit operator Block?(BlockExpression? expr) => expr == null ? null : new Block(expr);
 		}
@@ -275,6 +288,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Dynamic? expr) => expr?.Expr;
 			public static implicit operator DynamicExpression?(Dynamic? expr) => expr?.Expr;
 			public static implicit operator Dynamic?(DynamicExpression? expr) => expr == null ? null : new Dynamic(expr);
 		}
@@ -294,6 +308,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Goto? expr) => expr?.Expr;
 			public static implicit operator GotoExpression?(Goto? expr) => expr?.Expr;
 			public static implicit operator Goto?(GotoExpression? expr) => expr == null ? null : new Goto(expr);
 		}
@@ -313,6 +328,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Index? expr) => expr?.Expr;
 			public static implicit operator IndexExpression?(Index? expr) => expr?.Expr;
 			public static implicit operator Index?(IndexExpression? expr) => expr == null ? null : new Index(expr);
 		}
@@ -332,6 +348,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Label? expr) => expr?.Expr;
 			public static implicit operator LabelExpression?(Label? expr) => expr?.Expr;
 			public static implicit operator Label?(LabelExpression? expr) => expr == null ? null : new Label(expr);
 		}
@@ -351,6 +368,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(RuntimeVariables? expr) => expr?.Expr;
 			public static implicit operator RuntimeVariablesExpression?(RuntimeVariables? expr) => expr?.Expr;
 			public static implicit operator RuntimeVariables?(RuntimeVariablesExpression? expr) => expr == null ? null : new RuntimeVariables(expr);
 		}
@@ -370,6 +388,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Loop? expr) => expr?.Expr;
 			public static implicit operator LoopExpression?(Loop? expr) => expr?.Expr;
 			public static implicit operator Loop?(LoopExpression? expr) => expr == null ? null : new Loop(expr);
 		}
@@ -389,6 +408,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Switch? expr) => expr?.Expr;
 			public static implicit operator SwitchExpression?(Switch? expr) => expr?.Expr;
 			public static implicit operator Switch?(SwitchExpression? expr) => expr == null ? null : new Switch(expr);
 		}
@@ -408,6 +428,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Try? expr) => expr?.Expr;
 			public static implicit operator TryExpression?(Try? expr) => expr?.Expr;
 			public static implicit operator Try?(TryExpression? expr) => expr == null ? null : new Try(expr);
 		}
@@ -446,6 +467,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(DebugInfo? expr) => expr?.Expr;
 			public static implicit operator DebugInfoExpression?(DebugInfo? expr) => expr?.Expr;
 			public static implicit operator DebugInfo?(DebugInfoExpression? expr) => expr == null ? null : new DebugInfo(expr);
 		}
@@ -465,6 +487,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Parameter? expr) => expr?.Expr;
 			public static implicit operator ParameterExpression?(Parameter? expr) => expr?.Expr;
 			public static implicit operator Parameter?(ParameterExpression? expr) => expr == null ? null : new Parameter(expr);
 		}
@@ -484,6 +507,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Constant? expr) => expr?.Expr;
 			public static implicit operator ConstantExpression?(Constant? expr) => expr?.Expr;
 			public static implicit operator Constant?(ConstantExpression? expr) => expr == null ? null : new Constant(expr);
 		}
@@ -503,6 +527,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?(Default? expr) => expr?.Expr;
 			public static implicit operator DefaultExpression?(Default? expr) => expr?.Expr;
 			public static implicit operator Default?(DefaultExpression? expr) => expr == null ? null : new Default(expr);
 		}
@@ -522,6 +547,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Add? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Add? expr) => expr?.Expr;
 			public static implicit operator Add?(BinaryExpression? expr) => expr == null ? null : new Add(expr);
 
@@ -554,6 +580,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (AddChecked? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(AddChecked? expr) => expr?.Expr;
 			public static implicit operator AddChecked?(BinaryExpression? expr) => expr == null ? null : new AddChecked(expr);
 
@@ -586,6 +613,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (And? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(And? expr) => expr?.Expr;
 			public static implicit operator And?(BinaryExpression? expr) => expr == null ? null : new And(expr);
 
@@ -618,6 +646,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (AndAlso? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(AndAlso? expr) => expr?.Expr;
 			public static implicit operator AndAlso?(BinaryExpression? expr) => expr == null ? null : new AndAlso(expr);
 
@@ -650,6 +679,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (ArrayIndex? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(ArrayIndex? expr) => expr?.Expr;
 			public static implicit operator ArrayIndex?(BinaryExpression? expr) => expr == null ? null : new ArrayIndex(expr);
 
@@ -682,6 +712,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Assign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Assign? expr) => expr?.Expr;
 			public static implicit operator Assign?(BinaryExpression? expr) => expr == null ? null : new Assign(expr);
 
@@ -714,6 +745,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Coalesce? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Coalesce? expr) => expr?.Expr;
 			public static implicit operator Coalesce?(BinaryExpression? expr) => expr == null ? null : new Coalesce(expr);
 
@@ -746,6 +778,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Divide? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Divide? expr) => expr?.Expr;
 			public static implicit operator Divide?(BinaryExpression? expr) => expr == null ? null : new Divide(expr);
 
@@ -778,6 +811,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Equal? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Equal? expr) => expr?.Expr;
 			public static implicit operator Equal?(BinaryExpression? expr) => expr == null ? null : new Equal(expr);
 
@@ -810,6 +844,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (ExclusiveOr? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(ExclusiveOr? expr) => expr?.Expr;
 			public static implicit operator ExclusiveOr?(BinaryExpression? expr) => expr == null ? null : new ExclusiveOr(expr);
 
@@ -842,6 +877,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (GreaterThan? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(GreaterThan? expr) => expr?.Expr;
 			public static implicit operator GreaterThan?(BinaryExpression? expr) => expr == null ? null : new GreaterThan(expr);
 
@@ -874,6 +910,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (GreaterThanOrEqual? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(GreaterThanOrEqual? expr) => expr?.Expr;
 			public static implicit operator GreaterThanOrEqual?(BinaryExpression? expr) => expr == null ? null : new GreaterThanOrEqual(expr);
 
@@ -906,6 +943,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (LeftShift? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(LeftShift? expr) => expr?.Expr;
 			public static implicit operator LeftShift?(BinaryExpression? expr) => expr == null ? null : new LeftShift(expr);
 
@@ -938,6 +976,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (LessThan? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(LessThan? expr) => expr?.Expr;
 			public static implicit operator LessThan?(BinaryExpression? expr) => expr == null ? null : new LessThan(expr);
 
@@ -970,6 +1009,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (LessThanOrEqual? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(LessThanOrEqual? expr) => expr?.Expr;
 			public static implicit operator LessThanOrEqual?(BinaryExpression? expr) => expr == null ? null : new LessThanOrEqual(expr);
 
@@ -1002,6 +1042,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Modulo? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Modulo? expr) => expr?.Expr;
 			public static implicit operator Modulo?(BinaryExpression? expr) => expr == null ? null : new Modulo(expr);
 
@@ -1034,6 +1075,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Multiply? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Multiply? expr) => expr?.Expr;
 			public static implicit operator Multiply?(BinaryExpression? expr) => expr == null ? null : new Multiply(expr);
 
@@ -1066,6 +1108,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (MultiplyChecked? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(MultiplyChecked? expr) => expr?.Expr;
 			public static implicit operator MultiplyChecked?(BinaryExpression? expr) => expr == null ? null : new MultiplyChecked(expr);
 
@@ -1098,6 +1141,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (NotEqual? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(NotEqual? expr) => expr?.Expr;
 			public static implicit operator NotEqual?(BinaryExpression? expr) => expr == null ? null : new NotEqual(expr);
 
@@ -1130,6 +1174,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Or? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Or? expr) => expr?.Expr;
 			public static implicit operator Or?(BinaryExpression? expr) => expr == null ? null : new Or(expr);
 
@@ -1162,6 +1207,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (OrElse? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(OrElse? expr) => expr?.Expr;
 			public static implicit operator OrElse?(BinaryExpression? expr) => expr == null ? null : new OrElse(expr);
 
@@ -1194,6 +1240,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Power? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Power? expr) => expr?.Expr;
 			public static implicit operator Power?(BinaryExpression? expr) => expr == null ? null : new Power(expr);
 
@@ -1226,6 +1273,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (RightShift? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(RightShift? expr) => expr?.Expr;
 			public static implicit operator RightShift?(BinaryExpression? expr) => expr == null ? null : new RightShift(expr);
 
@@ -1258,6 +1306,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (Subtract? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(Subtract? expr) => expr?.Expr;
 			public static implicit operator Subtract?(BinaryExpression? expr) => expr == null ? null : new Subtract(expr);
 
@@ -1290,6 +1339,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (SubtractChecked? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(SubtractChecked? expr) => expr?.Expr;
 			public static implicit operator SubtractChecked?(BinaryExpression? expr) => expr == null ? null : new SubtractChecked(expr);
 
@@ -1322,6 +1372,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (AddAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(AddAssign? expr) => expr?.Expr;
 			public static implicit operator AddAssign?(BinaryExpression? expr) => expr == null ? null : new AddAssign(expr);
 
@@ -1354,6 +1405,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (AndAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(AndAssign? expr) => expr?.Expr;
 			public static implicit operator AndAssign?(BinaryExpression? expr) => expr == null ? null : new AndAssign(expr);
 
@@ -1386,6 +1438,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (DivideAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(DivideAssign? expr) => expr?.Expr;
 			public static implicit operator DivideAssign?(BinaryExpression? expr) => expr == null ? null : new DivideAssign(expr);
 
@@ -1418,6 +1471,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (ExclusiveOrAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(ExclusiveOrAssign? expr) => expr?.Expr;
 			public static implicit operator ExclusiveOrAssign?(BinaryExpression? expr) => expr == null ? null : new ExclusiveOrAssign(expr);
 
@@ -1450,6 +1504,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (LeftShiftAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(LeftShiftAssign? expr) => expr?.Expr;
 			public static implicit operator LeftShiftAssign?(BinaryExpression? expr) => expr == null ? null : new LeftShiftAssign(expr);
 
@@ -1482,6 +1537,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (ModuloAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(ModuloAssign? expr) => expr?.Expr;
 			public static implicit operator ModuloAssign?(BinaryExpression? expr) => expr == null ? null : new ModuloAssign(expr);
 
@@ -1514,6 +1570,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (MultiplyAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(MultiplyAssign? expr) => expr?.Expr;
 			public static implicit operator MultiplyAssign?(BinaryExpression? expr) => expr == null ? null : new MultiplyAssign(expr);
 
@@ -1546,6 +1603,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (OrAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(OrAssign? expr) => expr?.Expr;
 			public static implicit operator OrAssign?(BinaryExpression? expr) => expr == null ? null : new OrAssign(expr);
 
@@ -1578,6 +1636,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (PowerAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(PowerAssign? expr) => expr?.Expr;
 			public static implicit operator PowerAssign?(BinaryExpression? expr) => expr == null ? null : new PowerAssign(expr);
 
@@ -1610,6 +1669,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (RightShiftAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(RightShiftAssign? expr) => expr?.Expr;
 			public static implicit operator RightShiftAssign?(BinaryExpression? expr) => expr == null ? null : new RightShiftAssign(expr);
 
@@ -1642,6 +1702,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (SubtractAssign? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(SubtractAssign? expr) => expr?.Expr;
 			public static implicit operator SubtractAssign?(BinaryExpression? expr) => expr == null ? null : new SubtractAssign(expr);
 
@@ -1674,6 +1735,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (AddAssignChecked? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(AddAssignChecked? expr) => expr?.Expr;
 			public static implicit operator AddAssignChecked?(BinaryExpression? expr) => expr == null ? null : new AddAssignChecked(expr);
 
@@ -1706,6 +1768,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (MultiplyAssignChecked? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(MultiplyAssignChecked? expr) => expr?.Expr;
 			public static implicit operator MultiplyAssignChecked?(BinaryExpression? expr) => expr == null ? null : new MultiplyAssignChecked(expr);
 
@@ -1738,6 +1801,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?      (SubtractAssignChecked? expr) => expr?.Expr;
 			public static implicit operator BinaryExpression?(SubtractAssignChecked? expr) => expr?.Expr;
 			public static implicit operator SubtractAssignChecked?(BinaryExpression? expr) => expr == null ? null : new SubtractAssignChecked(expr);
 
@@ -1770,6 +1834,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (ArrayLength? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(ArrayLength? expr) => expr?.Expr;
 			public static implicit operator ArrayLength?(UnaryExpression? expr) => expr == null ? null : new ArrayLength(expr);
 
@@ -1800,6 +1865,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (Convert? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(Convert? expr) => expr?.Expr;
 			public static implicit operator Convert?(UnaryExpression? expr) => expr == null ? null : new Convert(expr);
 
@@ -1830,6 +1896,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (ConvertChecked? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(ConvertChecked? expr) => expr?.Expr;
 			public static implicit operator ConvertChecked?(UnaryExpression? expr) => expr == null ? null : new ConvertChecked(expr);
 
@@ -1860,6 +1927,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (Negate? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(Negate? expr) => expr?.Expr;
 			public static implicit operator Negate?(UnaryExpression? expr) => expr == null ? null : new Negate(expr);
 
@@ -1890,6 +1958,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (NegateChecked? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(NegateChecked? expr) => expr?.Expr;
 			public static implicit operator NegateChecked?(UnaryExpression? expr) => expr == null ? null : new NegateChecked(expr);
 
@@ -1920,6 +1989,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (Not? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(Not? expr) => expr?.Expr;
 			public static implicit operator Not?(UnaryExpression? expr) => expr == null ? null : new Not(expr);
 
@@ -1950,6 +2020,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (Quote? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(Quote? expr) => expr?.Expr;
 			public static implicit operator Quote?(UnaryExpression? expr) => expr == null ? null : new Quote(expr);
 
@@ -1980,6 +2051,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (TypeAs? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(TypeAs? expr) => expr?.Expr;
 			public static implicit operator TypeAs?(UnaryExpression? expr) => expr == null ? null : new TypeAs(expr);
 
@@ -2010,6 +2082,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (UnaryPlus? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(UnaryPlus? expr) => expr?.Expr;
 			public static implicit operator UnaryPlus?(UnaryExpression? expr) => expr == null ? null : new UnaryPlus(expr);
 
@@ -2040,6 +2113,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (Decrement? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(Decrement? expr) => expr?.Expr;
 			public static implicit operator Decrement?(UnaryExpression? expr) => expr == null ? null : new Decrement(expr);
 
@@ -2070,6 +2144,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (Increment? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(Increment? expr) => expr?.Expr;
 			public static implicit operator Increment?(UnaryExpression? expr) => expr == null ? null : new Increment(expr);
 
@@ -2100,6 +2175,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (IsFalse? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(IsFalse? expr) => expr?.Expr;
 			public static implicit operator IsFalse?(UnaryExpression? expr) => expr == null ? null : new IsFalse(expr);
 
@@ -2130,6 +2206,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (IsTrue? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(IsTrue? expr) => expr?.Expr;
 			public static implicit operator IsTrue?(UnaryExpression? expr) => expr == null ? null : new IsTrue(expr);
 
@@ -2160,6 +2237,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (Throw? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(Throw? expr) => expr?.Expr;
 			public static implicit operator Throw?(UnaryExpression? expr) => expr == null ? null : new Throw(expr);
 
@@ -2190,6 +2268,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (Unbox? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(Unbox? expr) => expr?.Expr;
 			public static implicit operator Unbox?(UnaryExpression? expr) => expr == null ? null : new Unbox(expr);
 
@@ -2220,6 +2299,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (PreIncrementAssign? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(PreIncrementAssign? expr) => expr?.Expr;
 			public static implicit operator PreIncrementAssign?(UnaryExpression? expr) => expr == null ? null : new PreIncrementAssign(expr);
 
@@ -2250,6 +2330,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (PreDecrementAssign? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(PreDecrementAssign? expr) => expr?.Expr;
 			public static implicit operator PreDecrementAssign?(UnaryExpression? expr) => expr == null ? null : new PreDecrementAssign(expr);
 
@@ -2280,6 +2361,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (PostIncrementAssign? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(PostIncrementAssign? expr) => expr?.Expr;
 			public static implicit operator PostIncrementAssign?(UnaryExpression? expr) => expr == null ? null : new PostIncrementAssign(expr);
 
@@ -2310,6 +2392,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (PostDecrementAssign? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(PostDecrementAssign? expr) => expr?.Expr;
 			public static implicit operator PostDecrementAssign?(UnaryExpression? expr) => expr == null ? null : new PostDecrementAssign(expr);
 
@@ -2340,6 +2423,7 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			public static implicit operator Expression?     (OnesComplement? expr) => expr?.Expr;
 			public static implicit operator UnaryExpression?(OnesComplement? expr) => expr?.Expr;
 			public static implicit operator OnesComplement?(UnaryExpression? expr) => expr == null ? null : new OnesComplement(expr);
 
