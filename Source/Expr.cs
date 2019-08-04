@@ -763,12 +763,6 @@ namespace Linq.Expressions.Deconstruct
 
 		static Expression? TransformInternal(this Expression? expr, Func<Expression?,Expression?> func)
 		{
-			var ex = TransformInternal2(expr, func);
-			return ex == null ? null : func(ex);
-		}
-
-		static Expression? TransformInternal2(this Expression? expr, Func<Expression?,Expression?> func)
-		{
 			if (expr == null)
 				return null;
 
@@ -815,10 +809,11 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.SubtractAssignChecked:
 				{
 					var e = (BinaryExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						TransformInternal(e.Left, func),
 						(LambdaExpression?)TransformInternal(e.Conversion, func),
 						TransformInternal(e.Right, func));
+					break;
 				}
 
 				case ExpressionType.ArrayLength:
@@ -843,32 +838,36 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.OnesComplement:
 				{
 					var e = (UnaryExpression)expr;
-					return e.Update(TransformInternal(e.Operand, func));
+					expr = e.Update(TransformInternal(e.Operand, func));
+					break;
 				}
 
 				case ExpressionType.Call:
 				{
 					var e = (MethodCallExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						TransformInternal(e.Object, func),
 						TransformInternal(e.Arguments, func));
+					break;
 				}
 
 				case ExpressionType.Conditional:
 				{
 					var e = (ConditionalExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						TransformInternal(e.Test, func),
 						TransformInternal(e.IfTrue, func),
 						TransformInternal(e.IfFalse, func));
+					break;
 				}
 
 				case ExpressionType.Invoke:
 				{
 					var e = (InvocationExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						TransformInternal(e.Expression, func),
 						TransformInternal(e.Arguments, func));
+					break;
 				}
 
 				case ExpressionType.Lambda:
@@ -877,13 +876,14 @@ namespace Linq.Expressions.Deconstruct
 					var b = TransformInternal(e.Body, func);
 					var p = TransformInternal(e.Parameters, func);
 
-					return b != e.Body || !ReferenceEquals(p, e.Parameters) ? Expression.Lambda(expr.Type, b, p.ToArray()) : expr;
+					expr = b != e.Body || !ReferenceEquals(p, e.Parameters) ? Expression.Lambda(expr.Type, b, p.ToArray()) : expr;
+					break;
 				}
 
 				case ExpressionType.ListInit:
 				{
 					var e = (ListInitExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						(NewExpression?)TransformInternal(e.NewExpression, func),
 						TransformInternal(
 							e.Initializers, p =>
@@ -891,12 +891,14 @@ namespace Linq.Expressions.Deconstruct
 								var args = TransformInternal(p.Arguments, func);
 								return !ReferenceEquals(args, p.Arguments) ? Expression.ElementInit(p.AddMethod, args) : p;
 							}));
+					break;
 				}
 
 				case ExpressionType.MemberAccess:
 				{
 					var e = (MemberExpression)expr;
-					return e.Update(TransformInternal(e.Expression, func));
+					expr = e.Update(TransformInternal(e.Expression, func));
+					break;
 				}
 
 				case ExpressionType.MemberInit:
@@ -932,37 +934,42 @@ namespace Linq.Expressions.Deconstruct
 					}
 
 					var e = (MemberInitExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						(NewExpression?)TransformInternal(e.NewExpression, func),
 						TransformInternal(e.Bindings, Modify));
+					break;
 				}
 
 				case ExpressionType.New:
 				{
 					var e = (NewExpression)expr;
-					return e.Update(TransformInternal(e.Arguments, func));
+					expr = e.Update(TransformInternal(e.Arguments, func));
+					break;
 				}
 
 				case ExpressionType.NewArrayBounds:
 				case ExpressionType.NewArrayInit:
 				{
 					var e = (NewArrayExpression)expr;
-					return e.Update(TransformInternal(e.Expressions, func));
+					expr = e.Update(TransformInternal(e.Expressions, func));
+					break;
 				}
 
 				case ExpressionType.TypeEqual:
 				case ExpressionType.TypeIs:
 				{
 					var e = (TypeBinaryExpression)expr;
-					return e.Update(TransformInternal(e.Expression, func));
+					expr = e.Update(TransformInternal(e.Expression, func));
+					break;
 				}
 
 				case ExpressionType.Block:
 				{
 					var e = (BlockExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						TransformInternal(e.Variables, func),
 						TransformInternal(e.Expressions, func));
+					break;
 				}
 
 				case ExpressionType.DebugInfo:
@@ -970,60 +977,67 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.Extension:
 				case ExpressionType.Constant:
 				case ExpressionType.Parameter:
-					return expr;
+					break;
 
 				case ExpressionType.Dynamic:
 				{
 					var e = (DynamicExpression)expr;
-					return e.Update(TransformInternal(e.Arguments, func));
+					expr = e.Update(TransformInternal(e.Arguments, func));
+					break;
 				}
 
 				case ExpressionType.Goto:
 				{
 					var e = (GotoExpression)expr;
-					return e.Update(e.Target, TransformInternal(e.Value, func));
+					expr = e.Update(e.Target, TransformInternal(e.Value, func));
+					break;
 				}
 
 				case ExpressionType.Index:
 				{
 					var e = (IndexExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						TransformInternal(e.Object, func),
 						TransformInternal(e.Arguments, func));
+					break;
 				}
 
 				case ExpressionType.Label:
 				{
 					var e = (LabelExpression)expr;
-					return e.Update(e.Target, TransformInternal(e.DefaultValue, func));
+					expr = e.Update(e.Target, TransformInternal(e.DefaultValue, func));
+					break;
 				}
 
 				case ExpressionType.RuntimeVariables:
 				{
 					var e = (RuntimeVariablesExpression)expr;
-					return e.Update(TransformInternal(e.Variables, func));
+					expr = e.Update(TransformInternal(e.Variables, func));
+					break;
 				}
 
 				case ExpressionType.Loop:
 				{
 					var e = (LoopExpression)expr;
-					return e.Update(e.BreakLabel, e.ContinueLabel, TransformInternal(e.Body, func));
+					expr = e.Update(e.BreakLabel, e.ContinueLabel, TransformInternal(e.Body, func));
+					break;
 				}
 
 				case ExpressionType.Switch:
 				{
 					var e = (SwitchExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						TransformInternal(e.SwitchValue, func),
 						TransformInternal(
 							e.Cases, cs => cs.Update(TransformInternal(cs.TestValues, func), TransformInternal(cs.Body, func))),
 						TransformInternal(e.DefaultBody, func));
+					break;
 				}
 
 				case ExpressionType.Try:
 				{
 					var e = (TryExpression)expr;
-					return e.Update(
+					expr = e.Update(
 						TransformInternal(e.Body, func),
 						TransformInternal(
 							e.Handlers,
@@ -1033,10 +1047,11 @@ namespace Linq.Expressions.Deconstruct
 									TransformInternal(h.Body, func))),
 						TransformInternal(e.Finally, func),
 						TransformInternal(e.Fault, func));
+					break;
 				}
 			}
 
-			throw new InvalidOperationException();
+			return expr == null ? null : func(expr);
 		}
 
 		#endregion
