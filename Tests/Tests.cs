@@ -11,7 +11,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 	public class Tests
 	{
 		[Test]
-		public void Test1()
+		public void MatchTest()
 		{
 			Expression<Func<int,int>> f = i => i * 2;
 
@@ -30,7 +30,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 		}
 
 		[Test]
-		public void Test2()
+		public void ConditionalMatchTest()
 		{
 			Expression<Func<int,string>> f = i => i == 0 ? i.ToString() : "2";
 
@@ -56,7 +56,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 		}
 
 		[Test]
-		public void Test3()
+		public void NewMatchTest()
 		{
 			Expression<Func<int,object>> f = i => new { i, a = i * 4 };
 
@@ -78,7 +78,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 		}
 
 		[Test]
-		public void Test4()
+		public void NewArrayInitMatchTest()
 		{
 			Expression<Func<string,string[]>> f = s => new[] { s, s + "4" };
 
@@ -99,7 +99,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 		}
 
 		[Test]
-		public void Test5()
+		public void ListInitMatchTest()
 		{
 			Expression<Func<string,System.Collections.Generic.List<string>>> f =
 				s => new System.Collections.Generic.List<string>(2) { s, s + "4" };
@@ -122,7 +122,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 		}
 
 		[Test]
-		public void ConstantFolding()
+		public void ConstantFoldingTest()
 		{
 			Expression<Func<int,int>> f = i => i * 0 + 0 + i + 10 * (i * 0 + 2);
 

@@ -560,6 +560,8 @@ namespace Linq.Expressions.Deconstruct
 
 	public static partial class Extensions
 	{
+		#region ToExpr
+
 		public static Expr? ToExpr(this Expression? expr)
 		{
 			return expr?.ToExpr2();
@@ -663,6 +665,8 @@ namespace Linq.Expressions.Deconstruct
 
 			throw new InvalidOperationException();
 		}
+
+		#endregion
 
 		#region ElementInit
 

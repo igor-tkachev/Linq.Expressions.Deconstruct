@@ -6,7 +6,7 @@
 
 ```c#
 [Test]
-public void Test1()
+public void MatchTest()
 {
     Expression<Func<int,int>> f = i => i * 2;
 
@@ -27,7 +27,7 @@ public void Test1()
 
 ```c#
 [Test]
-public void ConstantFolding()
+public void ConstantFoldingTest()
 {
     Expression<Func<int,int>> f = i => i * 0 + 0 + i + 10 * (i * 0 + 2);
 
