@@ -31,7 +31,7 @@ public void ConstantFoldingTest()
 {
     Expression<Func<int,int>> f = i => i * 0 + 0 + i + 10 * (i * 0 + 2);
 
-    var f1 = f.TransformExpr(ex => ex switch
+    var f1 = f.TransformEx(ex => ex switch
     {
         Multiply(Constant(0) e,   _)               => e,               // 0 * e => 0
         Multiply(_,               Constant(0) e)   => e,               // e * 0 => 0
