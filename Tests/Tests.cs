@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using NUnit.Framework;
 
 using static Linq.Expressions.Deconstruct.Expr;
+using static System.Linq.Expressions.Expression;
 
 namespace Linq.Expressions.Deconstruct.Tests
 {
@@ -128,20 +129,50 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			var f1 = f.Transform(ex => ex.ToExpr() switch
 			{
-				Multiply(Constant(0) e,   _)               => (Expression)e,              // 0 * e => 0
-				Multiply(_,               Constant(0) e)   => (Expression)e,              // e * 0 => 0
-				Multiply(Constant(1),     var e)           => (Expression)e,              // 1 * e => e
-				Multiply(var e,           Constant(1))     => (Expression)e,              // e * 1 => 1
-				Divide  (Constant(0) e,   _)               => (Expression)e,              // 0 / e => 0
-				Divide  (var e,           Constant(1))     => (Expression)e,              // e / 1 => e
-				Add     (Constant(0),     var e)           => (Expression)e,              // 0 + e => e
-				Add     (var e,           Constant(0))     => (Expression)e,              // e + 0 => e
-				Subtract(Constant(0),     var e)           => Expression.Negate(e),       // 0 - e => -e
-				Subtract(var e,           Constant(0))     => (Expression)e,              // e - 0 => e
-				Multiply(Constant(int x), Constant(int y)) => Expression.Constant(x * y), // x * y => e
-				Divide  (Constant(int x), Constant(int y)) => Expression.Constant(x / y), // x / y => e
-				Add     (Constant(int x), Constant(int y)) => Expression.Constant(x + y), // x + y => e
-				Subtract(Constant(int x), Constant(int y)) => Expression.Constant(x - y), // x - y => e
+				Multiply(Constant(0) e,   _)               => (Expression)e,   // 0 * e => 0
+				Multiply(_,               Constant(0) e)   => (Expression)e,   // e * 0 => 0
+				Multiply(Constant(1),     var e)           => (Expression)e,   // 1 * e => e
+				Multiply(var e,           Constant(1))     => (Expression)e,   // e * 1 => e
+				Divide  (Constant(0) e,   _)               => (Expression)e,   // 0 / e => 0
+				Divide  (var e,           Constant(1))     => (Expression)e,   // e / 1 => e
+				Add     (Constant(0),     var e)           => (Expression)e,   // 0 + e => e
+				Add     (var e,           Constant(0))     => (Expression)e,   // e + 0 => e
+				Subtract(Constant(0),     var e)           => Negate(e),       // 0 - e => -e
+				Subtract(var e,           Constant(0))     => (Expression)e,   // e - 0 => e
+				Multiply(Constant(int x), Constant(int y)) => Constant(x * y), // x * y => e
+				Divide  (Constant(int x), Constant(int y)) => Constant(x / y), // x / y => e
+				Add     (Constant(int x), Constant(int y)) => Constant(x + y), // x + y => e
+				Subtract(Constant(int x), Constant(int y)) => Constant(x - y), // x - y => e
+				_                                          => ex
+			});
+
+			Console.WriteLine(f);
+			Console.WriteLine(f1);
+
+			Assert.IsTrue(f1.EqualsTo(i => i + 20));
+		}
+
+		[Test]
+		public void ConstantFoldingExTest()
+		{
+			Expression<Func<int,int>> f = i => i * 0 + 0 + i + 10 * (i * 0 + 2);
+
+			var f1 = f.TransformEx(ex => ex switch
+			{
+				Multiply(Constant(0) e,   _)               => e,               // 0 * e => 0
+				Multiply(_,               Constant(0) e)   => e,               // e * 0 => 0
+				Multiply(Constant(1),     var e)           => e,               // 1 * e => e
+				Multiply(var e,           Constant(1))     => e,               // e * 1 => e
+				Divide  (Constant(0) e,   _)               => e,               // 0 / e => 0
+				Divide  (var e,           Constant(1))     => e,               // e / 1 => e
+				Add     (Constant(0),     var e)           => e,               // 0 + e => e
+				Add     (var e,           Constant(0))     => e,               // e + 0 => e
+				Subtract(Constant(0),     var e)           => Negate(e),       // 0 - e => -e
+				Subtract(var e,           Constant(0))     => e,               // e - 0 => e
+				Multiply(Constant(int x), Constant(int y)) => Constant(x * y), // x * y => e
+				Divide  (Constant(int x), Constant(int y)) => Constant(x / y), // x / y => e
+				Add     (Constant(int x), Constant(int y)) => Constant(x + y), // x + y => e
+				Subtract(Constant(int x), Constant(int y)) => Constant(x - y), // x - y => e
 				_                                          => ex
 			});
 
@@ -168,6 +199,22 @@ namespace Linq.Expressions.Deconstruct.Tests
 		}
 
 		[Test]
+		public void VisitExTest()
+		{
+			Expression<Func<int,int>> f = i => i * 0 + 0 + i + 10 * (i * 0 + 2);
+
+			var count = 0;
+
+			f.Body.VisitEx(ex =>
+			{
+				if (ex is Parameter)
+					count++;
+			});
+
+			Assert.That(count, Is.EqualTo(3));
+		}
+
+		[Test]
 		public void FindTest()
 		{
 			Expression<Func<int,int>> f = i => i * 0 + 0 + i + 10 * (i * 0 + 2);
@@ -176,7 +223,19 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			Console.WriteLine(r);
 
-			Assert.IsTrue(r.EqualsTo(Expression.Constant(10)));
+			Assert.IsTrue(r.EqualsTo(Constant(10)));
+		}
+
+		[Test]
+		public void FindExTest()
+		{
+			Expression<Func<int,int>> f = i => i * 0 + 0 + i + 10 * (i * 0 + 2);
+
+			var r = f.Body.FindEx(ex => ex is Constant(10));
+
+			Console.WriteLine(r);
+
+			Assert.IsTrue(r.EqualsTo(Constant(10)));
 		}
 
 		static Func<Expression,string> _getDebugView;
@@ -185,13 +244,11 @@ namespace Linq.Expressions.Deconstruct.Tests
 		{
 			if (_getDebugView == null)
 			{
-				var p = Expression.Parameter(typeof(Expression));
+				var p = Parameter(typeof(Expression));
 
 				try
 				{
-					var l = Expression.Lambda<Func<Expression, string>>(
-						Expression.PropertyOrField(p, "DebugView"),
-						p);
+					var l = Lambda<Func<Expression, string>>(PropertyOrField(p, "DebugView"), p);
 
 					_getDebugView = l.Compile();
 				}

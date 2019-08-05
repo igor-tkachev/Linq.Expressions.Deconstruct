@@ -32,7 +32,7 @@ namespace Linq.Expressions.Deconstruct
 		public static bool operator ==(Expr left, Expr right) => Equals(left, right);
 		public static bool operator !=(Expr left, Expr right) => !Equals(left, right);
 
-		public static implicit operator Expression?(Expr? expr) => expr?.GetExpression();
+		public static implicit operator Expression(Expr expr) => expr.GetExpression();
 		public static implicit operator Expr?(Expression? expr) => expr.ToExpr();
 
 		#endregion
@@ -706,6 +706,26 @@ namespace Linq.Expressions.Deconstruct
 
 		#region Visit
 
+		/// <summary>
+		/// Visits expression tree.
+		/// </summary>
+		/// <param name="expr"><see cref="Expression"/> to visit.</param>
+		/// <param name="func">Visit action.</param>
+		public static void Visit(this Expression expr, Action<Expression> func)
+		{
+			VisitInternal(expr, func);
+		}
+
+		/// <summary>
+		/// Visits expression tree.
+		/// </summary>
+		/// <param name="expr"><see cref="Expression"/> to visit.</param>
+		/// <param name="func">Visit action.</param>
+		public static void VisitEx(this Expression expr, Action<Expr> func)
+		{
+			VisitInternal(expr, ex => func(ex.ToExpr2()));
+		}
+
 		static void VisitInternal<T>(IEnumerable<T> source, Action<T> func)
 		{
 			foreach (var item in source)
@@ -717,16 +737,6 @@ namespace Linq.Expressions.Deconstruct
 		{
 			foreach (var item in source)
 				VisitInternal(item, func);
-		}
-
-		/// <summary>
-		/// Visits expression tree.
-		/// </summary>
-		/// <param name="expr"><see cref="Expression"/> to visit.</param>
-		/// <param name="func">Visit action.</param>
-		public static void Visit(this Expression expr, Action<Expression> func)
-		{
-			VisitInternal(expr, func);
 		}
 
 		static void VisitInternal(this Expression expr, Action<Expression> func)
@@ -1333,6 +1343,39 @@ namespace Linq.Expressions.Deconstruct
 
 		#region Find
 
+		/// <summary>
+		/// Finds and expression in expression tree.
+		/// </summary>
+		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
+		/// <param name="func">Find function. Return true if expression is found.</param>
+		/// <returns>Found expression or null.</returns>
+		public static Expression? FindEx(this Expression expr, Func<Expr,bool> func)
+		{
+			return FindInternal(expr, ex => func(ex.ToExpr2()));
+		}
+
+		/// <summary>
+		/// Finds an expression in expression tree.
+		/// </summary>
+		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
+		/// <param name="exprToFind">Expression to find.</param>
+		/// <returns>Found expression or null.</returns>
+		public static Expression? Find(this Expression? expr, Expression exprToFind)
+		{
+			return expr.FindInternal(e => e == exprToFind);
+		}
+
+		/// <summary>
+		/// Finds and expression in expression tree.
+		/// </summary>
+		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
+		/// <param name="func">Find function. Return true if expression is found.</param>
+		/// <returns>Found expression or null.</returns>
+		public static Expression? Find(this Expression expr, Func<Expression, bool> func)
+		{
+			return FindInternal(expr, func);
+		}
+
 		static Expression? FindInternal<T>(IEnumerable<T> source, Func<T,Expression?> func)
 		{
 			foreach (var item in source)
@@ -1356,28 +1399,6 @@ namespace Linq.Expressions.Deconstruct
 			}
 
 			return null;
-		}
-
-		/// <summary>
-		/// Finds an expression in expression tree.
-		/// </summary>
-		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
-		/// <param name="exprToFind">Expression to find.</param>
-		/// <returns>Found expression or null.</returns>
-		public static Expression? Find(this Expression? expr, Expression exprToFind)
-		{
-			return expr.FindInternal(e => e == exprToFind);
-		}
-
-		/// <summary>
-		/// Finds and expression in expression tree.
-		/// </summary>
-		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
-		/// <param name="func">Find function. Return true if expression is found.</param>
-		/// <returns>Found expression or null.</returns>
-		public static Expression? Find(this Expression expr, Func<Expression, bool> func)
-		{
-			return FindInternal(expr, func);
 		}
 
 		static Expression? FindInternal(this Expression? expr, Func<Expression, bool> func)
@@ -1596,6 +1617,41 @@ namespace Linq.Expressions.Deconstruct
 
 		#region Transform
 
+		public static T TransformEx<T>(this T expr, Func<Expr,Expr> func)
+			where T : LambdaExpression
+		{
+			return (T)(TransformInternal(expr, ex => func(ex.ToExpr2())) ?? throw new InvalidOperationException());
+		}
+
+		public static Expression? TransformEx(this Expression? expr, Func<Expr,Expr> func)
+		{
+			return TransformInternal(expr, ex => func(ex.ToExpr2()));
+		}
+
+		/// <summary>
+		/// Transforms original expression.
+		/// </summary>
+		/// <typeparam name="T">Type of expression.</typeparam>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
+		/// <returns>Modified expression.</returns>
+		public static T Transform<T>(this T expr, Func<Expression,Expression> func)
+			where T : LambdaExpression
+		{
+			return (T)(TransformInternal(expr, func) ?? throw new InvalidOperationException());
+		}
+
+		/// <summary>
+		/// Transforms original expression.
+		/// </summary>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
+		/// <returns>Modified expression.</returns>
+		public static Expression? Transform(this Expression? expr, Func<Expression,Expression> func)
+		{
+			return TransformInternal(expr, func);
+		}
+
 		static IEnumerable<T> TransformInternal<T>(ICollection<T> source, Func<T,T> func)
 			where T : class
 		{
@@ -1612,7 +1668,7 @@ namespace Linq.Expressions.Deconstruct
 			return modified ? list : source;
 		}
 
-		static IEnumerable<T?> TransformInternal<T>(ICollection<T> source, Func<Expression?,Expression?> func)
+		static IEnumerable<T?> TransformInternal<T>(ICollection<T> source, Func<Expression,Expression> func)
 			where T : Expression
 		{
 			var modified = false;
@@ -1628,31 +1684,7 @@ namespace Linq.Expressions.Deconstruct
 			return modified ? (IEnumerable<T?>)list : (IEnumerable<T?>)source;
 		}
 
-		/// <summary>
-		/// Transforms original expression.
-		/// </summary>
-		/// <typeparam name="T">Type of expression.</typeparam>
-		/// <param name="expr">Expression to transform.</param>
-		/// <param name="func">Transform function.</param>
-		/// <returns>Modified expression.</returns>
-		public static T Transform<T>(this T expr, Func<Expression?,Expression?> func)
-			where T : LambdaExpression
-		{
-			return (T)(TransformInternal(expr, func) ?? throw new InvalidOperationException());
-		}
-
-		/// <summary>
-		/// Transforms original expression.
-		/// </summary>
-		/// <param name="expr">Expression to transform.</param>
-		/// <param name="func">Transform function.</param>
-		/// <returns>Modified expression.</returns>
-		public static Expression? Transform(this Expression? expr, Func<Expression?,Expression?> func)
-		{
-			return TransformInternal(expr, func);
-		}
-
-		static Expression? TransformInternal(this Expression? expr, Func<Expression?,Expression?> func)
+		static Expression? TransformInternal(this Expression? expr, Func<Expression,Expression> func)
 		{
 			if (expr == null)
 				return null;
