@@ -148,26 +148,35 @@ namespace Linq.Expressions.Deconstruct.Tests
 			Console.WriteLine(f);
 			Console.WriteLine(f1);
 
-			Assert.That(f,              Is.Not.SameAs(f1));
-			Assert.That(f.Compile()(3), Is.Not.SameAs(f1.Compile()(3)));
+			Assert.IsTrue(f1.EqualsTo(i => i + 20));
+		}
 
-			void Test(Expression<Func<int,int>> ex)
+		[Test]
+		public void VisitTest()
+		{
+			Expression<Func<int,int>> f = i => i * 0 + 0 + i + 10 * (i * 0 + 2);
+
+			var count = 0;
+
+			f.Body.Visit(ex =>
 			{
-				switch (ex.ToExpr())
-				{
-					case Lambda(Add(Parameter("i"), Constant(20)), (1, Parameter("i"))) :
-						Console.WriteLine("Pattern Matched!");
-						break;
-					default:
-						Console.WriteLine(f);
-						Console.WriteLine(GetDebugView(f));
-						Assert.Fail();
-						break;
-				};
-			}
+				if (ex is ParameterExpression)
+					count++;
+			});
 
-			Test(f1);
-			Test(i => i + 20);
+			Assert.That(count, Is.EqualTo(3));
+		}
+
+		[Test]
+		public void FindTest()
+		{
+			Expression<Func<int,int>> f = i => i * 0 + 0 + i + 10 * (i * 0 + 2);
+
+			var r = f.Body.Find(ex => ex.ToExpr() is Constant(10));
+
+			Console.WriteLine(r);
+
+			Assert.IsTrue(r.EqualsTo(Expression.Constant(10)));
 		}
 
 		static Func<Expression,string> _getDebugView;

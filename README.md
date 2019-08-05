@@ -50,21 +50,6 @@ public void ConstantFoldingTest()
         _                                          => ex
     });
 
-    void Test(Expression<Func<int,int>> ex)
-    {
-        switch (ex.ToExpr())
-        {
-            case Lambda(Add(Parameter("i"), Constant(20)), (1, Parameter("i"))) :
-                Console.WriteLine("Pattern Matched!");
-                break;
-            default:
-                Console.WriteLine(f);
-                Assert.Fail();
-                break;
-        };
-    }
-
-    Test(f1);
-    Test(i => i + 20);
+    Assert.IsTrue(f1.EqualsTo(i => i + 20));
 }
 ```
