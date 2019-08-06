@@ -238,6 +238,24 @@ namespace Linq.Expressions.Deconstruct.Tests
 			Assert.IsTrue(r.EqualsTo(Constant(10)));
 		}
 
+		[Test]
+		public void ReplaceMethodTest()
+		{
+			Expression<Func<string[]>> f = () => "dog,cat".Split(new[] { ',' });
+
+			var f1 = f.TransformEx(ex => ex switch
+			{
+				Call({ Name : "Split" }, Constant("dog,cat"), (1, _)) =>
+					NewArrayInit(typeof(string), Constant("dog"), Constant("cat")),
+				_ => ex
+			});
+
+			Console.WriteLine(f);
+			Console.WriteLine(f1);
+
+			Assert.IsTrue(f1.EqualsTo(() => new[] { "dog", "cat" }));
+		}
+
 		static Func<Expression,string> _getDebugView;
 
 		static string GetDebugView(Expression expression)
