@@ -12,6 +12,7 @@
 //---------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -70,11 +71,16 @@ namespace Linq.Expressions.Deconstruct
 		if (item.Expression != "Expression")
 		{
 #>
+			[return: NotNullIfNotNull("expr")]
 			public static implicit operator Expression?(<#= item.Expr #>? expr) => expr?.Expr;
+
 <#
 		}
 #>
+			[return: NotNullIfNotNull("expr")]
 			public static implicit operator <#= item.Expression #>?(<#= item.Expr #>? expr) => expr?.Expr;
+
+			[return: NotNullIfNotNull("expr")]
 			public static implicit operator <#= item.Expr #>?(<#= item.Expression #>? expr) => expr == null ? null : new <#= item.Expr #>(expr);
 		}
 
@@ -109,8 +115,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			[return: NotNullIfNotNull("expr")]
 			public static implicit operator Expression?      (<#= item #>? expr) => expr?.Expr;
+
+			[return: NotNullIfNotNull("expr")]
 			public static implicit operator BinaryExpression?(<#= item #>? expr) => expr?.Expr;
+
+			[return: NotNullIfNotNull("expr")]
 			public static implicit operator <#= item #>?(BinaryExpression? expr) => expr == null ? null : new <#= item #>(expr);
 
 			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
@@ -154,8 +165,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
+			[return: NotNullIfNotNull("expr")]
 			public static implicit operator Expression?     (<#= item #>? expr) => expr?.Expr;
+
+			[return: NotNullIfNotNull("expr")]
 			public static implicit operator UnaryExpression?(<#= item #>? expr) => expr?.Expr;
+
+			[return: NotNullIfNotNull("expr")]
 			public static implicit operator <#= item #>?(UnaryExpression? expr) => expr == null ? null : new <#= item #>(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)

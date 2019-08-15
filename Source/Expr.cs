@@ -2,11 +2,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-#nullable enable
+#if !NETCOREAPP3_0
+
+namespace System.Diagnostics.CodeAnalysis
+{
+	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true, Inherited = false)]
+	internal sealed class NotNullIfNotNullAttribute : Attribute
+	{
+		public NotNullIfNotNullAttribute(string parameterName)
+		{
+			ParameterName = parameterName;
+		}
+
+		public string ParameterName { get; }
+	}
+}
+
+#endif
 
 namespace Linq.Expressions.Deconstruct
 {
@@ -19,7 +36,7 @@ namespace Linq.Expressions.Deconstruct
 		public override string ToString   () => GetExpression().ToString();
 		public override int    GetHashCode() => GetExpression().GetHashCode();
 
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
 			switch (obj)
 			{
@@ -32,8 +49,13 @@ namespace Linq.Expressions.Deconstruct
 		public static bool operator ==(Expr left, Expr right) => Equals(left, right);
 		public static bool operator !=(Expr left, Expr right) => !Equals(left, right);
 
-		public static implicit operator Expression(Expr expr) => expr.GetExpression();
-		public static implicit operator Expr?(Expression? expr) => expr.ToExpr();
+#nullable disable
+		[return: NotNullIfNotNull("expr")]
+		public static implicit operator Expression(Expr expr) => expr?.GetExpression();
+
+		[return: NotNullIfNotNull("expr")]
+		public static implicit operator Expr(Expression expr) => expr.ToExpr();
+#nullable enable
 
 		#endregion
 
@@ -563,12 +585,13 @@ namespace Linq.Expressions.Deconstruct
 	{
 		#region ToExpr
 
+		[return: NotNullIfNotNull("expr")]
 		public static Expr? ToExpr(this Expression? expr)
 		{
 			return expr?.ToExpr2();
 		}
 
-		internal static Expr ToExpr2(this Expression expr)
+		public static Expr ToExpr2(this Expression expr)
 		{
 			if (expr == null)
 				throw new ArgumentNullException(nameof(expr));
@@ -1618,11 +1641,12 @@ namespace Linq.Expressions.Deconstruct
 		#region Transform
 
 		public static T TransformEx<T>(this T expr, Func<Expr,Expr> func)
-			where T : LambdaExpression
+			where T : notnull, LambdaExpression
 		{
 			return (T)(TransformInternal(expr, ex => func(ex.ToExpr2())) ?? throw new InvalidOperationException());
 		}
 
+		[return: NotNullIfNotNull("expr")]
 		public static Expression? TransformEx(this Expression? expr, Func<Expr,Expr> func)
 		{
 			return TransformInternal(expr, ex => func(ex.ToExpr2()));
@@ -1636,7 +1660,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="func">Transform function.</param>
 		/// <returns>Modified expression.</returns>
 		public static T Transform<T>(this T expr, Func<Expression,Expression> func)
-			where T : LambdaExpression
+			where T : notnull, LambdaExpression
 		{
 			return (T)(TransformInternal(expr, func) ?? throw new InvalidOperationException());
 		}
@@ -1647,6 +1671,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
 		/// <returns>Modified expression.</returns>
+		[return: NotNullIfNotNull("expr")]
 		public static Expression? Transform(this Expression? expr, Func<Expression,Expression> func)
 		{
 			return TransformInternal(expr, func);
@@ -1668,7 +1693,7 @@ namespace Linq.Expressions.Deconstruct
 			return modified ? list : source;
 		}
 
-		static IEnumerable<T?> TransformInternal<T>(ICollection<T> source, Func<Expression,Expression> func)
+		static IEnumerable<T> TransformInternal<T>(ICollection<T> source, Func<Expression,Expression> func)
 			where T : Expression
 		{
 			var modified = false;
@@ -1681,9 +1706,10 @@ namespace Linq.Expressions.Deconstruct
 				modified = modified || e != item;
 			}
 
-			return modified ? (IEnumerable<T?>)list : (IEnumerable<T?>)source;
+			return modified ? (IEnumerable<T>)list : (IEnumerable<T>)source;
 		}
 
+		[return: NotNullIfNotNull("expr")]
 		static Expression? TransformInternal(this Expression? expr, Func<Expression,Expression> func)
 		{
 			if (expr == null)
@@ -1982,7 +2008,7 @@ namespace Linq.Expressions.Deconstruct
 		#region EqualsTo
 
 		public static bool EqualsTo<T>(this T expr1, T expr2, bool compareConstantValues = false)
-			where T : LambdaExpression
+			where T : notnull, LambdaExpression
 		{
 			return EqualsTo(expr1, expr2, new EqualsToInfo
 			{
@@ -1990,8 +2016,11 @@ namespace Linq.Expressions.Deconstruct
 			});
 		}
 
-		public static bool EqualsTo(this Expression expr1, Expression expr2, bool compareConstantValues = false)
+		public static bool EqualsTo(this Expression? expr1, Expression? expr2, bool compareConstantValues = false)
 		{
+			if (expr1 == null || expr2 == null)
+				return expr1 == expr2;
+
 			return EqualsTo(expr1, expr2, new EqualsToInfo
 			{
 				CompareConstantValues = compareConstantValues
