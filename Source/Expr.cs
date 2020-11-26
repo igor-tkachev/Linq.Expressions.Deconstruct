@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-#if !NETCOREAPP3_0
+#if !NETCOREAPP3_1
 
 namespace System.Diagnostics.CodeAnalysis
 {
@@ -21,6 +21,12 @@ namespace System.Diagnostics.CodeAnalysis
 
 		public string ParameterName { get; }
 	}
+
+	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue, Inherited = false)]
+	public sealed class NotNullAttribute : Attribute
+	{
+	}
+
 }
 
 #endif
@@ -49,13 +55,11 @@ namespace Linq.Expressions.Deconstruct
 		public static bool operator ==(Expr left, Expr right) => Equals(left, right);
 		public static bool operator !=(Expr left, Expr right) => !Equals(left, right);
 
-#nullable disable
 		[return: NotNullIfNotNull("expr")]
-		public static implicit operator Expression(Expr expr) => expr?.GetExpression();
+		public static implicit operator Expression?(Expr? expr) => expr?.GetExpression();
 
 		[return: NotNullIfNotNull("expr")]
-		public static implicit operator Expr(Expression expr) => expr.ToExpr();
-#nullable enable
+		public static implicit operator Expr?(Expression? expr) => expr?.ToExpr();
 
 		#endregion
 
@@ -554,15 +558,89 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Constant
 		{
-			public void Deconstruct(out Type type, out object value)
-			{
-				type  = Expr.Type;
-				value = Expr.Value;
-			}
-
 			public void Deconstruct(out object value)
 			{
 				value = Expr.Value;
+			}
+
+			public void Deconstruct(out object origValue, out int? intValue, out Type type)
+			{
+				Deconstruct(out origValue, out intValue);
+				type = Expr.Type;
+			}
+
+			public void Deconstruct(out object origValue, out int? intValue)
+			{
+				origValue = Expr.Value;
+				intValue  = null;
+
+				if (Expr.Value != null)
+				{
+					switch (Type.GetTypeCode(Expr.Value.GetType()))
+					{
+						//case TypeCode.Boolean : intValue = (Boolean)Expr.Value ? 1 : 0; break;
+						case TypeCode.Char    : intValue = (Char)  Expr.Value; break;
+						case TypeCode.SByte   : intValue = (SByte) Expr.Value; break;
+						case TypeCode.Byte    : intValue = (Byte)  Expr.Value; break;
+						case TypeCode.Int16   : intValue = (Int16) Expr.Value; break;
+						case TypeCode.UInt16  : intValue = (UInt16)Expr.Value; break;
+						case TypeCode.Int32   : intValue = (Int32) Expr.Value; break;
+						case TypeCode.UInt32  :
+							{
+								var value = (UInt32)Expr.Value;
+								if (value <= int.MaxValue)
+									intValue = (int)value;
+								break;
+							}
+						case TypeCode.Int64   :
+							{
+								var value = (Int64)Expr.Value;
+								if (value <= int.MaxValue)
+									intValue = (int)value;
+								break;
+							}
+						case TypeCode.UInt64  :
+							{
+								var value = (UInt64)Expr.Value;
+								if (value <= int.MaxValue)
+									intValue = (int)value;
+								break;
+							}
+						case TypeCode.Single  :
+							{
+								var value = (Single)Expr.Value;
+								if (value >= int.MinValue && value <= int.MaxValue)
+								{
+									var v = (int)value;
+									if ((Single)v == value)
+										intValue = v;
+								}
+								break;
+							}
+						case TypeCode.Double  :
+							{
+								var value = (Double)Expr.Value;
+								if (value >= int.MinValue && value <= int.MaxValue)
+								{
+									var v = (int)value;
+									if ((Double)v == value)
+										intValue = v;
+								}
+								break;
+							}
+						case TypeCode.Decimal :
+							{
+								var value = (Decimal)Expr.Value;
+								if (value >= int.MinValue && value <= int.MaxValue)
+								{
+									var v = (int)value;
+									if ((Decimal)v == value)
+										intValue = v;
+								}
+								break;
+							}
+					}
+				}
 			}
 		}
 
@@ -591,98 +669,95 @@ namespace Linq.Expressions.Deconstruct
 			if (expr == null)
 				return null;
 
-			switch (expr.NodeType)
+			return expr.NodeType switch
 			{
-				case ExpressionType.Add                   : return new Expr.Add                  ((BinaryExpression)expr);
-				case ExpressionType.AddChecked            : return new Expr.AddChecked           ((BinaryExpression)expr);
-				case ExpressionType.And                   : return new Expr.And                  ((BinaryExpression)expr);
-				case ExpressionType.AndAlso               : return new Expr.AndAlso              ((BinaryExpression)expr);
-				case ExpressionType.ArrayIndex            : return new Expr.ArrayIndex           ((BinaryExpression)expr);
-				case ExpressionType.Assign                : return new Expr.Assign               ((BinaryExpression)expr);
-				case ExpressionType.Coalesce              : return new Expr.Coalesce             ((BinaryExpression)expr);
-				case ExpressionType.Divide                : return new Expr.Divide               ((BinaryExpression)expr);
-				case ExpressionType.Equal                 : return new Expr.Equal                ((BinaryExpression)expr);
-				case ExpressionType.ExclusiveOr           : return new Expr.ExclusiveOr          ((BinaryExpression)expr);
-				case ExpressionType.GreaterThan           : return new Expr.GreaterThan          ((BinaryExpression)expr);
-				case ExpressionType.GreaterThanOrEqual    : return new Expr.GreaterThanOrEqual   ((BinaryExpression)expr);
-				case ExpressionType.LeftShift             : return new Expr.LeftShift            ((BinaryExpression)expr);
-				case ExpressionType.LessThan              : return new Expr.LessThan             ((BinaryExpression)expr);
-				case ExpressionType.LessThanOrEqual       : return new Expr.LessThanOrEqual      ((BinaryExpression)expr);
-				case ExpressionType.Modulo                : return new Expr.Modulo               ((BinaryExpression)expr);
-				case ExpressionType.Multiply              : return new Expr.Multiply             ((BinaryExpression)expr);
-				case ExpressionType.MultiplyChecked       : return new Expr.MultiplyChecked      ((BinaryExpression)expr);
-				case ExpressionType.NotEqual              : return new Expr.NotEqual             ((BinaryExpression)expr);
-				case ExpressionType.Or                    : return new Expr.Or                   ((BinaryExpression)expr);
-				case ExpressionType.OrElse                : return new Expr.OrElse               ((BinaryExpression)expr);
-				case ExpressionType.Power                 : return new Expr.Power                ((BinaryExpression)expr);
-				case ExpressionType.RightShift            : return new Expr.RightShift           ((BinaryExpression)expr);
-				case ExpressionType.Subtract              : return new Expr.Subtract             ((BinaryExpression)expr);
-				case ExpressionType.SubtractChecked       : return new Expr.SubtractChecked      ((BinaryExpression)expr);
-				case ExpressionType.AddAssign             : return new Expr.AddAssign            ((BinaryExpression)expr);
-				case ExpressionType.AndAssign             : return new Expr.AndAssign            ((BinaryExpression)expr);
-				case ExpressionType.DivideAssign          : return new Expr.DivideAssign         ((BinaryExpression)expr);
-				case ExpressionType.ExclusiveOrAssign     : return new Expr.ExclusiveOrAssign    ((BinaryExpression)expr);
-				case ExpressionType.LeftShiftAssign       : return new Expr.LeftShiftAssign      ((BinaryExpression)expr);
-				case ExpressionType.ModuloAssign          : return new Expr.ModuloAssign         ((BinaryExpression)expr);
-				case ExpressionType.MultiplyAssign        : return new Expr.MultiplyAssign       ((BinaryExpression)expr);
-				case ExpressionType.OrAssign              : return new Expr.OrAssign             ((BinaryExpression)expr);
-				case ExpressionType.PowerAssign           : return new Expr.PowerAssign          ((BinaryExpression)expr);
-				case ExpressionType.RightShiftAssign      : return new Expr.RightShiftAssign     ((BinaryExpression)expr);
-				case ExpressionType.SubtractAssign        : return new Expr.SubtractAssign       ((BinaryExpression)expr);
-				case ExpressionType.AddAssignChecked      : return new Expr.AddAssignChecked     ((BinaryExpression)expr);
-				case ExpressionType.MultiplyAssignChecked : return new Expr.MultiplyAssignChecked((BinaryExpression)expr);
-				case ExpressionType.SubtractAssignChecked : return new Expr.SubtractAssignChecked((BinaryExpression)expr);
-
-				case ExpressionType.ArrayLength           : return new Expr.ArrayLength          ((UnaryExpression)expr);
-				case ExpressionType.Convert               : return new Expr.Convert              ((UnaryExpression)expr);
-				case ExpressionType.ConvertChecked        : return new Expr.ConvertChecked       ((UnaryExpression)expr);
-				case ExpressionType.Negate                : return new Expr.Negate               ((UnaryExpression)expr);
-				case ExpressionType.NegateChecked         : return new Expr.NegateChecked        ((UnaryExpression)expr);
-				case ExpressionType.Not                   : return new Expr.Not                  ((UnaryExpression)expr);
-				case ExpressionType.Quote                 : return new Expr.Quote                ((UnaryExpression)expr);
-				case ExpressionType.TypeAs                : return new Expr.TypeAs               ((UnaryExpression)expr);
-				case ExpressionType.UnaryPlus             : return new Expr.UnaryPlus            ((UnaryExpression)expr);
-				case ExpressionType.Decrement             : return new Expr.Decrement            ((UnaryExpression)expr);
-				case ExpressionType.Increment             : return new Expr.Increment            ((UnaryExpression)expr);
-				case ExpressionType.IsFalse               : return new Expr.IsFalse              ((UnaryExpression)expr);
-				case ExpressionType.IsTrue                : return new Expr.IsTrue               ((UnaryExpression)expr);
-				case ExpressionType.Throw                 : return new Expr.Throw                ((UnaryExpression)expr);
-				case ExpressionType.Unbox                 : return new Expr.Unbox                ((UnaryExpression)expr);
-				case ExpressionType.PreIncrementAssign    : return new Expr.PreIncrementAssign   ((UnaryExpression)expr);
-				case ExpressionType.PreDecrementAssign    : return new Expr.PreDecrementAssign   ((UnaryExpression)expr);
-				case ExpressionType.PostIncrementAssign   : return new Expr.PostIncrementAssign  ((UnaryExpression)expr);
-				case ExpressionType.PostDecrementAssign   : return new Expr.PostDecrementAssign  ((UnaryExpression)expr);
-				case ExpressionType.OnesComplement        : return new Expr.OnesComplement       ((UnaryExpression)expr);
-
-				case ExpressionType.Call                  : return new Expr.Call                 ((MethodCallExpression)      expr);
-				case ExpressionType.Conditional           : return new Expr.Conditional          ((ConditionalExpression)     expr);
-				case ExpressionType.Invoke                : return new Expr.Invoke               ((InvocationExpression)      expr);
-				case ExpressionType.Lambda                : return new Expr.Lambda               ((LambdaExpression)          expr);
-				case ExpressionType.ListInit              : return new Expr.ListInit             ((ListInitExpression)        expr);
-				case ExpressionType.MemberAccess          : return new Expr.Member               ((MemberExpression)          expr);
-				case ExpressionType.MemberInit            : return new Expr.MemberInit           ((MemberInitExpression)      expr);
-				case ExpressionType.New                   : return new Expr.New                  ((NewExpression)             expr);
-				case ExpressionType.NewArrayBounds        : return new Expr.NewArrayBounds       ((NewArrayExpression)        expr);
-				case ExpressionType.NewArrayInit          : return new Expr.NewArrayInit         ((NewArrayExpression)        expr);
-				case ExpressionType.TypeEqual             : return new Expr.TypeEqual            ((TypeBinaryExpression)      expr);
-				case ExpressionType.TypeIs                : return new Expr.TypeIs               ((TypeBinaryExpression)      expr);
-				case ExpressionType.Block                 : return new Expr.Block                ((BlockExpression)           expr);
-				case ExpressionType.Dynamic               : return new Expr.Dynamic              ((DynamicExpression)         expr);
-				case ExpressionType.Goto                  : return new Expr.Goto                 ((GotoExpression)            expr);
-				case ExpressionType.Index                 : return new Expr.Index                ((IndexExpression)           expr);
-				case ExpressionType.Label                 : return new Expr.Label                ((LabelExpression)           expr);
-				case ExpressionType.RuntimeVariables      : return new Expr.RuntimeVariables     ((RuntimeVariablesExpression)expr);
-				case ExpressionType.Loop                  : return new Expr.Loop                 ((LoopExpression)            expr);
-				case ExpressionType.Switch                : return new Expr.Switch               ((SwitchExpression)          expr);
-				case ExpressionType.Try                   : return new Expr.Try                  ((TryExpression)             expr);
-				case ExpressionType.Extension             : return new Expr.Extension            (expr);
-				case ExpressionType.DebugInfo             : return new Expr.DebugInfo            ((DebugInfoExpression)       expr);
-				case ExpressionType.Parameter             : return new Expr.Parameter            ((ParameterExpression)       expr);
-				case ExpressionType.Constant              : return new Expr.Constant             ((ConstantExpression)        expr);
-				case ExpressionType.Default               : return new Expr.Default              ((DefaultExpression)        expr);
-			}
-
-			throw new InvalidOperationException();
+				ExpressionType.Add                   => new Expr.Add                       ((BinaryExpression)expr),
+				ExpressionType.AddChecked            => new Expr.AddChecked                ((BinaryExpression)expr),
+				ExpressionType.And                   => new Expr.And                       ((BinaryExpression)expr),
+				ExpressionType.AndAlso               => new Expr.AndAlso                   ((BinaryExpression)expr),
+				ExpressionType.ArrayIndex            => new Expr.ArrayIndex                ((BinaryExpression)expr),
+				ExpressionType.Assign                => new Expr.Assign                    ((BinaryExpression)expr),
+				ExpressionType.Coalesce              => new Expr.Coalesce                  ((BinaryExpression)expr),
+				ExpressionType.Divide                => new Expr.Divide                    ((BinaryExpression)expr),
+				ExpressionType.Equal                 => new Expr.Equal                     ((BinaryExpression)expr),
+				ExpressionType.ExclusiveOr           => new Expr.ExclusiveOr               ((BinaryExpression)expr),
+				ExpressionType.GreaterThan           => new Expr.GreaterThan               ((BinaryExpression)expr),
+				ExpressionType.GreaterThanOrEqual    => new Expr.GreaterThanOrEqual        ((BinaryExpression)expr),
+				ExpressionType.LeftShift             => new Expr.LeftShift                 ((BinaryExpression)expr),
+				ExpressionType.LessThan              => new Expr.LessThan                  ((BinaryExpression)expr),
+				ExpressionType.LessThanOrEqual       => new Expr.LessThanOrEqual           ((BinaryExpression)expr),
+				ExpressionType.Modulo                => new Expr.Modulo                    ((BinaryExpression)expr),
+				ExpressionType.Multiply              => new Expr.Multiply                  ((BinaryExpression)expr),
+				ExpressionType.MultiplyChecked       => new Expr.MultiplyChecked           ((BinaryExpression)expr),
+				ExpressionType.NotEqual              => new Expr.NotEqual                  ((BinaryExpression)expr),
+				ExpressionType.Or                    => new Expr.Or                        ((BinaryExpression)expr),
+				ExpressionType.OrElse                => new Expr.OrElse                    ((BinaryExpression)expr),
+				ExpressionType.Power                 => new Expr.Power                     ((BinaryExpression)expr),
+				ExpressionType.RightShift            => new Expr.RightShift                ((BinaryExpression)expr),
+				ExpressionType.Subtract              => new Expr.Subtract                  ((BinaryExpression)expr),
+				ExpressionType.SubtractChecked       => new Expr.SubtractChecked           ((BinaryExpression)expr),
+				ExpressionType.AddAssign             => new Expr.AddAssign                 ((BinaryExpression)expr),
+				ExpressionType.AndAssign             => new Expr.AndAssign                 ((BinaryExpression)expr),
+				ExpressionType.DivideAssign          => new Expr.DivideAssign              ((BinaryExpression)expr),
+				ExpressionType.ExclusiveOrAssign     => new Expr.ExclusiveOrAssign         ((BinaryExpression)expr),
+				ExpressionType.LeftShiftAssign       => new Expr.LeftShiftAssign           ((BinaryExpression)expr),
+				ExpressionType.ModuloAssign          => new Expr.ModuloAssign              ((BinaryExpression)expr),
+				ExpressionType.MultiplyAssign        => new Expr.MultiplyAssign            ((BinaryExpression)expr),
+				ExpressionType.OrAssign              => new Expr.OrAssign                  ((BinaryExpression)expr),
+				ExpressionType.PowerAssign           => new Expr.PowerAssign               ((BinaryExpression)expr),
+				ExpressionType.RightShiftAssign      => new Expr.RightShiftAssign          ((BinaryExpression)expr),
+				ExpressionType.SubtractAssign        => new Expr.SubtractAssign            ((BinaryExpression)expr),
+				ExpressionType.AddAssignChecked      => new Expr.AddAssignChecked          ((BinaryExpression)expr),
+				ExpressionType.MultiplyAssignChecked => new Expr.MultiplyAssignChecked     ((BinaryExpression)expr),
+				ExpressionType.SubtractAssignChecked => new Expr.SubtractAssignChecked     ((BinaryExpression)expr),
+				ExpressionType.ArrayLength           => new Expr.ArrayLength               ((UnaryExpression)expr),
+				ExpressionType.Convert               => new Expr.Convert                   ((UnaryExpression)expr),
+				ExpressionType.ConvertChecked        => new Expr.ConvertChecked            ((UnaryExpression)expr),
+				ExpressionType.Negate                => new Expr.Negate                    ((UnaryExpression)expr),
+				ExpressionType.NegateChecked         => new Expr.NegateChecked             ((UnaryExpression)expr),
+				ExpressionType.Not                   => new Expr.Not                       ((UnaryExpression)expr),
+				ExpressionType.Quote                 => new Expr.Quote                     ((UnaryExpression)expr),
+				ExpressionType.TypeAs                => new Expr.TypeAs                    ((UnaryExpression)expr),
+				ExpressionType.UnaryPlus             => new Expr.UnaryPlus                 ((UnaryExpression)expr),
+				ExpressionType.Decrement             => new Expr.Decrement                 ((UnaryExpression)expr),
+				ExpressionType.Increment             => new Expr.Increment                 ((UnaryExpression)expr),
+				ExpressionType.IsFalse               => new Expr.IsFalse                   ((UnaryExpression)expr),
+				ExpressionType.IsTrue                => new Expr.IsTrue                    ((UnaryExpression)expr),
+				ExpressionType.Throw                 => new Expr.Throw                     ((UnaryExpression)expr),
+				ExpressionType.Unbox                 => new Expr.Unbox                     ((UnaryExpression)expr),
+				ExpressionType.PreIncrementAssign    => new Expr.PreIncrementAssign        ((UnaryExpression)expr),
+				ExpressionType.PreDecrementAssign    => new Expr.PreDecrementAssign        ((UnaryExpression)expr),
+				ExpressionType.PostIncrementAssign   => new Expr.PostIncrementAssign       ((UnaryExpression)expr),
+				ExpressionType.PostDecrementAssign   => new Expr.PostDecrementAssign       ((UnaryExpression)expr),
+				ExpressionType.OnesComplement        => new Expr.OnesComplement            ((UnaryExpression)expr),
+				ExpressionType.Call                  => new Expr.Call                      ((MethodCallExpression)expr),
+				ExpressionType.Conditional           => new Expr.Conditional               ((ConditionalExpression)expr),
+				ExpressionType.Invoke                => new Expr.Invoke                    ((InvocationExpression)expr),
+				ExpressionType.Lambda                => new Expr.Lambda                    ((LambdaExpression)expr),
+				ExpressionType.ListInit              => new Expr.ListInit                  ((ListInitExpression)expr),
+				ExpressionType.MemberAccess          => new Expr.Member                    ((MemberExpression)expr),
+				ExpressionType.MemberInit            => new Expr.MemberInit                ((MemberInitExpression)expr),
+				ExpressionType.New                   => new Expr.New                       ((NewExpression)expr),
+				ExpressionType.NewArrayBounds        => new Expr.NewArrayBounds            ((NewArrayExpression)expr),
+				ExpressionType.NewArrayInit          => new Expr.NewArrayInit              ((NewArrayExpression)expr),
+				ExpressionType.TypeEqual             => new Expr.TypeEqual                 ((TypeBinaryExpression)expr),
+				ExpressionType.TypeIs                => new Expr.TypeIs                    ((TypeBinaryExpression)expr),
+				ExpressionType.Block                 => new Expr.Block                     ((BlockExpression)expr),
+				ExpressionType.Dynamic               => new Expr.Dynamic                   ((DynamicExpression)expr),
+				ExpressionType.Goto                  => new Expr.Goto                      ((GotoExpression)expr),
+				ExpressionType.Index                 => new Expr.Index                     ((IndexExpression)expr),
+				ExpressionType.Label                 => new Expr.Label                     ((LabelExpression)expr),
+				ExpressionType.RuntimeVariables      => new Expr.RuntimeVariables          ((RuntimeVariablesExpression)expr),
+				ExpressionType.Loop                  => new Expr.Loop                      ((LoopExpression)expr),
+				ExpressionType.Switch                => new Expr.Switch                    ((SwitchExpression)expr),
+				ExpressionType.Try                   => new Expr.Try                       ((TryExpression)expr),
+				ExpressionType.Extension             => new Expr.Extension                 (expr),
+				ExpressionType.DebugInfo             => new Expr.DebugInfo                 ((DebugInfoExpression)expr),
+				ExpressionType.Parameter             => new Expr.Parameter                 ((ParameterExpression)expr),
+				ExpressionType.Constant              => new Expr.Constant                  ((ConstantExpression)expr),
+				ExpressionType.Default               => new Expr.Default                   ((DefaultExpression)expr),
+				_                                    => throw new InvalidOperationException()
+			};
 		}
 
 		#endregion
@@ -729,7 +804,7 @@ namespace Linq.Expressions.Deconstruct
 		/// </summary>
 		/// <param name="expr"><see cref="Expression"/> to visit.</param>
 		/// <param name="func">Visit action.</param>
-		public static void Visit(this Expression expr, Action<Expression> func)
+		public static void Visit(this Expression? expr, Action<Expression> func)
 		{
 			VisitInternal(expr, func);
 		}
@@ -739,7 +814,7 @@ namespace Linq.Expressions.Deconstruct
 		/// </summary>
 		/// <param name="expr"><see cref="Expression"/> to visit.</param>
 		/// <param name="func">Visit action.</param>
-		public static void VisitEx(this Expression expr, Action<Expr> func)
+		public static void VisitEx(this Expression? expr, Action<Expr> func)
 		{
 			VisitInternal(expr, ex => func(ex.ToExpr()!));
 		}
@@ -757,7 +832,7 @@ namespace Linq.Expressions.Deconstruct
 				VisitInternal(item, func);
 		}
 
-		static void VisitInternal(this Expression expr, Action<Expression> func)
+		static void VisitInternal(this Expression? expr, Action<Expression> func)
 		{
 			if (expr == null)
 				return;
@@ -807,8 +882,8 @@ namespace Linq.Expressions.Deconstruct
 					var e = (BinaryExpression)expr;
 
 					VisitInternal(e.Conversion, func);
-					VisitInternal(e.Left, func);
-					VisitInternal(e.Right, func);
+					VisitInternal(e.Left,       func);
+					VisitInternal(e.Right,      func);
 
 					break;
 				}
@@ -842,7 +917,7 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (MethodCallExpression)expr;
 
-					VisitInternal(e.Object, func);
+					VisitInternal(e.Object,    func);
 					VisitInternal(e.Arguments, func);
 
 					break;
@@ -852,8 +927,8 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (ConditionalExpression)expr;
 
-					VisitInternal(e.Test, func);
-					VisitInternal(e.IfTrue, func);
+					VisitInternal(e.Test,    func);
+					VisitInternal(e.IfTrue,  func);
 					VisitInternal(e.IfFalse, func);
 
 					break;
@@ -864,7 +939,7 @@ namespace Linq.Expressions.Deconstruct
 					var e = (InvocationExpression)expr;
 
 					VisitInternal(e.Expression, func);
-					VisitInternal(e.Arguments, func);
+					VisitInternal(e.Arguments,  func);
 
 					break;
 				}
@@ -916,7 +991,7 @@ namespace Linq.Expressions.Deconstruct
 					var e = (MemberInitExpression)expr;
 
 					VisitInternal(e.NewExpression, func);
-					VisitInternal(e.Bindings, Action);
+					VisitInternal(e.Bindings,      Action);
 
 					break;
 				}
@@ -940,7 +1015,7 @@ namespace Linq.Expressions.Deconstruct
 					var e = (BlockExpression)expr;
 
 					VisitInternal(e.Expressions, func);
-					VisitInternal(e.Variables, func);
+					VisitInternal(e.Variables,   func);
 
 					break;
 				}
@@ -967,7 +1042,7 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (IndexExpression)expr;
 
-					VisitInternal(e.Object, func);
+					VisitInternal(e.Object,    func);
 					VisitInternal(e.Arguments, func);
 
 					break;
@@ -1009,7 +1084,7 @@ namespace Linq.Expressions.Deconstruct
 						e.Cases, cs =>
 						{
 							VisitInternal(cs.TestValues, func);
-							VisitInternal(cs.Body, func);
+							VisitInternal(cs.Body,       func);
 						});
 					VisitInternal(e.DefaultBody, func);
 
@@ -1025,11 +1100,11 @@ namespace Linq.Expressions.Deconstruct
 						e.Handlers, h =>
 						{
 							VisitInternal(h.Variable, func);
-							VisitInternal(h.Filter, func);
-							VisitInternal(h.Body, func);
+							VisitInternal(h.Filter,   func);
+							VisitInternal(h.Body,     func);
 						});
 					VisitInternal(e.Finally, func);
-					VisitInternal(e.Fault, func);
+					VisitInternal(e.Fault,   func);
 
 					break;
 				}
@@ -1063,12 +1138,12 @@ namespace Linq.Expressions.Deconstruct
 		/// </summary>
 		/// <param name="expr"><see cref="Expression"/> to visit.</param>
 		/// <param name="func">Visit function. Return true to stop.</param>
-		public static void Visit(this Expression expr, Func<Expression, bool> func)
+		public static void Visit(this Expression? expr, Func<Expression, bool> func)
 		{
 			VisitInternal(expr, func);
 		}
 
-		static void VisitInternal(this Expression expr, Func<Expression, bool> func)
+		static void VisitInternal(this Expression? expr, Func<Expression, bool> func)
 		{
 			if (expr == null || !func(expr))
 				return;
@@ -1118,8 +1193,8 @@ namespace Linq.Expressions.Deconstruct
 					var e = (BinaryExpression)expr;
 
 					VisitInternal(e.Conversion, func);
-					VisitInternal(e.Left, func);
-					VisitInternal(e.Right, func);
+					VisitInternal(e.Left,       func);
+					VisitInternal(e.Right,      func);
 
 					break;
 				}
@@ -1153,7 +1228,7 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (MethodCallExpression)expr;
 
-					VisitInternal(e.Object, func);
+					VisitInternal(e.Object,    func);
 					VisitInternal(e.Arguments, func);
 
 					break;
@@ -1163,8 +1238,8 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (ConditionalExpression)expr;
 
-					VisitInternal(e.Test, func);
-					VisitInternal(e.IfTrue, func);
+					VisitInternal(e.Test,    func);
+					VisitInternal(e.IfTrue,  func);
 					VisitInternal(e.IfFalse, func);
 
 					break;
@@ -1175,7 +1250,7 @@ namespace Linq.Expressions.Deconstruct
 					var e = (InvocationExpression)expr;
 
 					VisitInternal(e.Expression, func);
-					VisitInternal(e.Arguments, func);
+					VisitInternal(e.Arguments,  func);
 
 					break;
 				}
@@ -1184,7 +1259,7 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (LambdaExpression)expr;
 
-					VisitInternal(e.Body, func);
+					VisitInternal(e.Body,       func);
 					VisitInternal(e.Parameters, func);
 
 					break;
@@ -1251,12 +1326,10 @@ namespace Linq.Expressions.Deconstruct
 					var e = (BlockExpression)expr;
 
 					VisitInternal(e.Expressions, func);
-					VisitInternal(e.Variables, func);
+					VisitInternal(e.Variables,   func);
 
 					break;
 				}
-
-#if !LESSTHAN_NETSTANDARD20
 
 				case ExpressionType.Dynamic:
 				{
@@ -1266,8 +1339,6 @@ namespace Linq.Expressions.Deconstruct
 
 					break;
 				}
-
-#endif
 
 				case ExpressionType.Goto:
 				{
@@ -1282,7 +1353,7 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (IndexExpression)expr;
 
-					VisitInternal(e.Object, func);
+					VisitInternal(e.Object,    func);
 					VisitInternal(e.Arguments, func);
 
 					break;
@@ -1324,7 +1395,7 @@ namespace Linq.Expressions.Deconstruct
 						e.Cases, cs =>
 						{
 							VisitInternal(cs.TestValues, func);
-							VisitInternal(cs.Body, func);
+							VisitInternal(cs.Body,       func);
 						});
 					VisitInternal(e.DefaultBody, func);
 
@@ -1340,11 +1411,11 @@ namespace Linq.Expressions.Deconstruct
 						e.Handlers, h =>
 						{
 							VisitInternal(h.Variable, func);
-							VisitInternal(h.Filter, func);
-							VisitInternal(h.Body, func);
+							VisitInternal(h.Filter,   func);
+							VisitInternal(h.Body,     func);
 						});
 					VisitInternal(e.Finally, func);
-					VisitInternal(e.Fault, func);
+					VisitInternal(e.Fault,   func);
 
 					break;
 				}
@@ -1367,7 +1438,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
 		/// <param name="func">Find function. Return true if expression is found.</param>
 		/// <returns>Found expression or null.</returns>
-		public static Expression? FindEx(this Expression expr, Func<Expr,bool> func)
+		public static Expression? FindEx(this Expression? expr, Func<Expr,bool> func)
 		{
 			return FindInternal(expr, ex => func(ex.ToExpr()!));
 		}
@@ -1389,7 +1460,8 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
 		/// <param name="func">Find function. Return true if expression is found.</param>
 		/// <returns>Found expression or null.</returns>
-		public static Expression? Find(this Expression expr, Func<Expression, bool> func)
+		[return: NotNullIfNotNull("expr")]
+		public static Expression? Find(this Expression? expr, Func<Expression, bool> func)
 		{
 			return FindInternal(expr, func);
 		}
@@ -1410,16 +1482,11 @@ namespace Linq.Expressions.Deconstruct
 			where T : Expression
 		{
 			foreach (var item in source)
-			{
-				var f = FindInternal(item, func);
-				if (f != null)
-					return f;
-			}
-
+				return FindInternal(item, func);
 			return null;
 		}
 
-		static Expression? FindInternal(this Expression? expr, Func<Expression, bool> func)
+		static Expression? FindInternal(this Expression? expr, Func<Expression,bool> func)
 		{
 			if (expr == null || func(expr))
 				return expr;
@@ -1522,8 +1589,7 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.ListInit:
 				{
 					var e = (ListInitExpression)expr;
-					return FindInternal(e.NewExpression, func) ??
-						FindInternal(e.Initializers, ex => FindInternal(ex.Arguments, func));
+					return FindInternal(e.NewExpression, func) ?? FindInternal(e.Initializers, ex => FindInternal(ex.Arguments, func));
 				}
 
 				case ExpressionType.MemberAccess:
@@ -1636,15 +1702,15 @@ namespace Linq.Expressions.Deconstruct
 		#region Transform
 
 		public static T TransformEx<T>(this T expr, Func<Expr,Expr> func)
-			where T : notnull, LambdaExpression
+			where T : LambdaExpression
 		{
-			return (T)(TransformInternal(expr, ex => func(ex.ToExpr()!)) ?? throw new InvalidOperationException());
+			return (T)TransformInternal(expr, ex => func(ex.ToExpr()));
 		}
 
 		[return: NotNullIfNotNull("expr")]
 		public static Expression? TransformEx(this Expression? expr, Func<Expr,Expr> func)
 		{
-			return TransformInternal(expr, ex => func(ex.ToExpr()!));
+			return TransformInternal(expr, ex => func(ex.ToExpr()));
 		}
 
 		/// <summary>
@@ -1655,9 +1721,9 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="func">Transform function.</param>
 		/// <returns>Modified expression.</returns>
 		public static T Transform<T>(this T expr, Func<Expression,Expression> func)
-			where T : notnull, LambdaExpression
+			where T : LambdaExpression
 		{
-			return (T)(TransformInternal(expr, func) ?? throw new InvalidOperationException());
+			return (T)(TransformInternal(expr, func));
 		}
 
 		/// <summary>
@@ -2024,11 +2090,11 @@ namespace Linq.Expressions.Deconstruct
 
 		class EqualsToInfo
 		{
-			public HashSet<Expression> Visited = new HashSet<Expression>();
-			public bool                CompareConstantValues;
+			public readonly HashSet<Expression> Visited = new HashSet<Expression>();
+			public bool                         CompareConstantValues;
 		}
 
-		static bool EqualsTo(this Expression expr1, Expression expr2, EqualsToInfo info)
+		static bool EqualsTo(this Expression? expr1, Expression? expr2, EqualsToInfo info)
 		{
 			if (expr1 == expr2)
 				return true;
@@ -2314,7 +2380,7 @@ namespace Linq.Expressions.Deconstruct
 			if (expr1.Bindings.Count != expr2.Bindings.Count || !expr1.NewExpression.EqualsTo(expr2.NewExpression, info))
 				return false;
 
-			bool CompareBindings(MemberBinding b1, MemberBinding b2)
+			bool CompareBindings(MemberBinding? b1, MemberBinding? b2)
 			{
 				if (b1 == b2)
 					return true;
@@ -2487,10 +2553,8 @@ namespace Linq.Expressions.Deconstruct
 				using (enum2 as IDisposable)
 				{
 					while (enum1.MoveNext())
-					{
 						if (!enum2.MoveNext() || !object.Equals(enum1.Current, enum2.Current))
 							return false;
-					}
 
 					if (enum2.MoveNext())
 						return false;

@@ -124,14 +124,14 @@ namespace Linq.Expressions.Deconstruct
 			[return: NotNullIfNotNull("expr")]
 			public static implicit operator <#= item #>?(BinaryExpression? expr) => expr == null ? null : new <#= item #>(expr);
 
-			public void Deconstruct(out Type type, out Expr? left, out Expr? right)
+			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
 			}
 
-			public void Deconstruct(out Expr? left, out Expr? right)
+			public void Deconstruct(out Expr left, out Expr right)
 			{
 				left  = Expr.Left. ToExpr();
 				right = Expr.Right.ToExpr();
