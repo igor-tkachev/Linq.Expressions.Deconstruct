@@ -15,7 +15,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>System.Linq.Expressions Linq Expressions Deconstruct</PackageTags>
 		<Description>Pattern matching support for System.Linq.Expressions.</Description>
-		<Version>1.0.5</Version>
+		<Version>1.0.6</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
