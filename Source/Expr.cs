@@ -23,7 +23,7 @@ namespace System.Diagnostics.CodeAnalysis
 	}
 
 	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue, Inherited = false)]
-	public sealed class NotNullAttribute : Attribute
+	internal sealed class NotNullAttribute : Attribute
 	{
 	}
 
@@ -67,6 +67,15 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Call
 		{
+			public void Deconstruct(out bool isGeneric, out Type type, out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expression> arguments)
+			{
+				isGeneric = Expr.Method.IsGenericMethod;
+				type      = Expr.Type;
+				method    = isGeneric ? Expr.Method.GetGenericMethodDefinition() : Expr.Method;
+				@object   = Expr.Object.ToExpr();
+				arguments = Expr.Arguments;
+			}
+
 			public void Deconstruct(out Type type, out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expression> arguments)
 			{
 				type      = Expr.Type;
@@ -1701,16 +1710,57 @@ namespace Linq.Expressions.Deconstruct
 
 		#region Transform
 
+		/// <summary>
+		/// Transforms original expression.
+		/// </summary>
+		/// <typeparam name="T">Type of expression.</typeparam>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
+		/// <param name="forward">If True, scans expression tree forward.</param>
+		/// <returns>Modified expression.</returns>
+		public static T TransformEx<T>(this T expr, bool forward, Func<Expr,Expr> func)
+			where T : LambdaExpression
+		{
+			return (T)TransformInternal(expr, forward, ex => func(ex.ToExpr()));
+		}
+
+		/// <summary>
+		/// Transforms original expression. The expression tree is scanned backward.
+		/// </summary>
+		/// <typeparam name="T">Type of expression.</typeparam>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
+		/// <returns>Modified expression.</returns>
 		public static T TransformEx<T>(this T expr, Func<Expr,Expr> func)
 			where T : LambdaExpression
 		{
-			return (T)TransformInternal(expr, ex => func(ex.ToExpr()));
+			return (T)TransformInternal(expr, false, ex => func(ex.ToExpr()));
 		}
 
+		/// <summary>
+		/// Transforms original expression.
+		/// </summary>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
+		/// <param name="forward">If True, scans expression tree forward.</param>
+		/// <returns>Modified expression.</returns>
+		[return: NotNullIfNotNull("expr")]
+		public static Expression? TransformEx(this Expression? expr, bool forward, Func<Expr,Expr> func)
+		{
+			return TransformInternal(expr, forward, ex => func(ex.ToExpr()));
+		}
+
+		/// <summary>
+		/// Transforms original expression. The expression tree is scanned backward.
+		/// </summary>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
+		/// <returns>Modified expression.</returns>
+		[return: NotNullIfNotNull("expr")]
 		[return: NotNullIfNotNull("expr")]
 		public static Expression? TransformEx(this Expression? expr, Func<Expr,Expr> func)
 		{
-			return TransformInternal(expr, ex => func(ex.ToExpr()));
+			return TransformInternal(expr, false, ex => func(ex.ToExpr()));
 		}
 
 		/// <summary>
@@ -1719,11 +1769,25 @@ namespace Linq.Expressions.Deconstruct
 		/// <typeparam name="T">Type of expression.</typeparam>
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
+		/// <param name="forward">If True, scans expression tree forward.</param>
+		/// <returns>Modified expression.</returns>
+		public static T Transform<T>(this T expr, bool forward, Func<Expression,Expression> func)
+			where T : LambdaExpression
+		{
+			return (T)(TransformInternal(expr, forward, func));
+		}
+
+		/// <summary>
+		/// Transforms original expression. The expression tree is scanned backward.
+		/// </summary>
+		/// <typeparam name="T">Type of expression.</typeparam>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
 		/// <returns>Modified expression.</returns>
 		public static T Transform<T>(this T expr, Func<Expression,Expression> func)
 			where T : LambdaExpression
 		{
-			return (T)(TransformInternal(expr, func));
+			return (T)(TransformInternal(expr, false, func));
 		}
 
 		/// <summary>
@@ -1731,11 +1795,24 @@ namespace Linq.Expressions.Deconstruct
 		/// </summary>
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
+		/// <param name="forward">If True, scans expression tree forward.</param>
+		/// <returns>Modified expression.</returns>
+		[return: NotNullIfNotNull("expr")]
+		public static Expression? Transform(this Expression? expr, bool forward, Func<Expression,Expression> func)
+		{
+			return TransformInternal(expr, forward, func);
+		}
+
+		/// <summary>
+		/// Transforms original expression. The expression tree is scanned backward.
+		/// </summary>
+		/// <param name="expr">Expression to transform.</param>
+		/// <param name="func">Transform function.</param>
 		/// <returns>Modified expression.</returns>
 		[return: NotNullIfNotNull("expr")]
 		public static Expression? Transform(this Expression? expr, Func<Expression,Expression> func)
 		{
-			return TransformInternal(expr, func);
+			return TransformInternal(expr, false, func);
 		}
 
 		static IEnumerable<T> TransformInternal<T>(ICollection<T> source, Func<T,T> func)
@@ -1754,7 +1831,7 @@ namespace Linq.Expressions.Deconstruct
 			return modified ? list : source;
 		}
 
-		static IEnumerable<T> TransformInternal<T>(ICollection<T> source, Func<Expression,Expression> func)
+		static IEnumerable<T> TransformInternal<T>(ICollection<T> source, Func<Expression,Expression> func, bool forward)
 			where T : Expression
 		{
 			var modified = false;
@@ -1762,7 +1839,7 @@ namespace Linq.Expressions.Deconstruct
 
 			foreach (var item in source)
 			{
-				var e = TransformInternal(item, func);
+				var e = TransformInternal(item, forward, func);
 				list.Add((T?)e);
 				modified = modified || e != item;
 			}
@@ -1771,10 +1848,17 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		[return: NotNullIfNotNull("expr")]
-		static Expression? TransformInternal(this Expression? expr, Func<Expression,Expression> func)
+		static Expression? TransformInternal(this Expression? expr, bool forward, Func<Expression,Expression> func)
 		{
 			if (expr == null)
 				return null;
+
+			if (forward)
+			{
+				var ex = func(expr);
+				if (ex != expr)
+					return ex;
+			}
 
 			switch (expr.NodeType)
 			{
@@ -1820,9 +1904,9 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (BinaryExpression)expr;
 					expr = e.Update(
-						TransformInternal(e.Left, func),
-						(LambdaExpression?)TransformInternal(e.Conversion, func),
-						TransformInternal(e.Right, func));
+						TransformInternal(e.Left, forward, func),
+						(LambdaExpression?)TransformInternal(e.Conversion, forward, func),
+						TransformInternal(e.Right, forward, func));
 					break;
 				}
 
@@ -1848,7 +1932,7 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.OnesComplement:
 				{
 					var e = (UnaryExpression)expr;
-					expr = e.Update(TransformInternal(e.Operand, func));
+					expr = e.Update(TransformInternal(e.Operand, forward, func));
 					break;
 				}
 
@@ -1856,8 +1940,8 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (MethodCallExpression)expr;
 					expr = e.Update(
-						TransformInternal(e.Object, func),
-						TransformInternal(e.Arguments, func));
+						TransformInternal(e.Object, forward, func),
+						TransformInternal(e.Arguments, func, forward));
 					break;
 				}
 
@@ -1865,9 +1949,9 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (ConditionalExpression)expr;
 					expr = e.Update(
-						TransformInternal(e.Test, func),
-						TransformInternal(e.IfTrue, func),
-						TransformInternal(e.IfFalse, func));
+						TransformInternal(e.Test, forward, func),
+						TransformInternal(e.IfTrue, forward, func),
+						TransformInternal(e.IfFalse, forward, func));
 					break;
 				}
 
@@ -1875,16 +1959,16 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (InvocationExpression)expr;
 					expr = e.Update(
-						TransformInternal(e.Expression, func),
-						TransformInternal(e.Arguments, func));
+						TransformInternal(e.Expression, forward, func),
+						TransformInternal(e.Arguments, func, forward));
 					break;
 				}
 
 				case ExpressionType.Lambda:
 				{
 					var e = (LambdaExpression)expr;
-					var b = TransformInternal(e.Body, func);
-					var p = TransformInternal(e.Parameters, func);
+					var b = TransformInternal(e.Body, forward, func);
+					var p = TransformInternal(e.Parameters, func, forward);
 
 					expr = b != e.Body || !ReferenceEquals(p, e.Parameters) ? Expression.Lambda(expr.Type, b, p.ToArray()) : expr;
 					break;
@@ -1894,11 +1978,11 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (ListInitExpression)expr;
 					expr = e.Update(
-						(NewExpression?)TransformInternal(e.NewExpression, func),
+						(NewExpression?)TransformInternal(e.NewExpression, forward, func),
 						TransformInternal(
 							e.Initializers, p =>
 							{
-								var args = TransformInternal(p.Arguments, func);
+								var args = TransformInternal(p.Arguments, func, forward);
 								return !ReferenceEquals(args, p.Arguments) ? Expression.ElementInit(p.AddMethod, args) : p;
 							}));
 					break;
@@ -1907,7 +1991,7 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.MemberAccess:
 				{
 					var e = (MemberExpression)expr;
-					expr = e.Update(TransformInternal(e.Expression, func));
+					expr = e.Update(TransformInternal(e.Expression, forward, func));
 					break;
 				}
 
@@ -1920,7 +2004,7 @@ namespace Linq.Expressions.Deconstruct
 							case MemberBindingType.Assignment:
 							{
 								var ma = (MemberAssignment)b;
-								return ma.Update(TransformInternal(ma.Expression, func));
+								return ma.Update(TransformInternal(ma.Expression, forward, func));
 							}
 
 							case MemberBindingType.ListBinding:
@@ -1928,7 +2012,7 @@ namespace Linq.Expressions.Deconstruct
 								var ml = (MemberListBinding)b;
 								return ml.Update(TransformInternal(ml.Initializers, p =>
 								{
-									var args = TransformInternal(p.Arguments, func);
+									var args = TransformInternal(p.Arguments, func, forward);
 									return !ReferenceEquals(args, p.Arguments) ? Expression.ElementInit(p.AddMethod, args) : p;
 								}));
 							}
@@ -1945,7 +2029,7 @@ namespace Linq.Expressions.Deconstruct
 
 					var e = (MemberInitExpression)expr;
 					expr = e.Update(
-						(NewExpression?)TransformInternal(e.NewExpression, func),
+						(NewExpression?)TransformInternal(e.NewExpression, forward, func),
 						TransformInternal(e.Bindings, Modify));
 					break;
 				}
@@ -1953,7 +2037,7 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.New:
 				{
 					var e = (NewExpression)expr;
-					expr = e.Update(TransformInternal(e.Arguments, func));
+					expr = e.Update(TransformInternal(e.Arguments, func, forward));
 					break;
 				}
 
@@ -1961,7 +2045,7 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.NewArrayInit:
 				{
 					var e = (NewArrayExpression)expr;
-					expr = e.Update(TransformInternal(e.Expressions, func));
+					expr = e.Update(TransformInternal(e.Expressions, func, forward));
 					break;
 				}
 
@@ -1969,7 +2053,7 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.TypeIs:
 				{
 					var e = (TypeBinaryExpression)expr;
-					expr = e.Update(TransformInternal(e.Expression, func));
+					expr = e.Update(TransformInternal(e.Expression, forward, func));
 					break;
 				}
 
@@ -1977,8 +2061,8 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (BlockExpression)expr;
 					expr = e.Update(
-						TransformInternal(e.Variables, func),
-						TransformInternal(e.Expressions, func));
+						TransformInternal(e.Variables, func, forward),
+						TransformInternal(e.Expressions, func, forward));
 					break;
 				}
 
@@ -1992,14 +2076,14 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.Dynamic:
 				{
 					var e = (DynamicExpression)expr;
-					expr = e.Update(TransformInternal(e.Arguments, func));
+					expr = e.Update(TransformInternal(e.Arguments, func, forward));
 					break;
 				}
 
 				case ExpressionType.Goto:
 				{
 					var e = (GotoExpression)expr;
-					expr = e.Update(e.Target, TransformInternal(e.Value, func));
+					expr = e.Update(e.Target, TransformInternal(e.Value, forward, func));
 					break;
 				}
 
@@ -2007,29 +2091,29 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (IndexExpression)expr;
 					expr = e.Update(
-						TransformInternal(e.Object, func),
-						TransformInternal(e.Arguments, func));
+						TransformInternal(e.Object, forward, func),
+						TransformInternal(e.Arguments, func, forward));
 					break;
 				}
 
 				case ExpressionType.Label:
 				{
 					var e = (LabelExpression)expr;
-					expr = e.Update(e.Target, TransformInternal(e.DefaultValue, func));
+					expr = e.Update(e.Target, TransformInternal(e.DefaultValue, forward, func));
 					break;
 				}
 
 				case ExpressionType.RuntimeVariables:
 				{
 					var e = (RuntimeVariablesExpression)expr;
-					expr = e.Update(TransformInternal(e.Variables, func));
+					expr = e.Update(TransformInternal(e.Variables, func, forward));
 					break;
 				}
 
 				case ExpressionType.Loop:
 				{
 					var e = (LoopExpression)expr;
-					expr = e.Update(e.BreakLabel, e.ContinueLabel, TransformInternal(e.Body, func));
+					expr = e.Update(e.BreakLabel, e.ContinueLabel, TransformInternal(e.Body, forward, func));
 					break;
 				}
 
@@ -2037,10 +2121,10 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (SwitchExpression)expr;
 					expr = e.Update(
-						TransformInternal(e.SwitchValue, func),
+						TransformInternal(e.SwitchValue, forward, func),
 						TransformInternal(
-							e.Cases, cs => cs.Update(TransformInternal(cs.TestValues, func), TransformInternal(cs.Body, func))),
-						TransformInternal(e.DefaultBody, func));
+							e.Cases, cs => cs.Update(TransformInternal(cs.TestValues, func, forward), TransformInternal(cs.Body, forward, func))),
+						TransformInternal(e.DefaultBody, forward, func));
 					break;
 				}
 
@@ -2048,20 +2132,20 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (TryExpression)expr;
 					expr = e.Update(
-						TransformInternal(e.Body, func),
+						TransformInternal(e.Body, forward, func),
 						TransformInternal(
 							e.Handlers,
 							h =>
 								h.Update(
-									(ParameterExpression?)TransformInternal(h.Variable, func), TransformInternal(h.Filter, func),
-									TransformInternal(h.Body, func))),
-						TransformInternal(e.Finally, func),
-						TransformInternal(e.Fault, func));
+									(ParameterExpression?)TransformInternal(h.Variable, forward, func), TransformInternal(h.Filter, forward, func),
+									TransformInternal(h.Body, forward, func))),
+						TransformInternal(e.Finally, forward, func),
+						TransformInternal(e.Fault, forward, func));
 					break;
 				}
 			}
 
-			return expr == null ? null : func(expr);
+			return expr == null || forward ? expr : func(expr);
 		}
 
 		#endregion
