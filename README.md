@@ -12,7 +12,7 @@ public void MatchTest()
 
     switch (f.ToExpr())
     {
-        case Lambda(Multiply(Parameter("i") p1, Constant(2)), (1, ("i") p2))
+        case Lambda(Multiply(Parameter("i") p1, Constant(2)), [("i") p2])
             when p1 == p2 :
             Console.WriteLine("Pattern Matched!");
             break;

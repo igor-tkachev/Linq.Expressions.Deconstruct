@@ -207,6 +207,9 @@ namespace Linq.Expressions.Deconstruct
 		new { TItem = "MemberInfo",          PItem = "MemberInfo",     BConvert = "", AConvert = "" },
 		new { TItem = "Expression",          PItem = "Expr",           BConvert = "", AConvert = ".ToExpr()" },
 		new { TItem = "ParameterExpression", PItem = "Expr.Parameter", BConvert = "new Expr.Parameter(", AConvert = ")" },
+
+		new { TItem = "Expr",                PItem = "Expr",           BConvert = "", AConvert = "" },
+		new { TItem = "Expr.Parameter",      PItem = "Expr.Parameter", BConvert = "", AConvert = "" },
 	})
 	{
 		var max = 10;

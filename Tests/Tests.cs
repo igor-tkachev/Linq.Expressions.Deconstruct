@@ -21,7 +21,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			switch (f.ToExpr())
 			{
-				case Lambda(Multiply(Parameter("i") p1, Constant(2)), (1, ("i") p2))
+				case Lambda(Multiply(Parameter("i") p1, Constant(2)), [("i") p2])
 					when p1 == p2 :
 					Console.WriteLine("Pattern Matched!");
 					break;
@@ -36,7 +36,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 		[Test]
 		public void ConditionalMatchTest()
 		{
-			Expression<Func<int,string>> f = i => i == 0 ? i.ToString() : "2";
+			Expression<Func<int,string>> f = i => i == 0 ? i.ToString("C") : "2";
 
 			switch (f.ToExpr())
 			{
@@ -45,7 +45,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 						Equal(
 							Parameter("i") p1,
 							Constant(0)),
-						Call({ Name : "ToString" }, Parameter("i") p2, { Count : 0 }),
+						Call({ Name : "ToString" }, Parameter("i") p2, [Constant("C")]),
 						Constant("2")),
 					(1, ("i") p3))
 					when p1 == p2 && p1 == p3 :
@@ -68,9 +68,9 @@ namespace Linq.Expressions.Deconstruct.Tests
 			{
 				case Lambda(
 					New(
-						(2, { Name : "i"},  { Name : "a" }),
-						(2, Parameter("i"), Multiply(Parameter("i"), Constant(4)))),
-					(1, ("i") _)) :
+						[{ Name : "i"},  { Name : "a" }],
+						[Parameter("i"), Multiply(Parameter("i"), Constant(4))]),
+					[("i") _]) :
 					Console.WriteLine("Pattern Matched!");
 					break;
 				default:
@@ -89,9 +89,8 @@ namespace Linq.Expressions.Deconstruct.Tests
 			switch (f.ToExpr())
 			{
 				case Lambda(
-					NewArrayInit(
-						(2, Parameter("s"), Add(Parameter("s"), Constant("4")))),
-					(1, ("s") _)) :
+					NewArrayInit([Parameter("s"), Add(Parameter("s"), Constant("4"))]),
+					[("s") _]) :
 					Console.WriteLine("Pattern Matched!");
 					break;
 				default:
@@ -105,16 +104,15 @@ namespace Linq.Expressions.Deconstruct.Tests
 		[Test]
 		public void ListInitMatchTest()
 		{
-			Expression<Func<string,System.Collections.Generic.List<string>>> f =
-				s => new System.Collections.Generic.List<string>(2) { s, s + "4" };
+			Expression<Func<string,System.Collections.Generic.List<string>>> f = s => new (2) { s, s + "4" };
 
 			switch (f.ToExpr())
 			{
 				case Lambda(
 					ListInit(
 						New((1, Constant(2))),
-						(2, ElementInit((1, Parameter("s"))), ElementInit((1, Add(Parameter("s"), Constant("4")))))),
-					(1, Parameter("s"))) :
+						[([Parameter("s")]) _, ([Add(Parameter("s"), Constant("4"))]) _]),
+					[Parameter("s")]) :
 					Console.WriteLine("Pattern Matched!");
 					break;
 				default:

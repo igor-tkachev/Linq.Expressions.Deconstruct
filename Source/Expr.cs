@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace System.Diagnostics.CodeAnalysis
 {
-	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true, Inherited = false)]
+	[AttributeUsage(AttributeTargets.ReturnValue, AllowMultiple = true, Inherited = false)]
 	internal sealed class NotNullIfNotNullAttribute : Attribute
 	{
 		public NotNullIfNotNullAttribute(string parameterName)
@@ -41,15 +41,12 @@ namespace Linq.Expressions.Deconstruct
 		public override string ToString   () => GetExpression().ToString();
 		public override int    GetHashCode() => GetExpression().GetHashCode();
 
-		public override bool Equals(object? obj)
+		public override bool Equals(object? obj) => obj switch
 		{
-			switch (obj)
-			{
-				case Expr       ex   : return GetExpression().Equals(ex.GetExpression());
-				case Expression expr : return GetExpression().Equals(expr);
-				default              : return false;
-			}
-		}
+			Expr       ex => GetExpression().Equals(ex.GetExpression()),
+			Expression ex => GetExpression().Equals(ex),
+			_             => false
+		};
 
 		public static bool operator ==(Expr left, Expr right) => Equals(left, right);
 		public static bool operator !=(Expr left, Expr right) => !Equals(left, right);
@@ -66,28 +63,28 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Call
 		{
-			public void Deconstruct(out bool isGeneric, out Type type, out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(out bool isGeneric, out Type type, out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expr> arguments)
 			{
 				isGeneric = Expr.Method.IsGenericMethod;
 				type      = Expr.Type;
 				method    = isGeneric ? Expr.Method.GetGenericMethodDefinition() : Expr.Method;
-				@object   = Expr.Object.ToExpr();
-				arguments = Expr.Arguments;
+				@object   = Expr.Object.   ToExpr();
+				arguments = Expr.Arguments.ToExpr();
 			}
 
-			public void Deconstruct(out Type type, out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(out Type type, out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expr> arguments)
 			{
 				type      = Expr.Type;
 				method    = Expr.Method;
-				@object   = Expr.Object.ToExpr();
-				arguments = Expr.Arguments;
+				@object   = Expr.Object.   ToExpr();
+				arguments = Expr.Arguments.ToExpr();
 			}
 
-			public void Deconstruct(out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expr> arguments)
 			{
 				method    = Expr.Method;
-				@object   = Expr.Object.ToExpr();
-				arguments = Expr.Arguments;
+				@object   = Expr.Object.   ToExpr();
+				arguments = Expr.Arguments.ToExpr();
 			}
 		}
 
@@ -119,17 +116,17 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Invoke
 		{
-			public void Deconstruct(out Type type, out Expr expression, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(out Type type, out Expr expression, out ReadOnlyCollection<Expr> arguments)
 			{
 				type       = Expr.Type;
 				expression = Expr.Expression.ToExpr()!;
-				arguments  = Expr.Arguments;
+				arguments  = Expr.Arguments. ToExpr();
 			}
 
-			public void Deconstruct(out Expr expression, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(out Expr expression, out ReadOnlyCollection<Expr> arguments)
 			{
 				expression = Expr.Expression.ToExpr()!;
-				arguments  = Expr.Arguments;
+				arguments  = Expr.Arguments. ToExpr();
 			}
 		}
 
@@ -139,17 +136,17 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Lambda
 		{
-			public void Deconstruct(out Type type, out Expr body, out ReadOnlyCollection<ParameterExpression> parameters)
+			public void Deconstruct(out Type type, out Expr body, out ReadOnlyCollection<Parameter> parameters)
 			{
 				type       = Expr.Type;
-				body       = Expr.Body.ToExpr()!;
-				parameters = Expr.Parameters;
+				body       = Expr.Body.      ToExpr()!;
+				parameters = Expr.Parameters.ToExpr();
 			}
 
-			public void Deconstruct(out Expr body, out ReadOnlyCollection<ParameterExpression> parameters)
+			public void Deconstruct(out Expr body, out ReadOnlyCollection<Parameter> parameters)
 			{
-				body       = Expr.Body.ToExpr()!;
-				parameters = Expr.Parameters;
+				body       = Expr.Body.      ToExpr()!;
+				parameters = Expr.Parameters.ToExpr();
 			}
 		}
 
@@ -221,36 +218,36 @@ namespace Linq.Expressions.Deconstruct
 				out Type                            type,
 				out ConstructorInfo                 constructor,
 				out ReadOnlyCollection<MemberInfo>? members,
-				out ReadOnlyCollection<Expression>  arguments)
+				out ReadOnlyCollection<Expr>        arguments)
 			{
 				type        = Expr.Type;
 				constructor = Expr.Constructor;
 				members     = Expr.Members;
-				arguments   = Expr.Arguments;
+				arguments   = Expr.Arguments.ToExpr();
 			}
 
 			public void Deconstruct(
 				out ConstructorInfo                 constructor,
 				out ReadOnlyCollection<MemberInfo>? members,
-				out ReadOnlyCollection<Expression>  arguments)
+				out ReadOnlyCollection<Expr>        arguments)
 			{
 				constructor = Expr.Constructor;
 				members     = Expr.Members;
-				arguments   = Expr.Arguments;
+				arguments   = Expr.Arguments.ToExpr();
 			}
 
 			public void Deconstruct(
 				out ReadOnlyCollection<MemberInfo>? members,
-				out ReadOnlyCollection<Expression>  arguments)
+				out ReadOnlyCollection<Expr>        arguments)
 			{
 				members     = Expr.Members;
-				arguments   = Expr.Arguments;
+				arguments   = Expr.Arguments.ToExpr();
 			}
 
 			public void Deconstruct(
-				out ReadOnlyCollection<Expression> arguments)
+				out ReadOnlyCollection<Expr> arguments)
 			{
-				arguments = Expr.Arguments;
+				arguments = Expr.Arguments.ToExpr();
 			}
 		}
 
@@ -260,15 +257,15 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class NewArrayBounds
 		{
-			public void Deconstruct(out Type type, out ReadOnlyCollection<Expression> expressions)
+			public void Deconstruct(out Type type, out ReadOnlyCollection<Expr> expressions)
 			{
 				type        = Expr.Type;
-				expressions = Expr.Expressions;
+				expressions = Expr.Expressions.ToExpr();
 			}
 
-			public void Deconstruct(out ReadOnlyCollection<Expression> expressions)
+			public void Deconstruct(out ReadOnlyCollection<Expr> expressions)
 			{
-				expressions = Expr.Expressions;
+				expressions = Expr.Expressions.ToExpr();
 			}
 		}
 
@@ -278,15 +275,15 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class NewArrayInit
 		{
-			public void Deconstruct(out Type type, out ReadOnlyCollection<Expression> expressions)
+			public void Deconstruct(out Type type, out ReadOnlyCollection<Expr> expressions)
 			{
 				type        = Expr.Type;
-				expressions = Expr.Expressions;
+				expressions = Expr.Expressions.ToExpr();
 			}
 
-			public void Deconstruct(out ReadOnlyCollection<Expression> expressions)
+			public void Deconstruct(out ReadOnlyCollection<Expr> expressions)
 			{
-				expressions = Expr.Expressions;
+				expressions = Expr.Expressions.ToExpr();
 			}
 		}
 
@@ -355,10 +352,10 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Dynamic
 		{
-			public void Deconstruct(out Type delegateType, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(out Type delegateType, out ReadOnlyCollection<Expr> arguments)
 			{
 				delegateType = Expr.DelegateType;
-				arguments    = Expr.Arguments;
+				arguments    = Expr.Arguments.ToExpr();
 			}
 		}
 
@@ -388,25 +385,25 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Index
 		{
-			public void Deconstruct(out Type type, out Expr @object, out PropertyInfo indexer, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(out Type type, out Expr @object, out PropertyInfo indexer, out ReadOnlyCollection<Expr> arguments)
 			{
 				type      = Expr.Type;
 				@object   = Expr.Object.ToExpr()!;
 				indexer   = Expr.Indexer;
-				arguments = Expr.Arguments;
+				arguments = Expr.Arguments.ToExpr();
 			}
 
-			public void Deconstruct(out Expr @object, out PropertyInfo indexer, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(out Expr @object, out PropertyInfo indexer, out ReadOnlyCollection<Expr> arguments)
 			{
 				@object   = Expr.Object.ToExpr()!;
 				indexer   = Expr.Indexer;
-				arguments = Expr.Arguments;
+				arguments = Expr.Arguments.ToExpr();
 			}
 
-			public void Deconstruct(out Expr @object, out ReadOnlyCollection<Expression> arguments)
+			public void Deconstruct(out Expr @object, out ReadOnlyCollection<Expr> arguments)
 			{
-				@object   = Expr.Object.ToExpr()!;
-				arguments = Expr.Arguments;
+				@object   = Expr.Object.   ToExpr()!;
+				arguments = Expr.Arguments.ToExpr();
 			}
 		}
 
@@ -768,19 +765,47 @@ namespace Linq.Expressions.Deconstruct
 			};
 		}
 
+		[return:NotNullIfNotNull("exprs")]
+		public static ReadOnlyCollection<Expr>? ToExpr(this ReadOnlyCollection<Expression>? exprs)
+		{
+			if (exprs == null)
+				return null;
+
+			var list = new List<Expr>(exprs.Count);
+
+			foreach (var item in exprs)
+				list.Add(item.ToExpr());
+
+			return new (list);
+		}
+
+		[return:NotNullIfNotNull("exprs")]
+		public static ReadOnlyCollection<Expr.Parameter>? ToExpr(this ReadOnlyCollection<ParameterExpression>? exprs)
+		{
+			if (exprs == null)
+				return null;
+
+			var list = new List<Expr.Parameter>(exprs.Count);
+
+			foreach (var item in exprs)
+				list.Add(new (item));
+
+			return new (list);
+		}
+
 		#endregion
 
 		#region ElementInit
 
-		public static void Deconstruct(this ElementInit elementInit, out MethodInfo addMethod, out ReadOnlyCollection<Expression> arguments)
+		public static void Deconstruct(this ElementInit elementInit, out MethodInfo addMethod, out ReadOnlyCollection<Expr> arguments)
 		{
 			addMethod = elementInit.AddMethod;
-			arguments = elementInit.Arguments;
+			arguments = elementInit.Arguments.ToExpr();
 		}
 
-		public static void Deconstruct(this ElementInit elementInit, out ReadOnlyCollection<Expression> arguments)
+		public static void Deconstruct(this ElementInit elementInit, out ReadOnlyCollection<Expr> arguments)
 		{
-			arguments = elementInit.Arguments;
+			arguments = elementInit.Arguments.ToExpr();
 		}
 
 		#endregion
@@ -797,10 +822,10 @@ namespace Linq.Expressions.Deconstruct
 
 		#region SwitchCase
 
-		public static void Deconstruct(this SwitchCase switchCase, out Expr? body, out ReadOnlyCollection<Expression> testValues)
+		public static void Deconstruct(this SwitchCase switchCase, out Expr? body, out ReadOnlyCollection<Expr> testValues)
 		{
-			body       = switchCase.Body.ToExpr();
-			testValues = switchCase.TestValues;
+			body       = switchCase.Body.      ToExpr();
+			testValues = switchCase.TestValues.ToExpr();
 		}
 
 		#endregion
@@ -1436,6 +1461,7 @@ namespace Linq.Expressions.Deconstruct
 				}
 			}
 		}
+
 		#endregion
 
 		#region Find

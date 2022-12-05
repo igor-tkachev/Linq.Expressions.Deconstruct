@@ -8035,5 +8035,1481 @@ namespace Linq.Expressions.Deconstruct
 
 		#endregion
 
+		#region IEnumerable<Expr>
+
+		public static void Deconstruct(this IEnumerable<Expr> list, out int count)
+		{
+			switch (list)
+			{
+				case Expr[]            arr : count = arr.Length; break;
+				case ICollection<Expr> col : count = col.Count;  break;
+				case null : count = -1; break;
+				default   :
+					using (var enumerator = list.GetEnumerator())
+						count = enumerator.MoveNext() ? 1 : 0;
+					break;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0)
+		{
+			if (list == null) { count = -1; item0 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				switch (list)
+				{
+					case Expr[]            arr : count = arr.Length; break;
+					case ICollection<Expr> col : count = col.Count;  break;
+					default : if (enumerator.MoveNext()) count++; break;
+				}
+			}
+			else
+			{
+				item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0, out Expr? item1)
+		{
+			if (list == null) { count = -1; item0 = item1 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					switch (list)
+					{
+						case Expr[]            arr : count = arr.Length; break;
+						case ICollection<Expr> col : count = col.Count;  break;
+						default : if (enumerator.MoveNext()) count++; break;
+					}
+				}
+				else
+				{
+					item1 = default;
+				}
+			}
+			else
+			{
+				item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						switch (list)
+						{
+							case Expr[]            arr : count = arr.Length; break;
+							case ICollection<Expr> col : count = col.Count;  break;
+							default : if (enumerator.MoveNext()) count++; break;
+						}
+					}
+					else
+					{
+						item2 = default;
+					}
+				}
+				else
+				{
+					item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							switch (list)
+							{
+								case Expr[]            arr : count = arr.Length; break;
+								case ICollection<Expr> col : count = col.Count;  break;
+								default : if (enumerator.MoveNext()) count++; break;
+							}
+						}
+						else
+						{
+							item3 = default;
+						}
+					}
+					else
+					{
+						item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								switch (list)
+								{
+									case Expr[]            arr : count = arr.Length; break;
+									case ICollection<Expr> col : count = col.Count;  break;
+									default : if (enumerator.MoveNext()) count++; break;
+								}
+							}
+							else
+							{
+								item4 = default;
+							}
+						}
+						else
+						{
+							item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									switch (list)
+									{
+										case Expr[]            arr : count = arr.Length; break;
+										case ICollection<Expr> col : count = col.Count;  break;
+										default : if (enumerator.MoveNext()) count++; break;
+									}
+								}
+								else
+								{
+									item5 = default;
+								}
+							}
+							else
+							{
+								item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5, out Expr? item6)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									if (enumerator.MoveNext())
+									{
+										count++;
+										item6 = enumerator.Current;
+							
+										switch (list)
+										{
+											case Expr[]            arr : count = arr.Length; break;
+											case ICollection<Expr> col : count = col.Count;  break;
+											default : if (enumerator.MoveNext()) count++; break;
+										}
+									}
+									else
+									{
+										item6 = default;
+									}
+								}
+								else
+								{
+									item6 = item5 = default;
+								}
+							}
+							else
+							{
+								item6 = item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item6 = item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item6 = item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item6 = item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item6 = item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5, out Expr? item6, out Expr? item7)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									if (enumerator.MoveNext())
+									{
+										count++;
+										item6 = enumerator.Current;
+							
+										if (enumerator.MoveNext())
+										{
+											count++;
+											item7 = enumerator.Current;
+								
+											switch (list)
+											{
+												case Expr[]            arr : count = arr.Length; break;
+												case ICollection<Expr> col : count = col.Count;  break;
+												default : if (enumerator.MoveNext()) count++; break;
+											}
+										}
+										else
+										{
+											item7 = default;
+										}
+									}
+									else
+									{
+										item7 = item6 = default;
+									}
+								}
+								else
+								{
+									item7 = item6 = item5 = default;
+								}
+							}
+							else
+							{
+								item7 = item6 = item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item7 = item6 = item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item7 = item6 = item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item7 = item6 = item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item7 = item6 = item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5, out Expr? item6, out Expr? item7, out Expr? item8)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									if (enumerator.MoveNext())
+									{
+										count++;
+										item6 = enumerator.Current;
+							
+										if (enumerator.MoveNext())
+										{
+											count++;
+											item7 = enumerator.Current;
+								
+											if (enumerator.MoveNext())
+											{
+												count++;
+												item8 = enumerator.Current;
+									
+												switch (list)
+												{
+													case Expr[]            arr : count = arr.Length; break;
+													case ICollection<Expr> col : count = col.Count;  break;
+													default : if (enumerator.MoveNext()) count++; break;
+												}
+											}
+											else
+											{
+												item8 = default;
+											}
+										}
+										else
+										{
+											item8 = item7 = default;
+										}
+									}
+									else
+									{
+										item8 = item7 = item6 = default;
+									}
+								}
+								else
+								{
+									item8 = item7 = item6 = item5 = default;
+								}
+							}
+							else
+							{
+								item8 = item7 = item6 = item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item8 = item7 = item6 = item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item8 = item7 = item6 = item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item8 = item7 = item6 = item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item8 = item7 = item6 = item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr> list,
+			out int count, out Expr? item0, out Expr? item1, out Expr? item2, out Expr? item3, out Expr? item4, out Expr? item5, out Expr? item6, out Expr? item7, out Expr? item8, out Expr? item9)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = item9 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									if (enumerator.MoveNext())
+									{
+										count++;
+										item6 = enumerator.Current;
+							
+										if (enumerator.MoveNext())
+										{
+											count++;
+											item7 = enumerator.Current;
+								
+											if (enumerator.MoveNext())
+											{
+												count++;
+												item8 = enumerator.Current;
+									
+												if (enumerator.MoveNext())
+												{
+													count++;
+													item9 = enumerator.Current;
+										
+													switch (list)
+													{
+														case Expr[]            arr : count = arr.Length; break;
+														case ICollection<Expr> col : count = col.Count;  break;
+														default : if (enumerator.MoveNext()) count++; break;
+													}
+												}
+												else
+												{
+													item9 = default;
+												}
+											}
+											else
+											{
+												item9 = item8 = default;
+											}
+										}
+										else
+										{
+											item9 = item8 = item7 = default;
+										}
+									}
+									else
+									{
+										item9 = item8 = item7 = item6 = default;
+									}
+								}
+								else
+								{
+									item9 = item8 = item7 = item6 = item5 = default;
+								}
+							}
+							else
+							{
+								item9 = item8 = item7 = item6 = item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item9 = item8 = item7 = item6 = item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item9 = item8 = item7 = item6 = item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item9 = item8 = item7 = item6 = item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item9 = item8 = item7 = item6 = item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		#endregion
+
+		#region IEnumerable<Expr.Parameter>
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list, out int count)
+		{
+			switch (list)
+			{
+				case Expr.Parameter[]            arr : count = arr.Length; break;
+				case ICollection<Expr.Parameter> col : count = col.Count;  break;
+				case null : count = -1; break;
+				default   :
+					using (var enumerator = list.GetEnumerator())
+						count = enumerator.MoveNext() ? 1 : 0;
+					break;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0)
+		{
+			if (list == null) { count = -1; item0 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				switch (list)
+				{
+					case Expr.Parameter[]            arr : count = arr.Length; break;
+					case ICollection<Expr.Parameter> col : count = col.Count;  break;
+					default : if (enumerator.MoveNext()) count++; break;
+				}
+			}
+			else
+			{
+				item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1)
+		{
+			if (list == null) { count = -1; item0 = item1 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					switch (list)
+					{
+						case Expr.Parameter[]            arr : count = arr.Length; break;
+						case ICollection<Expr.Parameter> col : count = col.Count;  break;
+						default : if (enumerator.MoveNext()) count++; break;
+					}
+				}
+				else
+				{
+					item1 = default;
+				}
+			}
+			else
+			{
+				item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						switch (list)
+						{
+							case Expr.Parameter[]            arr : count = arr.Length; break;
+							case ICollection<Expr.Parameter> col : count = col.Count;  break;
+							default : if (enumerator.MoveNext()) count++; break;
+						}
+					}
+					else
+					{
+						item2 = default;
+					}
+				}
+				else
+				{
+					item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							switch (list)
+							{
+								case Expr.Parameter[]            arr : count = arr.Length; break;
+								case ICollection<Expr.Parameter> col : count = col.Count;  break;
+								default : if (enumerator.MoveNext()) count++; break;
+							}
+						}
+						else
+						{
+							item3 = default;
+						}
+					}
+					else
+					{
+						item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								switch (list)
+								{
+									case Expr.Parameter[]            arr : count = arr.Length; break;
+									case ICollection<Expr.Parameter> col : count = col.Count;  break;
+									default : if (enumerator.MoveNext()) count++; break;
+								}
+							}
+							else
+							{
+								item4 = default;
+							}
+						}
+						else
+						{
+							item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									switch (list)
+									{
+										case Expr.Parameter[]            arr : count = arr.Length; break;
+										case ICollection<Expr.Parameter> col : count = col.Count;  break;
+										default : if (enumerator.MoveNext()) count++; break;
+									}
+								}
+								else
+								{
+									item5 = default;
+								}
+							}
+							else
+							{
+								item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5, out Expr.Parameter? item6)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									if (enumerator.MoveNext())
+									{
+										count++;
+										item6 = enumerator.Current;
+							
+										switch (list)
+										{
+											case Expr.Parameter[]            arr : count = arr.Length; break;
+											case ICollection<Expr.Parameter> col : count = col.Count;  break;
+											default : if (enumerator.MoveNext()) count++; break;
+										}
+									}
+									else
+									{
+										item6 = default;
+									}
+								}
+								else
+								{
+									item6 = item5 = default;
+								}
+							}
+							else
+							{
+								item6 = item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item6 = item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item6 = item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item6 = item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item6 = item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5, out Expr.Parameter? item6, out Expr.Parameter? item7)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									if (enumerator.MoveNext())
+									{
+										count++;
+										item6 = enumerator.Current;
+							
+										if (enumerator.MoveNext())
+										{
+											count++;
+											item7 = enumerator.Current;
+								
+											switch (list)
+											{
+												case Expr.Parameter[]            arr : count = arr.Length; break;
+												case ICollection<Expr.Parameter> col : count = col.Count;  break;
+												default : if (enumerator.MoveNext()) count++; break;
+											}
+										}
+										else
+										{
+											item7 = default;
+										}
+									}
+									else
+									{
+										item7 = item6 = default;
+									}
+								}
+								else
+								{
+									item7 = item6 = item5 = default;
+								}
+							}
+							else
+							{
+								item7 = item6 = item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item7 = item6 = item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item7 = item6 = item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item7 = item6 = item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item7 = item6 = item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5, out Expr.Parameter? item6, out Expr.Parameter? item7, out Expr.Parameter? item8)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									if (enumerator.MoveNext())
+									{
+										count++;
+										item6 = enumerator.Current;
+							
+										if (enumerator.MoveNext())
+										{
+											count++;
+											item7 = enumerator.Current;
+								
+											if (enumerator.MoveNext())
+											{
+												count++;
+												item8 = enumerator.Current;
+									
+												switch (list)
+												{
+													case Expr.Parameter[]            arr : count = arr.Length; break;
+													case ICollection<Expr.Parameter> col : count = col.Count;  break;
+													default : if (enumerator.MoveNext()) count++; break;
+												}
+											}
+											else
+											{
+												item8 = default;
+											}
+										}
+										else
+										{
+											item8 = item7 = default;
+										}
+									}
+									else
+									{
+										item8 = item7 = item6 = default;
+									}
+								}
+								else
+								{
+									item8 = item7 = item6 = item5 = default;
+								}
+							}
+							else
+							{
+								item8 = item7 = item6 = item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item8 = item7 = item6 = item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item8 = item7 = item6 = item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item8 = item7 = item6 = item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item8 = item7 = item6 = item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		public static void Deconstruct(this IEnumerable<Expr.Parameter> list,
+			out int count, out Expr.Parameter? item0, out Expr.Parameter? item1, out Expr.Parameter? item2, out Expr.Parameter? item3, out Expr.Parameter? item4, out Expr.Parameter? item5, out Expr.Parameter? item6, out Expr.Parameter? item7, out Expr.Parameter? item8, out Expr.Parameter? item9)
+		{
+			if (list == null) { count = -1; item0 = item1 = item2 = item3 = item4 = item5 = item6 = item7 = item8 = item9 = default; return; }
+
+			count = 0;
+
+			using var enumerator = list.GetEnumerator();
+
+			if (enumerator.MoveNext())
+			{
+				count++;
+				item0 = enumerator.Current;
+	
+				if (enumerator.MoveNext())
+				{
+					count++;
+					item1 = enumerator.Current;
+		
+					if (enumerator.MoveNext())
+					{
+						count++;
+						item2 = enumerator.Current;
+			
+						if (enumerator.MoveNext())
+						{
+							count++;
+							item3 = enumerator.Current;
+				
+							if (enumerator.MoveNext())
+							{
+								count++;
+								item4 = enumerator.Current;
+					
+								if (enumerator.MoveNext())
+								{
+									count++;
+									item5 = enumerator.Current;
+						
+									if (enumerator.MoveNext())
+									{
+										count++;
+										item6 = enumerator.Current;
+							
+										if (enumerator.MoveNext())
+										{
+											count++;
+											item7 = enumerator.Current;
+								
+											if (enumerator.MoveNext())
+											{
+												count++;
+												item8 = enumerator.Current;
+									
+												if (enumerator.MoveNext())
+												{
+													count++;
+													item9 = enumerator.Current;
+										
+													switch (list)
+													{
+														case Expr.Parameter[]            arr : count = arr.Length; break;
+														case ICollection<Expr.Parameter> col : count = col.Count;  break;
+														default : if (enumerator.MoveNext()) count++; break;
+													}
+												}
+												else
+												{
+													item9 = default;
+												}
+											}
+											else
+											{
+												item9 = item8 = default;
+											}
+										}
+										else
+										{
+											item9 = item8 = item7 = default;
+										}
+									}
+									else
+									{
+										item9 = item8 = item7 = item6 = default;
+									}
+								}
+								else
+								{
+									item9 = item8 = item7 = item6 = item5 = default;
+								}
+							}
+							else
+							{
+								item9 = item8 = item7 = item6 = item5 = item4 = default;
+							}
+						}
+						else
+						{
+							item9 = item8 = item7 = item6 = item5 = item4 = item3 = default;
+						}
+					}
+					else
+					{
+						item9 = item8 = item7 = item6 = item5 = item4 = item3 = item2 = default;
+					}
+				}
+				else
+				{
+					item9 = item8 = item7 = item6 = item5 = item4 = item3 = item2 = item1 = default;
+				}
+			}
+			else
+			{
+				item9 = item8 = item7 = item6 = item5 = item4 = item3 = item2 = item1 = item0 = default;
+			}
+		}
+
+		#endregion
+
 	}
 }
