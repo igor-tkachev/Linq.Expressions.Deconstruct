@@ -53,4 +53,3 @@ public void ConstantFoldingTest()
     Assert.IsTrue(f1.EqualsTo(i => i + 20));
 }
 ```
-
