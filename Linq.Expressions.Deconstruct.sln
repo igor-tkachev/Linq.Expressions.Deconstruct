@@ -7,12 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Linq.Expressions.Deconstruc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Linq.Expressions.Deconstruct.Tests", "Tests\Linq.Expressions.Deconstruct.Tests.csproj", "{F9656396-C968-4898-8254-D8F41C51CC91}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7A73EE40-693F-45B2-85E7-1F0403500B58}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{7A73EE40-693F-45B2-85E7-1F0403500B58}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE.TXT = LICENSE.TXT
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceGenerators", "SourceGenerators\SourceGenerators.csproj", "{64BEF737-2EE5-4EFA-8B19-ACABA44E0AD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGenerators", "SourceGenerators\SourceGenerators.csproj", "{64BEF737-2EE5-4EFA-8B19-ACABA44E0AD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
