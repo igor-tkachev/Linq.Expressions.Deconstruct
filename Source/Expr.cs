@@ -38,7 +38,7 @@ namespace Linq.Expressions.Deconstruct
 
 		protected abstract Expression GetExpression();
 
-		public override string ToString   () => GetExpression().ToString();
+		public override string ToString   () => GetExpression().ToString()!;
 		public override int    GetHashCode() => GetExpression().GetHashCode();
 
 		public override bool Equals(object? obj) => obj switch
@@ -51,10 +51,10 @@ namespace Linq.Expressions.Deconstruct
 		public static bool operator ==(Expr left, Expr right) => Equals(left, right);
 		public static bool operator !=(Expr left, Expr right) => !Equals(left, right);
 
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
 		public static implicit operator Expression?(Expr? expr) => expr?.GetExpression();
 
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
 		public static implicit operator Expr?(Expression? expr) => expr?.ToExpr();
 
 		#endregion
@@ -63,28 +63,31 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Call
 		{
+			[ToExpr]                  ReadOnlyCollection<Expr>? _arguments;
+			[ToExpr(IsNullable=true)] Expr?                     _object;
+
 			public void Deconstruct(out bool isGeneric, out Type type, out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expr> arguments)
 			{
 				isGeneric = Expr.Method.IsGenericMethod;
 				type      = Expr.Type;
 				method    = isGeneric ? Expr.Method.GetGenericMethodDefinition() : Expr.Method;
-				@object   = Expr.Object.   ToExpr();
-				arguments = Expr.Arguments.ToExpr();
+				@object   = Object;
+				arguments = Arguments;
 			}
 
 			public void Deconstruct(out Type type, out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expr> arguments)
 			{
 				type      = Expr.Type;
 				method    = Expr.Method;
-				@object   = Expr.Object.   ToExpr();
-				arguments = Expr.Arguments.ToExpr();
+				@object   = Object;
+				arguments = Arguments;
 			}
 
 			public void Deconstruct(out MethodInfo method, out Expr? @object, out ReadOnlyCollection<Expr> arguments)
 			{
 				method    = Expr.Method;
-				@object   = Expr.Object.   ToExpr();
-				arguments = Expr.Arguments.ToExpr();
+				@object   = Object;
+				arguments = Arguments;
 			}
 		}
 
@@ -94,19 +97,23 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Conditional
 		{
+			[ToExpr] Expr? _test;
+			[ToExpr] Expr? _ifTrue;
+			[ToExpr] Expr? _ifFalse;
+
 			public void Deconstruct(out Type type, out Expr test, out Expr ifTrue, out Expr ifFalse)
 			{
 				type    = Expr.Type;
-				test    = Expr.Test.   ToExpr()!;
-				ifTrue  = Expr.IfTrue. ToExpr()!;
-				ifFalse = Expr.IfFalse.ToExpr()!;
+				test    = Test;
+				ifTrue  = IfTrue;
+				ifFalse = IfFalse;
 			}
 
 			public void Deconstruct(out Expr test, out Expr ifTrue, out Expr ifFalse)
 			{
-				test    = Expr.Test.   ToExpr()!;
-				ifTrue  = Expr.IfTrue. ToExpr()!;
-				ifFalse = Expr.IfFalse.ToExpr()!;
+				test    = Test;
+				ifTrue  = IfTrue;
+				ifFalse = IfFalse;
 			}
 		}
 
@@ -116,17 +123,20 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Invoke
 		{
+			[ToExpr] Expr?                     _expression;
+			[ToExpr] ReadOnlyCollection<Expr>? _arguments;
+
 			public void Deconstruct(out Type type, out Expr expression, out ReadOnlyCollection<Expr> arguments)
 			{
 				type       = Expr.Type;
-				expression = Expr.Expression.ToExpr()!;
-				arguments  = Expr.Arguments. ToExpr();
+				expression = Expression;
+				arguments  = Arguments;
 			}
 
 			public void Deconstruct(out Expr expression, out ReadOnlyCollection<Expr> arguments)
 			{
-				expression = Expr.Expression.ToExpr()!;
-				arguments  = Expr.Arguments. ToExpr();
+				expression = Expression;
+				arguments  = Arguments;
 			}
 		}
 
@@ -136,17 +146,20 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Lambda
 		{
+			[ToExpr] Expr?                          _body;
+			[ToExpr] ReadOnlyCollection<Parameter>? _parameters;
+
 			public void Deconstruct(out Type type, out Expr body, out ReadOnlyCollection<Parameter> parameters)
 			{
 				type       = Expr.Type;
-				body       = Expr.Body.      ToExpr()!;
-				parameters = Expr.Parameters.ToExpr();
+				body       = Body;
+				parameters = Parameters;
 			}
 
 			public void Deconstruct(out Expr body, out ReadOnlyCollection<Parameter> parameters)
 			{
-				body       = Expr.Body.      ToExpr()!;
-				parameters = Expr.Parameters.ToExpr();
+				body       = Body;
+				parameters = Parameters;
 			}
 		}
 
@@ -156,16 +169,20 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class ListInit
 		{
+			New? _newExpression;
+
+			public New NewExpression => _newExpression ??= new (Expr.NewExpression);
+
 			public void Deconstruct(out Type type, out New newExpression, out ReadOnlyCollection<ElementInit> initializers)
 			{
 				type          = Expr.Type;
-				newExpression = new New(Expr.NewExpression);
+				newExpression = NewExpression;
 				initializers  = Expr.Initializers;
 			}
 
 			public void Deconstruct(out Expr newExpression, out ReadOnlyCollection<ElementInit> initializers)
 			{
-				newExpression = new New(Expr.NewExpression);
+				newExpression = NewExpression;
 				initializers  = Expr.Initializers;
 			}
 		}
@@ -176,15 +193,17 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Member
 		{
+			[ToExpr] Expr? _expression;
+
 			public void Deconstruct(out Type type, out Expr? expression)
 			{
 				type       = Expr.Type;
-				expression = Expr.Expression.ToExpr();
+				expression = Expression;
 			}
 
 			public void Deconstruct(out Expr? expression)
 			{
-				expression = Expr.Expression.ToExpr();
+				expression = Expression;
 			}
 		}
 
@@ -194,16 +213,20 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class MemberInit
 		{
+			New? _newExpression;
+
+			public New NewExpression => _newExpression ??= new (Expr.NewExpression);
+
 			public void Deconstruct(out Type type, out New newExpression, out IEnumerable<MemberBinding> bindings)
 			{
 				type          = Expr.Type;
-				newExpression = new New(Expr.NewExpression);
+				newExpression = NewExpression;
 				bindings      = Expr.Bindings;
 			}
 
 			public void Deconstruct(out New newExpression, out IEnumerable<MemberBinding> bindings)
 			{
-				newExpression = new New(Expr.NewExpression);
+				newExpression = NewExpression;
 				bindings      = Expr.Bindings;
 			}
 		}
@@ -214,6 +237,8 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class New
 		{
+			[ToExpr] ReadOnlyCollection<Expr>? _arguments;
+
 			public void Deconstruct(
 				out Type                            type,
 				out ConstructorInfo                 constructor,
@@ -223,7 +248,7 @@ namespace Linq.Expressions.Deconstruct
 				type        = Expr.Type;
 				constructor = Expr.Constructor;
 				members     = Expr.Members;
-				arguments   = Expr.Arguments.ToExpr();
+				arguments   = Arguments;
 			}
 
 			public void Deconstruct(
@@ -233,21 +258,21 @@ namespace Linq.Expressions.Deconstruct
 			{
 				constructor = Expr.Constructor;
 				members     = Expr.Members;
-				arguments   = Expr.Arguments.ToExpr();
+				arguments   = Arguments;
 			}
 
 			public void Deconstruct(
 				out ReadOnlyCollection<MemberInfo>? members,
 				out ReadOnlyCollection<Expr>        arguments)
 			{
-				members     = Expr.Members;
-				arguments   = Expr.Arguments.ToExpr();
+				members   = Expr.Members;
+				arguments = Arguments;
 			}
 
 			public void Deconstruct(
 				out ReadOnlyCollection<Expr> arguments)
 			{
-				arguments = Expr.Arguments.ToExpr();
+				arguments = Arguments;
 			}
 		}
 
@@ -257,15 +282,17 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class NewArrayBounds
 		{
+			[ToExpr] ReadOnlyCollection<Expr>? _expressions;
+
 			public void Deconstruct(out Type type, out ReadOnlyCollection<Expr> expressions)
 			{
 				type        = Expr.Type;
-				expressions = Expr.Expressions.ToExpr();
+				expressions = Expressions;
 			}
 
 			public void Deconstruct(out ReadOnlyCollection<Expr> expressions)
 			{
-				expressions = Expr.Expressions.ToExpr();
+				expressions = Expressions;
 			}
 		}
 
@@ -275,15 +302,17 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class NewArrayInit
 		{
+			[ToExpr] ReadOnlyCollection<Expr>? _expressions;
+
 			public void Deconstruct(out Type type, out ReadOnlyCollection<Expr> expressions)
 			{
 				type        = Expr.Type;
-				expressions = Expr.Expressions.ToExpr();
+				expressions = Expressions;
 			}
 
 			public void Deconstruct(out ReadOnlyCollection<Expr> expressions)
 			{
-				expressions = Expr.Expressions.ToExpr();
+				expressions = Expressions;
 			}
 		}
 
@@ -293,15 +322,17 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class TypeEqual
 		{
+			[ToExpr] Expr? _expression;
+
 			public void Deconstruct(out Type type, out Expr expression)
 			{
 				type       = Expr.Type;
-				expression = Expr.Expression.ToExpr()!;
+				expression = Expression;
 			}
 
 			public void Deconstruct(out Expr expression)
 			{
-				expression = Expr.Expression.ToExpr()!;
+				expression = Expression;
 			}
 		}
 
@@ -311,15 +342,17 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class TypeIs
 		{
+			[ToExpr] Expr? _expression;
+
 			public void Deconstruct(out Type type, out Expr expression)
 			{
 				type       = Expr.Type;
-				expression = Expr.Expression.ToExpr()!;
+				expression = Expression;
 			}
 
 			public void Deconstruct(out Expr expression)
 			{
-				expression = Expr.Expression.ToExpr()!;
+				expression = Expression;
 			}
 		}
 
@@ -352,10 +385,12 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Dynamic
 		{
+			[ToExpr] ReadOnlyCollection<Expr>? _arguments;
+
 			public void Deconstruct(out Type delegateType, out ReadOnlyCollection<Expr> arguments)
 			{
 				delegateType = Expr.DelegateType;
-				arguments    = Expr.Arguments.ToExpr();
+				arguments    = Arguments;
 			}
 		}
 
@@ -365,17 +400,19 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Goto
 		{
+			[ToExpr] Expr? _value;
+
 			public void Deconstruct(out Type type, out LabelTarget target, out Expr value)
 			{
 				type   = Expr.Type;
 				target = Expr.Target;
-				value  = Expr.Value.ToExpr()!;
+				value  = Value;
 			}
 
 			public void Deconstruct(out LabelTarget target, out Expr value)
 			{
 				target = Expr.Target;
-				value  = Expr.Value.ToExpr()!;
+				value  = Value;
 			}
 		}
 
@@ -385,25 +422,28 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Index
 		{
+			[ToExpr] Expr?                     _object;
+			[ToExpr] ReadOnlyCollection<Expr>? _arguments;
+
 			public void Deconstruct(out Type type, out Expr @object, out PropertyInfo indexer, out ReadOnlyCollection<Expr> arguments)
 			{
 				type      = Expr.Type;
-				@object   = Expr.Object.ToExpr()!;
+				@object   = Object;
 				indexer   = Expr.Indexer;
-				arguments = Expr.Arguments.ToExpr();
+				arguments = Arguments;
 			}
 
 			public void Deconstruct(out Expr @object, out PropertyInfo indexer, out ReadOnlyCollection<Expr> arguments)
 			{
-				@object   = Expr.Object.ToExpr()!;
+				@object   = Object;
 				indexer   = Expr.Indexer;
-				arguments = Expr.Arguments.ToExpr();
+				arguments = Arguments;
 			}
 
 			public void Deconstruct(out Expr @object, out ReadOnlyCollection<Expr> arguments)
 			{
-				@object   = Expr.Object.   ToExpr()!;
-				arguments = Expr.Arguments.ToExpr();
+				@object   = Object;
+				arguments = Arguments;
 			}
 		}
 
@@ -413,17 +453,19 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Label
 		{
+			[ToExpr(IsNullable=true)] Expr? _defaultValue;
+
 			public void Deconstruct(out Type type, out LabelTarget target, out Expr? defaultValue)
 			{
 				type         = Expr.Type;
 				target       = Expr.Target;
-				defaultValue = Expr.DefaultValue.ToExpr();
+				defaultValue = DefaultValue;
 			}
 
 			public void Deconstruct(out LabelTarget target, out Expr? defaultValue)
 			{
 				target       = Expr.Target;
-				defaultValue = Expr.DefaultValue.ToExpr();
+				defaultValue = DefaultValue;
 			}
 		}
 
@@ -451,19 +493,21 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Loop
 		{
+			[ToExpr] Expr? _body;
+
 			public void Deconstruct(out Type type, out LabelTarget breakLabel, out LabelTarget continueLabel, out Expr body)
 			{
 				type          = Expr.Type;
 				breakLabel    = Expr.BreakLabel;
 				continueLabel = Expr.ContinueLabel;
-				body          = Expr.Body.ToExpr()!;
+				body          = Body;
 			}
 
 			public void Deconstruct(out LabelTarget breakLabel, out LabelTarget continueLabel, out Expr body)
 			{
 				breakLabel    = Expr.BreakLabel;
 				continueLabel = Expr.ContinueLabel;
-				body          = Expr.Body.ToExpr()!;
+				body          = Body;
 			}
 		}
 
@@ -473,19 +517,22 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Switch
 		{
+			[ToExpr]                  Expr? _switchValue;
+			[ToExpr(IsNullable=true)] Expr? _defaultBody;
+
 			public void Deconstruct(out Type type, out Expr switchValue, out IEnumerable<SwitchCase> cases, out Expr? defaultBody)
 			{
 				type        = Expr.Type;
-				switchValue = Expr.SwitchValue.ToExpr()!;
+				switchValue = SwitchValue;
 				cases       = Expr.Cases;
-				defaultBody = Expr.DefaultBody.ToExpr();
+				defaultBody = DefaultBody;
 			}
 
 			public void Deconstruct(out Expr switchValue, out IEnumerable<SwitchCase> cases, out Expr? defaultBody)
 			{
-				switchValue = Expr.SwitchValue.ToExpr()!;
+				switchValue = SwitchValue;
 				cases       = Expr.Cases;
-				defaultBody = Expr.DefaultBody.ToExpr();
+				defaultBody = DefaultBody;
 			}
 		}
 
@@ -495,21 +542,25 @@ namespace Linq.Expressions.Deconstruct
 
 		public partial class Try
 		{
+			[ToExpr]                  Expr? _body;
+			[ToExpr(IsNullable=true)] Expr? _finally;
+			[ToExpr(IsNullable=true)] Expr? _fault;
+
 			public void Deconstruct(out Type type, out Expr body, out IEnumerable<CatchBlock> handlers, out Expr? @finally, out Expr? fault)
 			{
 				type     = Expr.Type;
-				body     = Expr.Body.   ToExpr()!;
+				body     = Body;
 				handlers = Expr.Handlers;
-				@finally = Expr.Finally.ToExpr();
-				fault    = Expr.Fault.  ToExpr();
+				@finally = Finally;
+				fault    = Fault;
 			}
 
 			public void Deconstruct(out Expr body, out IEnumerable<CatchBlock> handlers, out Expr? @finally, out Expr? fault)
 			{
-				body     = Expr.Body.   ToExpr()!;
+				body     = Body;
 				handlers = Expr.Handlers;
-				@finally = Expr.Finally.ToExpr();
-				fault    = Expr.Fault.  ToExpr();
+				@finally = Finally;
+				fault    = Fault;
 			}
 		}
 
@@ -668,7 +719,7 @@ namespace Linq.Expressions.Deconstruct
 	{
 		#region ToExpr
 
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expr? ToExpr(this Expression? expr)
 		{
 			if (expr == null)
@@ -765,7 +816,7 @@ namespace Linq.Expressions.Deconstruct
 			};
 		}
 
-		[return:NotNullIfNotNull("exprs")]
+		[return:NotNullIfNotNull(nameof(exprs))]
 		public static ReadOnlyCollection<Expr>? ToExpr(this ReadOnlyCollection<Expression>? exprs)
 		{
 			if (exprs == null)
@@ -779,7 +830,7 @@ namespace Linq.Expressions.Deconstruct
 			return new (list);
 		}
 
-		[return:NotNullIfNotNull("exprs")]
+		[return:NotNullIfNotNull(nameof(exprs))]
 		public static ReadOnlyCollection<Expr.Parameter>? ToExpr(this ReadOnlyCollection<ParameterExpression>? exprs)
 		{
 			if (exprs == null)
@@ -1494,7 +1545,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
 		/// <param name="func">Find function. Return true if expression is found.</param>
 		/// <returns>Found expression or null.</returns>
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? Find(this Expression? expr, Func<Expression, bool> func)
 		{
 			return FindInternal(expr, func);
@@ -1769,7 +1820,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="func">Transform function.</param>
 		/// <param name="forward">If True, scans expression tree forward.</param>
 		/// <returns>Modified expression.</returns>
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? TransformEx(this Expression? expr, bool forward, Func<Expr,Expr> func)
 		{
 			return TransformInternal(expr, forward, ex => func(ex.ToExpr()));
@@ -1781,8 +1832,8 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
 		/// <returns>Modified expression.</returns>
-		[return: NotNullIfNotNull("expr")]
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
+		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? TransformEx(this Expression? expr, Func<Expr,Expr> func)
 		{
 			return TransformInternal(expr, false, ex => func(ex.ToExpr()));
@@ -1822,7 +1873,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="func">Transform function.</param>
 		/// <param name="forward">If True, scans expression tree forward.</param>
 		/// <returns>Modified expression.</returns>
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? Transform(this Expression? expr, bool forward, Func<Expression,Expression> func)
 		{
 			return TransformInternal(expr, forward, func);
@@ -1834,7 +1885,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
 		/// <returns>Modified expression.</returns>
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? Transform(this Expression? expr, Func<Expression,Expression> func)
 		{
 			return TransformInternal(expr, false, func);
@@ -1872,7 +1923,7 @@ namespace Linq.Expressions.Deconstruct
 			return modified ? (IEnumerable<T>)list : (IEnumerable<T>)source;
 		}
 
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
 		static Expression? TransformInternal(this Expression? expr, bool forward, Func<Expression,Expression> func)
 		{
 			if (expr == null)

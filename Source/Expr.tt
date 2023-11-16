@@ -71,16 +71,16 @@ namespace Linq.Expressions.Deconstruct
 		if (item.Expression != "Expression")
 		{
 #>
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(<#= item.Expr #>? expr) => expr?.Expr;
 
 <#
 		}
 #>
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator <#= item.Expression #>?(<#= item.Expr #>? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator <#= item.Expr #>?(<#= item.Expression #>? expr) => expr == null ? null : new <#= item.Expr #>(expr);
 		}
 
@@ -106,6 +106,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class <#= item #> : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public <#= item #>(BinaryExpression expr)
@@ -115,26 +118,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (<#= item #>? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(<#= item #>? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator <#= item #>?(BinaryExpression? expr) => expr == null ? null : new <#= item #>(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -156,6 +159,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class <#= item #> : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public <#= item #>(UnaryExpression expr)
@@ -165,24 +171,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (<#= item #>? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(<#= item #>? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator <#= item #>?(UnaryExpression? expr) => expr == null ? null : new <#= item #>(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 

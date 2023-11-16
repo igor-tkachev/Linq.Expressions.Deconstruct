@@ -191,7 +191,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 			return expr.TransformEx(FoldExpr);
 		}
 
-		[return: NotNullIfNotNull("expr")]
+		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? Fold(Expression? expr)
 		{
 			return expr.TransformEx(FoldExpr);

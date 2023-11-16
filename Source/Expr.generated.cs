@@ -29,13 +29,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Call? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator MethodCallExpression?(Call? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Call?(MethodCallExpression? expr) => expr == null ? null : new Call(expr);
 		}
 
@@ -54,13 +54,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Conditional? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ConditionalExpression?(Conditional? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Conditional?(ConditionalExpression? expr) => expr == null ? null : new Conditional(expr);
 		}
 
@@ -79,13 +79,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Invoke? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator InvocationExpression?(Invoke? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Invoke?(InvocationExpression? expr) => expr == null ? null : new Invoke(expr);
 		}
 
@@ -104,13 +104,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Lambda? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator LambdaExpression?(Lambda? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Lambda?(LambdaExpression? expr) => expr == null ? null : new Lambda(expr);
 		}
 
@@ -129,13 +129,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(ListInit? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ListInitExpression?(ListInit? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ListInit?(ListInitExpression? expr) => expr == null ? null : new ListInit(expr);
 		}
 
@@ -154,13 +154,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Member? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator MemberExpression?(Member? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Member?(MemberExpression? expr) => expr == null ? null : new Member(expr);
 		}
 
@@ -179,13 +179,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(MemberInit? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator MemberInitExpression?(MemberInit? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator MemberInit?(MemberInitExpression? expr) => expr == null ? null : new MemberInit(expr);
 		}
 
@@ -204,13 +204,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(New? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator NewExpression?(New? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator New?(NewExpression? expr) => expr == null ? null : new New(expr);
 		}
 
@@ -229,13 +229,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(NewArrayBounds? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator NewArrayExpression?(NewArrayBounds? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator NewArrayBounds?(NewArrayExpression? expr) => expr == null ? null : new NewArrayBounds(expr);
 		}
 
@@ -254,13 +254,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(NewArrayInit? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator NewArrayExpression?(NewArrayInit? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator NewArrayInit?(NewArrayExpression? expr) => expr == null ? null : new NewArrayInit(expr);
 		}
 
@@ -279,13 +279,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(TypeEqual? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator TypeBinaryExpression?(TypeEqual? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator TypeEqual?(TypeBinaryExpression? expr) => expr == null ? null : new TypeEqual(expr);
 		}
 
@@ -304,13 +304,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(TypeIs? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator TypeBinaryExpression?(TypeIs? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator TypeIs?(TypeBinaryExpression? expr) => expr == null ? null : new TypeIs(expr);
 		}
 
@@ -329,13 +329,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Block? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BlockExpression?(Block? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Block?(BlockExpression? expr) => expr == null ? null : new Block(expr);
 		}
 
@@ -354,13 +354,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Dynamic? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator DynamicExpression?(Dynamic? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Dynamic?(DynamicExpression? expr) => expr == null ? null : new Dynamic(expr);
 		}
 
@@ -379,13 +379,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Goto? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator GotoExpression?(Goto? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Goto?(GotoExpression? expr) => expr == null ? null : new Goto(expr);
 		}
 
@@ -404,13 +404,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Index? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator IndexExpression?(Index? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Index?(IndexExpression? expr) => expr == null ? null : new Index(expr);
 		}
 
@@ -429,13 +429,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Label? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator LabelExpression?(Label? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Label?(LabelExpression? expr) => expr == null ? null : new Label(expr);
 		}
 
@@ -454,13 +454,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(RuntimeVariables? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator RuntimeVariablesExpression?(RuntimeVariables? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator RuntimeVariables?(RuntimeVariablesExpression? expr) => expr == null ? null : new RuntimeVariables(expr);
 		}
 
@@ -479,13 +479,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Loop? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator LoopExpression?(Loop? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Loop?(LoopExpression? expr) => expr == null ? null : new Loop(expr);
 		}
 
@@ -504,13 +504,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Switch? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator SwitchExpression?(Switch? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Switch?(SwitchExpression? expr) => expr == null ? null : new Switch(expr);
 		}
 
@@ -529,13 +529,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Try? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator TryExpression?(Try? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Try?(TryExpression? expr) => expr == null ? null : new Try(expr);
 		}
 
@@ -554,10 +554,10 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Extension? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Extension?(Expression? expr) => expr == null ? null : new Extension(expr);
 		}
 
@@ -576,13 +576,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(DebugInfo? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator DebugInfoExpression?(DebugInfo? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator DebugInfo?(DebugInfoExpression? expr) => expr == null ? null : new DebugInfo(expr);
 		}
 
@@ -601,13 +601,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Parameter? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ParameterExpression?(Parameter? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Parameter?(ParameterExpression? expr) => expr == null ? null : new Parameter(expr);
 		}
 
@@ -626,13 +626,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Constant? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ConstantExpression?(Constant? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Constant?(ConstantExpression? expr) => expr == null ? null : new Constant(expr);
 		}
 
@@ -651,13 +651,13 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?(Default? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator DefaultExpression?(Default? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Default?(DefaultExpression? expr) => expr == null ? null : new Default(expr);
 		}
 
@@ -667,6 +667,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Add : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Add(BinaryExpression expr)
@@ -676,26 +679,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Add? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Add? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Add?(BinaryExpression? expr) => expr == null ? null : new Add(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -705,6 +708,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class AddChecked : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public AddChecked(BinaryExpression expr)
@@ -714,26 +720,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (AddChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(AddChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator AddChecked?(BinaryExpression? expr) => expr == null ? null : new AddChecked(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -743,6 +749,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class And : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public And(BinaryExpression expr)
@@ -752,26 +761,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (And? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(And? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator And?(BinaryExpression? expr) => expr == null ? null : new And(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -781,6 +790,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class AndAlso : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public AndAlso(BinaryExpression expr)
@@ -790,26 +802,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (AndAlso? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(AndAlso? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator AndAlso?(BinaryExpression? expr) => expr == null ? null : new AndAlso(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -819,6 +831,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class ArrayIndex : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public ArrayIndex(BinaryExpression expr)
@@ -828,26 +843,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (ArrayIndex? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(ArrayIndex? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ArrayIndex?(BinaryExpression? expr) => expr == null ? null : new ArrayIndex(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -857,6 +872,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Assign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Assign(BinaryExpression expr)
@@ -866,26 +884,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Assign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Assign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Assign?(BinaryExpression? expr) => expr == null ? null : new Assign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -895,6 +913,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Coalesce : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Coalesce(BinaryExpression expr)
@@ -904,26 +925,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Coalesce? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Coalesce? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Coalesce?(BinaryExpression? expr) => expr == null ? null : new Coalesce(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -933,6 +954,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Divide : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Divide(BinaryExpression expr)
@@ -942,26 +966,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Divide? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Divide? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Divide?(BinaryExpression? expr) => expr == null ? null : new Divide(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -971,6 +995,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Equal : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Equal(BinaryExpression expr)
@@ -980,26 +1007,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Equal? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Equal? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Equal?(BinaryExpression? expr) => expr == null ? null : new Equal(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1009,6 +1036,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class ExclusiveOr : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public ExclusiveOr(BinaryExpression expr)
@@ -1018,26 +1048,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (ExclusiveOr? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(ExclusiveOr? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ExclusiveOr?(BinaryExpression? expr) => expr == null ? null : new ExclusiveOr(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1047,6 +1077,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class GreaterThan : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public GreaterThan(BinaryExpression expr)
@@ -1056,26 +1089,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (GreaterThan? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(GreaterThan? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator GreaterThan?(BinaryExpression? expr) => expr == null ? null : new GreaterThan(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1085,6 +1118,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class GreaterThanOrEqual : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public GreaterThanOrEqual(BinaryExpression expr)
@@ -1094,26 +1130,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (GreaterThanOrEqual? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(GreaterThanOrEqual? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator GreaterThanOrEqual?(BinaryExpression? expr) => expr == null ? null : new GreaterThanOrEqual(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1123,6 +1159,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class LeftShift : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public LeftShift(BinaryExpression expr)
@@ -1132,26 +1171,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (LeftShift? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(LeftShift? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator LeftShift?(BinaryExpression? expr) => expr == null ? null : new LeftShift(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1161,6 +1200,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class LessThan : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public LessThan(BinaryExpression expr)
@@ -1170,26 +1212,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (LessThan? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(LessThan? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator LessThan?(BinaryExpression? expr) => expr == null ? null : new LessThan(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1199,6 +1241,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class LessThanOrEqual : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public LessThanOrEqual(BinaryExpression expr)
@@ -1208,26 +1253,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (LessThanOrEqual? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(LessThanOrEqual? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator LessThanOrEqual?(BinaryExpression? expr) => expr == null ? null : new LessThanOrEqual(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1237,6 +1282,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Modulo : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Modulo(BinaryExpression expr)
@@ -1246,26 +1294,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Modulo? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Modulo? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Modulo?(BinaryExpression? expr) => expr == null ? null : new Modulo(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1275,6 +1323,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Multiply : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Multiply(BinaryExpression expr)
@@ -1284,26 +1335,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Multiply? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Multiply? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Multiply?(BinaryExpression? expr) => expr == null ? null : new Multiply(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1313,6 +1364,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class MultiplyChecked : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public MultiplyChecked(BinaryExpression expr)
@@ -1322,26 +1376,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (MultiplyChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(MultiplyChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator MultiplyChecked?(BinaryExpression? expr) => expr == null ? null : new MultiplyChecked(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1351,6 +1405,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class NotEqual : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public NotEqual(BinaryExpression expr)
@@ -1360,26 +1417,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (NotEqual? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(NotEqual? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator NotEqual?(BinaryExpression? expr) => expr == null ? null : new NotEqual(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1389,6 +1446,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Or : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Or(BinaryExpression expr)
@@ -1398,26 +1458,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Or? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Or? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Or?(BinaryExpression? expr) => expr == null ? null : new Or(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1427,6 +1487,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class OrElse : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public OrElse(BinaryExpression expr)
@@ -1436,26 +1499,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (OrElse? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(OrElse? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator OrElse?(BinaryExpression? expr) => expr == null ? null : new OrElse(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1465,6 +1528,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Power : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Power(BinaryExpression expr)
@@ -1474,26 +1540,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Power? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Power? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Power?(BinaryExpression? expr) => expr == null ? null : new Power(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1503,6 +1569,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class RightShift : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public RightShift(BinaryExpression expr)
@@ -1512,26 +1581,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (RightShift? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(RightShift? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator RightShift?(BinaryExpression? expr) => expr == null ? null : new RightShift(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1541,6 +1610,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Subtract : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public Subtract(BinaryExpression expr)
@@ -1550,26 +1622,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (Subtract? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(Subtract? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Subtract?(BinaryExpression? expr) => expr == null ? null : new Subtract(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1579,6 +1651,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class SubtractChecked : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public SubtractChecked(BinaryExpression expr)
@@ -1588,26 +1663,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (SubtractChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(SubtractChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator SubtractChecked?(BinaryExpression? expr) => expr == null ? null : new SubtractChecked(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1617,6 +1692,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class AddAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public AddAssign(BinaryExpression expr)
@@ -1626,26 +1704,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (AddAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(AddAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator AddAssign?(BinaryExpression? expr) => expr == null ? null : new AddAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1655,6 +1733,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class AndAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public AndAssign(BinaryExpression expr)
@@ -1664,26 +1745,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (AndAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(AndAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator AndAssign?(BinaryExpression? expr) => expr == null ? null : new AndAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1693,6 +1774,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class DivideAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public DivideAssign(BinaryExpression expr)
@@ -1702,26 +1786,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (DivideAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(DivideAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator DivideAssign?(BinaryExpression? expr) => expr == null ? null : new DivideAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1731,6 +1815,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class ExclusiveOrAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public ExclusiveOrAssign(BinaryExpression expr)
@@ -1740,26 +1827,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (ExclusiveOrAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(ExclusiveOrAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ExclusiveOrAssign?(BinaryExpression? expr) => expr == null ? null : new ExclusiveOrAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1769,6 +1856,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class LeftShiftAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public LeftShiftAssign(BinaryExpression expr)
@@ -1778,26 +1868,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (LeftShiftAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(LeftShiftAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator LeftShiftAssign?(BinaryExpression? expr) => expr == null ? null : new LeftShiftAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1807,6 +1897,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class ModuloAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public ModuloAssign(BinaryExpression expr)
@@ -1816,26 +1909,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (ModuloAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(ModuloAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ModuloAssign?(BinaryExpression? expr) => expr == null ? null : new ModuloAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1845,6 +1938,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class MultiplyAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public MultiplyAssign(BinaryExpression expr)
@@ -1854,26 +1950,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (MultiplyAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(MultiplyAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator MultiplyAssign?(BinaryExpression? expr) => expr == null ? null : new MultiplyAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1883,6 +1979,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class OrAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public OrAssign(BinaryExpression expr)
@@ -1892,26 +1991,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (OrAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(OrAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator OrAssign?(BinaryExpression? expr) => expr == null ? null : new OrAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1921,6 +2020,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class PowerAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public PowerAssign(BinaryExpression expr)
@@ -1930,26 +2032,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (PowerAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(PowerAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator PowerAssign?(BinaryExpression? expr) => expr == null ? null : new PowerAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1959,6 +2061,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class RightShiftAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public RightShiftAssign(BinaryExpression expr)
@@ -1968,26 +2073,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (RightShiftAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(RightShiftAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator RightShiftAssign?(BinaryExpression? expr) => expr == null ? null : new RightShiftAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -1997,6 +2102,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class SubtractAssign : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public SubtractAssign(BinaryExpression expr)
@@ -2006,26 +2114,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (SubtractAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(SubtractAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator SubtractAssign?(BinaryExpression? expr) => expr == null ? null : new SubtractAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -2035,6 +2143,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class AddAssignChecked : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public AddAssignChecked(BinaryExpression expr)
@@ -2044,26 +2155,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (AddAssignChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(AddAssignChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator AddAssignChecked?(BinaryExpression? expr) => expr == null ? null : new AddAssignChecked(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -2073,6 +2184,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class MultiplyAssignChecked : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public MultiplyAssignChecked(BinaryExpression expr)
@@ -2082,26 +2196,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (MultiplyAssignChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(MultiplyAssignChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator MultiplyAssignChecked?(BinaryExpression? expr) => expr == null ? null : new MultiplyAssignChecked(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -2111,6 +2225,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class SubtractAssignChecked : Expr
 		{
+			Expr? _left;  Expr Left  => _left  ??= Expr.Left. ToExpr();
+			Expr? _right; Expr Right => _right ??= Expr.Right.ToExpr();
+
 			public BinaryExpression Expr { get; }
 
 			public SubtractAssignChecked(BinaryExpression expr)
@@ -2120,26 +2237,26 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?      (SubtractAssignChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator BinaryExpression?(SubtractAssignChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator SubtractAssignChecked?(BinaryExpression? expr) => expr == null ? null : new SubtractAssignChecked(expr);
 
 			public void Deconstruct(out Type type, out Expr left, out Expr right)
 			{
 				type  = Expr.Type;
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 
 			public void Deconstruct(out Expr left, out Expr right)
 			{
-				left  = Expr.Left. ToExpr();
-				right = Expr.Right.ToExpr();
+				left  = Left;
+				right = Right;
 			}
 		}
 
@@ -2149,6 +2266,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class ArrayLength : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public ArrayLength(UnaryExpression expr)
@@ -2158,24 +2278,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (ArrayLength? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(ArrayLength? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ArrayLength?(UnaryExpression? expr) => expr == null ? null : new ArrayLength(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2185,6 +2305,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Convert : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public Convert(UnaryExpression expr)
@@ -2194,24 +2317,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (Convert? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(Convert? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Convert?(UnaryExpression? expr) => expr == null ? null : new Convert(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2221,6 +2344,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class ConvertChecked : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public ConvertChecked(UnaryExpression expr)
@@ -2230,24 +2356,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (ConvertChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(ConvertChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator ConvertChecked?(UnaryExpression? expr) => expr == null ? null : new ConvertChecked(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2257,6 +2383,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Negate : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public Negate(UnaryExpression expr)
@@ -2266,24 +2395,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (Negate? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(Negate? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Negate?(UnaryExpression? expr) => expr == null ? null : new Negate(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2293,6 +2422,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class NegateChecked : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public NegateChecked(UnaryExpression expr)
@@ -2302,24 +2434,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (NegateChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(NegateChecked? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator NegateChecked?(UnaryExpression? expr) => expr == null ? null : new NegateChecked(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2329,6 +2461,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Not : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public Not(UnaryExpression expr)
@@ -2338,24 +2473,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (Not? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(Not? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Not?(UnaryExpression? expr) => expr == null ? null : new Not(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2365,6 +2500,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Quote : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public Quote(UnaryExpression expr)
@@ -2374,24 +2512,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (Quote? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(Quote? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Quote?(UnaryExpression? expr) => expr == null ? null : new Quote(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2401,6 +2539,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class TypeAs : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public TypeAs(UnaryExpression expr)
@@ -2410,24 +2551,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (TypeAs? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(TypeAs? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator TypeAs?(UnaryExpression? expr) => expr == null ? null : new TypeAs(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2437,6 +2578,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class UnaryPlus : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public UnaryPlus(UnaryExpression expr)
@@ -2446,24 +2590,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (UnaryPlus? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(UnaryPlus? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryPlus?(UnaryExpression? expr) => expr == null ? null : new UnaryPlus(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2473,6 +2617,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Decrement : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public Decrement(UnaryExpression expr)
@@ -2482,24 +2629,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (Decrement? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(Decrement? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Decrement?(UnaryExpression? expr) => expr == null ? null : new Decrement(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2509,6 +2656,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Increment : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public Increment(UnaryExpression expr)
@@ -2518,24 +2668,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (Increment? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(Increment? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Increment?(UnaryExpression? expr) => expr == null ? null : new Increment(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2545,6 +2695,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class IsFalse : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public IsFalse(UnaryExpression expr)
@@ -2554,24 +2707,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (IsFalse? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(IsFalse? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator IsFalse?(UnaryExpression? expr) => expr == null ? null : new IsFalse(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2581,6 +2734,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class IsTrue : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public IsTrue(UnaryExpression expr)
@@ -2590,24 +2746,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (IsTrue? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(IsTrue? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator IsTrue?(UnaryExpression? expr) => expr == null ? null : new IsTrue(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2617,6 +2773,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Throw : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public Throw(UnaryExpression expr)
@@ -2626,24 +2785,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (Throw? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(Throw? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Throw?(UnaryExpression? expr) => expr == null ? null : new Throw(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2653,6 +2812,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class Unbox : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public Unbox(UnaryExpression expr)
@@ -2662,24 +2824,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (Unbox? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(Unbox? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Unbox?(UnaryExpression? expr) => expr == null ? null : new Unbox(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2689,6 +2851,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class PreIncrementAssign : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public PreIncrementAssign(UnaryExpression expr)
@@ -2698,24 +2863,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (PreIncrementAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(PreIncrementAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator PreIncrementAssign?(UnaryExpression? expr) => expr == null ? null : new PreIncrementAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2725,6 +2890,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class PreDecrementAssign : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public PreDecrementAssign(UnaryExpression expr)
@@ -2734,24 +2902,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (PreDecrementAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(PreDecrementAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator PreDecrementAssign?(UnaryExpression? expr) => expr == null ? null : new PreDecrementAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2761,6 +2929,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class PostIncrementAssign : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public PostIncrementAssign(UnaryExpression expr)
@@ -2770,24 +2941,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (PostIncrementAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(PostIncrementAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator PostIncrementAssign?(UnaryExpression? expr) => expr == null ? null : new PostIncrementAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2797,6 +2968,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class PostDecrementAssign : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public PostDecrementAssign(UnaryExpression expr)
@@ -2806,24 +2980,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (PostDecrementAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(PostDecrementAssign? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator PostDecrementAssign?(UnaryExpression? expr) => expr == null ? null : new PostDecrementAssign(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 
@@ -2833,6 +3007,9 @@ namespace Linq.Expressions.Deconstruct
 
 		public class OnesComplement : Expr
 		{
+			Expr? _operand;
+			Expr?  Operand => _operand ??= Expr.Operand.ToExpr();
+
 			public UnaryExpression Expr { get; }
 
 			public OnesComplement(UnaryExpression expr)
@@ -2842,24 +3019,24 @@ namespace Linq.Expressions.Deconstruct
 
 			protected override Expression GetExpression() => Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator Expression?     (OnesComplement? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator UnaryExpression?(OnesComplement? expr) => expr?.Expr;
 
-			[return: NotNullIfNotNull("expr")]
+			[return: NotNullIfNotNull(nameof(expr))]
 			public static implicit operator OnesComplement?(UnaryExpression? expr) => expr == null ? null : new OnesComplement(expr);
 
 			public void Deconstruct(out Type type, out Expr? operand)
 			{
 				type    = Expr.Type;
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 
 			public void Deconstruct(out Expr? operand)
 			{
-				operand = Expr.Operand.ToExpr();
+				operand = Operand;
 			}
 		}
 

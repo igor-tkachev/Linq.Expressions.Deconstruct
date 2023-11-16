@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net40;netcoreapp3.1;</TargetFrameworks>
-		<LangVersion>latest</LangVersion>
+		<TargetFrameworks>net461;netcoreapp3.1;</TargetFrameworks>
+		<LangVersion>preview</LangVersion>
 		<Nullable>enable</Nullable>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>Linq.Expressions.Deconstruct.snk</AssemblyOriginatorKeyFile>
@@ -15,16 +15,15 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>System.Linq.Expressions Linq Expressions Deconstruct</PackageTags>
 		<Description>Pattern matching support for System.Linq.Expressions.</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Version>1.0.8</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 
-		<None Include="..\LICENSE.TXT">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
+		<None Include="..\LICENSE.TXT" Pack="true" PackagePath="\" />
+		<None Include="..\README.md"   Pack="true" PackagePath="\" />
 
 		<Compile Update="Expr.generated.cs">
 			<DesignTime>True</DesignTime>
@@ -35,6 +34,8 @@
 			<Generator>TextTemplatingFileGenerator</Generator>
 			<LastGenOutput>Expr.generated.cs</LastGenOutput>
 		</None>
-	</ItemGroup>
 
+		<ProjectReference Include="..\SourceGenerators\SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+
+	</ItemGroup>
 </Project>
