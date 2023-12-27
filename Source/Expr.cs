@@ -7,29 +7,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-#if !NETCOREAPP3_1
-
-namespace System.Diagnostics.CodeAnalysis
-{
-	[AttributeUsage(AttributeTargets.ReturnValue, AllowMultiple = true, Inherited = false)]
-	internal sealed class NotNullIfNotNullAttribute : Attribute
-	{
-		public NotNullIfNotNullAttribute(string parameterName)
-		{
-			ParameterName = parameterName;
-		}
-
-		public string ParameterName { get; }
-	}
-
-	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue, Inherited = false)]
-	internal sealed class NotNullAttribute : Attribute
-	{
-	}
-}
-
-#endif
-
 namespace Linq.Expressions.Deconstruct
 {
 	public abstract partial class Expr

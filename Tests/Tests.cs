@@ -378,7 +378,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 				}
 				catch (ArgumentException)
 				{
-					_getDebugView = e => e.ToString();
+					_getDebugView = e => e.ToString()!;
 				}
 			}
 

@@ -8,22 +8,29 @@
 		<AssemblyOriginatorKeyFile>Linq.Expressions.Deconstruct.snk</AssemblyOriginatorKeyFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Igor Tkachev</Authors>
-		<PackageLicenseFile>LICENSE.TXT</PackageLicenseFile>
 		<Copyright>Igor Tkachev</Copyright>
 		<PackageProjectUrl>https://github.com/igor-tkachev/Linq.Expressions.Deconstruct</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/igor-tkachev/Linq.Expressions.Deconstruct</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>System.Linq.Expressions Linq Expressions Deconstruct</PackageTags>
 		<Description>Pattern matching support for System.Linq.Expressions.</Description>
+		<PackageLicenseFile>LICENSE.TXT</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Version>1.0.8</Version>
+
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 
 		<None Include="..\LICENSE.TXT" Pack="true" PackagePath="\" />
-		<None Include="..\README.md"   Pack="true" PackagePath="\" />
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+
+		<ProjectReference Include="..\SourceGenerators\SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+
+		<PackageReference Include="PolySharp" Version="1.13.2" />
 
 		<Compile Update="Expr.generated.cs">
 			<DesignTime>True</DesignTime>
@@ -34,8 +41,5 @@
 			<Generator>TextTemplatingFileGenerator</Generator>
 			<LastGenOutput>Expr.generated.cs</LastGenOutput>
 		</None>
-
-		<ProjectReference Include="..\SourceGenerators\SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-
 	</ItemGroup>
 </Project>

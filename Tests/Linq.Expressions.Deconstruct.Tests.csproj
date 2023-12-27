@@ -7,11 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-		<PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
-		<PackageReference Include="NUnit" Version="3.12.0" />
-		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+		<PackageReference Include="Appveyor.TestLogger"    Version="2.0.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+		<PackageReference Include="NUnit3TestAdapter"      Version="3.13.0" />
+		<PackageReference Include="NUnit"                  Version="3.12.0" />
+		<PackageReference Include="PolySharp"              Version="1.13.2" />
 
 		<ProjectReference Include="..\Source\Linq.Expressions.Deconstruct.csproj" />
 	</ItemGroup>
