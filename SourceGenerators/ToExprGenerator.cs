@@ -116,7 +116,7 @@ namespace SourceGenerators
 				propertyName = fieldName.TrimStart('_');
 
 				if (propertyName.Length > 0)
-					propertyName = propertyName.Substring(0, 1).ToUpper() + propertyName.Substring(1);
+					propertyName = char.ToUpper(propertyName[0]) + propertyName[1..];
 			}
 			else
 			{
@@ -143,10 +143,11 @@ namespace SourceGenerators
 			if (isNullable.IsNull || isNullable.Value is false)
 				fieldType = fieldType.TrimEnd('?');
 
-			source.Append($$"""
-			public {{fieldType}} {{propertyName}} => {{fieldName}} ??= Expr.{{propertyName}}.ToExpr();
+			source.Append(
+				$"""
+							public {fieldType} {propertyName} => {fieldName} ??= Expr.{propertyName}.ToExpr();
 
-""");
+				""");
 		}
 
 		public class SyntaxReceiver : ISyntaxContextReceiver

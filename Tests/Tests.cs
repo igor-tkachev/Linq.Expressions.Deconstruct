@@ -17,7 +17,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 		[Test]
 		public void MatchTest()
 		{
-			Expression<Func<int,int>> f = i => i * 2;
+			Expression<Func<int,int>> f = static i => i * 2;
 
 			switch (f.ToExpr())
 			{
@@ -36,7 +36,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 		[Test]
 		public void ConditionalMatchTest()
 		{
-			Expression<Func<int,string>> f = i => i == 0 ? i.ToString("C") : "2";
+			Expression<Func<int,string>> f = static i => i == 0 ? i.ToString("C") : "2";
 
 			switch (f.ToExpr())
 			{
@@ -150,7 +150,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 			Console.WriteLine(f);
 			Console.WriteLine(f1);
 
-			Assert.IsTrue(f1.EqualsTo(i => i + 20));
+			Assert.That(f1.EqualsTo(i => i + 20));
 		}
 
 		[Test]
@@ -180,10 +180,8 @@ namespace Linq.Expressions.Deconstruct.Tests
 			Console.WriteLine(f);
 			Console.WriteLine(f1);
 
-			Assert.IsTrue(f1.EqualsTo(i => i + 20));
+			Assert.That(f1.EqualsTo(i => i + 20));
 		}
-
-#if NETCOREAPP3_1
 
 		public static T Fold<T>(T expr)
 			where T : notnull, LambdaExpression
@@ -242,10 +240,8 @@ namespace Linq.Expressions.Deconstruct.Tests
 			Console.WriteLine(f);
 			Console.WriteLine(f1);
 
-			Assert.IsTrue(f1.EqualsTo(i => 2));
+			Assert.That(f1.EqualsTo(i => 2));
 		}
-
-#endif
 
 		[Test]
 		public void ConstantFoldingExTest2()
@@ -286,7 +282,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 			Console.WriteLine(f);
 			Console.WriteLine(f1);
 
-			Assert.IsTrue(f1.EqualsTo(i => i + 20));
+			Assert.That(f1.EqualsTo(i => i + 20));
 		}
 
 		[Test]
@@ -330,7 +326,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			Console.WriteLine(r);
 
-			Assert.IsTrue(r.EqualsTo(Constant(10)));
+			Assert.That(r.EqualsTo(Constant(10)));
 		}
 
 		[Test]
@@ -342,7 +338,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			Console.WriteLine(r);
 
-			Assert.IsTrue(r.EqualsTo(Constant(10)));
+			Assert.That(r.EqualsTo(Constant(10)));
 		}
 
 		[Test]
@@ -359,7 +355,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 			Console.WriteLine(f);
 			Console.WriteLine(f1);
 
-			Assert.IsTrue(f1.EqualsTo(() => new[] { "dog", "cat" }));
+			Assert.That(f1.EqualsTo(() => new[] { "dog", "cat" }));
 		}
 
 		static Func<Expression,string>? _getDebugView;
