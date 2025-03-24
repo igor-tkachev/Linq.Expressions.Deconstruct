@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Linq.Expressions;
-
+using System.Reflection;
 using NUnit.Framework;
 
 using static Linq.Expressions.Deconstruct.Expr;
-using static System.Linq.Expressions.Expression;
+using Ex = System.Linq.Expressions.Expression;
 
 // ReSharper disable UselessBinaryOperation
 
@@ -130,20 +132,20 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			var f1 = f.Transform(ex => ex.ToExpr() switch
 			{
-				Multiply(Constant(0) e,   _)               => e,               // 0 * e => 0
-				Multiply(_,               Constant(0) e)   => e,               // e * 0 => 0
-				Multiply(Constant(1),     var e)           => e,               // 1 * e => e
-				Multiply(var e,           Constant(1))     => e,               // e * 1 => e
-				Divide  (Constant(0) e,   _)               => e,               // 0 / e => 0
-				Divide  (var e,           Constant(1))     => e,               // e / 1 => e
-				Add     (Constant(0),     var e)           => e,               // 0 + e => e
-				Add     (var e,           Constant(0))     => e,               // e + 0 => e
-				Subtract(Constant(0),     var e)           => Negate(e),       // 0 - e => -e
-				Subtract(var e,           Constant(0))     => e,               // e - 0 => e
-				Multiply(Constant(int x), Constant(int y)) => Constant(x * y), // x * y => e
-				Divide  (Constant(int x), Constant(int y)) => Constant(x / y), // x / y => e
-				Add     (Constant(int x), Constant(int y)) => Constant(x + y), // x + y => e
-				Subtract(Constant(int x), Constant(int y)) => Constant(x - y), // x - y => e
+				Multiply(Constant(0) e,   _)               => e,                  // 0 * e => 0
+				Multiply(_,               Constant(0) e)   => e,                  // e * 0 => 0
+				Multiply(Constant(1),     var e)           => e,                  // 1 * e => e
+				Multiply(var e,           Constant(1))     => e,                  // e * 1 => e
+				Divide  (Constant(0) e,   _)               => e,                  // 0 / e => 0
+				Divide  (var e,           Constant(1))     => e,                  // e / 1 => e
+				Add     (Constant(0),     var e)           => e,                  // 0 + e => e
+				Add     (var e,           Constant(0))     => e,                  // e + 0 => e
+				Subtract(Constant(0),     var e)           => Ex.Negate(e),       // 0 - e => -e
+				Subtract(var e,           Constant(0))     => e,                  // e - 0 => e
+				Multiply(Constant(int x), Constant(int y)) => Ex.Constant(x * y), // x * y => e
+				Divide  (Constant(int x), Constant(int y)) => Ex.Constant(x / y), // x / y => e
+				Add     (Constant(int x), Constant(int y)) => Ex.Constant(x + y), // x + y => e
+				Subtract(Constant(int x), Constant(int y)) => Ex.Constant(x - y), // x - y => e
 				_                                          => ex
 			});
 
@@ -160,20 +162,20 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			var f1 = f.TransformEx(ex => ex switch
 			{
-				Multiply(Constant(0) e,   _)               => e,               // 0 * e => 0
-				Multiply(_,               Constant(0) e)   => e,               // e * 0 => 0
-				Multiply(Constant(1),     var e)           => e,               // 1 * e => e
-				Multiply(var e,           Constant(1))     => e,               // e * 1 => e
-				Divide  (Constant(0) e,   _)               => e,               // 0 / e => 0
-				Divide  (var e,           Constant(1))     => e,               // e / 1 => e
-				Add     (Constant(0),     var e)           => e,               // 0 + e => e
-				Add     (var e,           Constant(0))     => e,               // e + 0 => e
-				Subtract(Constant(0),     var e)           => Negate(e),       // 0 - e => -e
-				Subtract(var e,           Constant(0))     => e,               // e - 0 => e
-				Multiply(Constant(int x), Constant(int y)) => Constant(x * y), // x * y => e
-				Divide  (Constant(int x), Constant(int y)) => Constant(x / y), // x / y => e
-				Add     (Constant(int x), Constant(int y)) => Constant(x + y), // x + y => e
-				Subtract(Constant(int x), Constant(int y)) => Constant(x - y), // x - y => e
+				Multiply(Constant(0) e,   _)               => e,                  // 0 * e => 0
+				Multiply(_,               Constant(0) e)   => e,                  // e * 0 => 0
+				Multiply(Constant(1),     var e)           => e,                  // 1 * e => e
+				Multiply(var e,           Constant(1))     => e,                  // e * 1 => e
+				Divide  (Constant(0) e,   _)               => e,                  // 0 / e => 0
+				Divide  (var e,           Constant(1))     => e,                  // e / 1 => e
+				Add     (Constant(0),     var e)           => e,                  // 0 + e => e
+				Add     (var e,           Constant(0))     => e,                  // e + 0 => e
+				Subtract(Constant(0),     var e)           => Ex.Negate(e),       // 0 - e => -e
+				Subtract(var e,           Constant(0))     => e,                  // e - 0 => e
+				Multiply(Constant(int x), Constant(int y)) => Ex.Constant(x * y), // x * y => e
+				Divide  (Constant(int x), Constant(int y)) => Ex.Constant(x / y), // x / y => e
+				Add     (Constant(int x), Constant(int y)) => Ex.Constant(x + y), // x + y => e
+				Subtract(Constant(int x), Constant(int y)) => Ex.Constant(x - y), // x - y => e
 				_                                          => ex
 			});
 
@@ -199,30 +201,30 @@ namespace Linq.Expressions.Deconstruct.Tests
 		{
 			return ex switch
 			{
-				Multiply(Constant(0) e,   _)               => e,                // 0 * e => 0
-				Multiply(_,               Constant(0) e)   => e,                // e * 0 => 0
-				Multiply(Constant(1),     var e)           => e,                // 1 * e => e
-				Multiply(var e,           Constant(1))     => e,                // e * 1 => e
-				Divide  (Constant(0) e,   _)               => e,                // 0 / e => 0
-				Divide  (var e,           Constant(1))     => e,                // e / 1 => e
-				Add     (Constant(0),     var e)           => e,                // 0 + e => e
-				Add     (var e,           Constant(0))     => e,                // e + 0 => e
-				Subtract(Constant(0),     var e)           => Negate(e)!,       // 0 - e => -e
-				Subtract(var e,           Constant(0))     => e,                // e - 0 => e
-				Multiply(Constant(int x), Constant(int y)) => Constant(x * y)!, // x * y => e
-				Divide  (Constant(int x), Constant(int y)) => Constant(x / y)!, // x / y => e
-				Add     (Constant(int x), Constant(int y)) => Constant(x + y)!, // x + y => e
-				Subtract(Constant(int x), Constant(int y)) => Constant(x - y)!, // x - y => e
+				Multiply(Constant(0) e,   _)               => e,                   // 0 * e => 0
+				Multiply(_,               Constant(0) e)   => e,                   // e * 0 => 0
+				Multiply(Constant(1),     var e)           => e,                   // 1 * e => e
+				Multiply(var e,           Constant(1))     => e,                   // e * 1 => e
+				Divide  (Constant(0) e,   _)               => e,                   // 0 / e => 0
+				Divide  (var e,           Constant(1))     => e,                   // e / 1 => e
+				Add     (Constant(0),     var e)           => e,                   // 0 + e => e
+				Add     (var e,           Constant(0))     => e,                   // e + 0 => e
+				Subtract(Constant(0),     var e)           => Ex.Negate(e)!,       // 0 - e => -e
+				Subtract(var e,           Constant(0))     => e,                   // e - 0 => e
+				Multiply(Constant(int x), Constant(int y)) => Ex.Constant(x * y)!, // x * y => e
+				Divide  (Constant(int x), Constant(int y)) => Ex.Constant(x / y)!, // x / y => e
+				Add     (Constant(int x), Constant(int y)) => Ex.Constant(x + y)!, // x + y => e
+				Subtract(Constant(int x), Constant(int y)) => Ex.Constant(x - y)!, // x - y => e
 
-				Add     (Add     (Constant(int c1), var e), Constant(int c2)) => Fold(Add     (Constant(c1 + c2), e)),  // (c1 + e) + c2 = (c1 + e2) + e
-				Multiply(Multiply(Constant(int c1), var e), Constant(int c2)) => Fold(Multiply(Constant(c1 * c2), e)),  // (c1 + e) + c2 = (c1 + e2) + e
+				Add     (Add     (Constant(int c1), var e), Constant(int c2)) => Fold(Ex.Add     (Ex.Constant(c1 + c2), e)),  // (c1 + e) + c2 = (c1 + e2) + e
+				Multiply(Multiply(Constant(int c1), var e), Constant(int c2)) => Fold(Ex.Multiply(Ex.Constant(c1 * c2), e)),  // (c1 + e) + c2 = (c1 + e2) + e
 
-				Add     (var e,           Constant c)      => Add     (c, e),            // e + c => c + e
-				Multiply(var e,           Constant c)      => Multiply(c, e),            // e * c => c * e
-				Subtract(var e,           Constant(int x)) => Add     (Constant(-x), e), // e - c => (-c) + e
+				Add     (var e,           Constant c)      => Ex.Add     (c, e),               // e + c => c + e
+				Multiply(var e,           Constant c)      => Ex.Multiply(c, e),               // e * c => c * e
+				Subtract(var e,           Constant(int x)) => Ex.Add     (Ex.Constant(-x), e), // e - c => (-c) + e
 
-				Add     (var e1,          Add     (var e2, var e3)) => Fold(Add     (Add     (e1, e2), e3)),  // e1 + (e2 + e3) = (e1 + e2) + e3
-				Multiply(var e1,          Multiply(var e2, var e3)) => Fold(Multiply(Multiply(e1, e2), e3)),  // e1 + (e2 + e3) = (e1 + e2) + e3
+				Add     (var e1,          Add     (var e2, var e3)) => Fold(Ex.Add     (Ex.Add     (e1, e2), e3)),  // e1 + (e2 + e3) = (e1 + e2) + e3
+				Multiply(var e1,          Multiply(var e2, var e3)) => Fold(Ex.Multiply(Ex.Multiply(e1, e2), e3)),  // e1 + (e2 + e3) = (e1 + e2) + e3
 
 				Subtract(Add(var e1, var e2), var e3) when e2 == e3 => e1,      // (e1 + e2) - e2 => e1
 
@@ -252,8 +254,8 @@ namespace Linq.Expressions.Deconstruct.Tests
 			{
 				return (xv, yv) switch
 				{
-					(char x, char y) => Constant(System.Convert.ChangeType(x + y, ((Expression)ex).Type)),
-					(int  x, int  y) => Constant(System.Convert.ChangeType(x + y, ((Expression)ex).Type)),
+					(char x, char y) => Ex.Constant(System.Convert.ChangeType(x + y, ((Expression)ex).Type)),
+					(int  x, int  y) => Ex.Constant(System.Convert.ChangeType(x + y, ((Expression)ex).Type)),
 					//(long x, long y) => Constant(System.Convert.ChangeType(x + y, ((Expression)ex).Type)),
 					_ => ex!
 				};
@@ -261,21 +263,21 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			var f1 = f.TransformEx(ex => ex switch
 			{
-				Multiply(Constant(_, 0) e,   _)                => e,                // 0 * e => 0
-				Multiply(_,                  Constant(_, 0) e) => e,                // e * 0 => 0
-				Multiply(Constant(_, 1),     var e)            => e,                // 1 * e => e
-				Multiply(var e,              Constant(_, 1))   => e,                // e * 1 => e
+				Multiply(Constant(_, 0) e,   _)                => e,                   // 0 * e => 0
+				Multiply(_,                  Constant(_, 0) e) => e,                   // e * 0 => 0
+				Multiply(Constant(_, 1),     var e)            => e,                   // 1 * e => e
+				Multiply(var e,              Constant(_, 1))   => e,                   // e * 1 => e
 				Divide  (_,                  Constant(_, 0))   => ex,
-				Divide  (Constant(_, 0) e,   _)                => e,                // 0 / e => 0
-				Divide  (var e,              Constant(_, 1))   => e,                // e / 1 => e
-				Add     (Constant(_, 0),     var e)            => e,                // 0 + e => e
-				Add     (var e,              Constant(_, 0))   => e,                // e + 0 => e
-				Subtract(Constant(_, 0),     var e)            => Negate(e),        // 0 - e => -e
-				Subtract(var e,              Constant(_, 0))   => e,                // e - 0 => e
-				Multiply(Constant(long x),   Constant(long y))  => Constant(x * y), // x * y => e
-				Divide  (Constant(long x),   Constant(long y))  => Constant(x / y), // x / y => e
-				Add     (Constant(var  x),   Constant(var  y))  => Add(ex, x, y),   // x + y => e
-				Subtract(Constant(long x),   Constant(long y))  => Constant(x - y), // x - y => e
+				Divide  (Constant(_, 0) e,   _)                => e,                   // 0 / e => 0
+				Divide  (var e,              Constant(_, 1))   => e,                   // e / 1 => e
+				Add     (Constant(_, 0),     var e)            => e,                   // 0 + e => e
+				Add     (var e,              Constant(_, 0))   => e,                   // e + 0 => e
+				Subtract(Constant(_, 0),     var e)            => Ex.Negate(e),        // 0 - e => -e
+				Subtract(var e,              Constant(_, 0))   => e,                   // e - 0 => e
+				Multiply(Constant(long x),   Constant(long y))  => Ex.Constant(x * y), // x * y => e
+				Divide  (Constant(long x),   Constant(long y))  => Ex.Constant(x / y), // x / y => e
+				Add     (Constant(var  x),   Constant(var  y))  => Add(ex, x, y),      // x + y => e
+				Subtract(Constant(long x),   Constant(long y))  => Ex.Constant(x - y), // x - y => e
 				_                                              => ex
 			});
 
@@ -326,7 +328,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			Console.WriteLine(r);
 
-			Assert.That(r.EqualsTo(Constant(10)));
+			Assert.That(r.EqualsTo(Ex.Constant(10)));
 		}
 
 		[Test]
@@ -338,7 +340,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			Console.WriteLine(r);
 
-			Assert.That(r.EqualsTo(Constant(10)));
+			Assert.That(r.EqualsTo(Ex.Constant(10)));
 		}
 
 		[Test]
@@ -348,7 +350,7 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			var f1 = f.TransformEx(ex => ex switch
 			{
-				Call({ Name : "Split" }, Constant("dog,cat"), (1, _)) => NewArrayInit(typeof(string), Constant("dog"), Constant("cat")),
+				Call({ Name : "Split" }, Constant("dog,cat"), (1, _)) => Ex.NewArrayInit(typeof(string), Ex.Constant("dog"), Ex.Constant("cat")),
 				_ => ex
 			});
 
@@ -364,11 +366,11 @@ namespace Linq.Expressions.Deconstruct.Tests
 		{
 			if (_getDebugView == null)
 			{
-				var p = Parameter(typeof(Expression));
+				var p = Ex.Parameter(typeof(Expression));
 
 				try
 				{
-					var l = Lambda<Func<Expression, string>>(PropertyOrField(p, "DebugView"), p);
+					var l = Ex.Lambda<Func<Expression, string>>(Ex.PropertyOrField(p, "DebugView"), p);
 
 					_getDebugView = l.Compile();
 				}
@@ -379,6 +381,61 @@ namespace Linq.Expressions.Deconstruct.Tests
 			}
 
 			return _getDebugView(expression);
+		}
+
+		[Test]
+		public void CallTest()
+		{
+			var q =
+				from t1 in new[] { 1, 2 }.AsQueryable()
+				join t2 in new[] { 2, 3 }.AsQueryable() on t1 equals t2 into g
+				from t2 in g.DefaultIfEmpty()
+				where g == null
+				select t1;
+
+			var dic = new Dictionary<MemberInfo,(Expression expression,int counter)>();
+
+			q.Expression.FindEx(ex =>
+			{
+				switch (ex)
+				{
+					case Call({ Name : "SelectMany" }, _,
+						[
+							Call({ Name : "GroupJoin" }, _, [_, _, _, _, Quote(Lambda(New([_, var mg2], [_, Parameter pg1]), [_, var pg2]))]),
+							Quote(Lambda(Call({ Name : "DefaultIfEmpty" }, null, [Member mg1]), [_])),
+							Quote(Lambda(New([_, Parameter p1]), [_, var p2]))
+						])
+						when pg1 == pg2 && p1 == p2 && mg1.Expr.Member == mg2:
+					{
+						dic[mg2] = (ex, 0);
+						break;
+					}
+				}
+
+				return false;
+			});
+
+			q.Expression.FindEx(ex =>
+			{
+				switch (ex)
+				{
+					case Member m:
+					{
+						if (dic.TryGetValue(m.Expr.Member, out var info))
+							dic[m.Expr.Member] = (info.expression, info.counter + 1);
+						break;
+					}
+				}
+
+				return false;
+			});
+
+			Assert.Throws<Exception>(() =>
+			{
+				foreach (var kv in dic)
+					if (kv.Value.Item2 > 1)
+						throw new Exception($"Member '{kv.Key}' should not be used to build LEFT JOIN in expression '{kv.Value.Item1}'.");
+			});
 		}
 	}
 }

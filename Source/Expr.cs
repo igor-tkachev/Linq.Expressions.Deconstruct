@@ -1538,7 +1538,12 @@ namespace Linq.Expressions.Deconstruct
 			where T : Expression
 		{
 			foreach (var item in source)
-				return FindInternal(item, func);
+			{
+				var found = FindInternal(item, func);
+				if (found != null)
+					return found;
+			}
+
 			return null;
 		}
 
