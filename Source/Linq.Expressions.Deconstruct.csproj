@@ -2,8 +2,6 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0</TargetFrameworks>
-		<LangVersion>preview</LangVersion>
-		<Nullable>enable</Nullable>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>Linq.Expressions.Deconstruct.snk</AssemblyOriginatorKeyFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -29,11 +27,6 @@
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
 
 		<ProjectReference Include="..\SourceGenerators\SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-
-		<PackageReference Include="PolySharp" Version="1.15.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 
 		<Compile Update="Expr.generated.cs">
 			<DesignTime>True</DesignTime>

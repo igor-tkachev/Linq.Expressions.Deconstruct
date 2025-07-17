@@ -65,13 +65,13 @@ namespace SourceGenerators
 
 				foreach (var group in grouped)
 				{
-					var classSource = ProcessClass((INamedTypeSymbol)group.Key, group.ToList(), spc);
-					spc.AddSource($"{group.Key.Name}.ToExpr.g.cs", SourceText.From(classSource, Encoding.UTF8));
+					var classSource = ProcessClass((INamedTypeSymbol)group.Key!, group.ToList(), spc);
+					spc.AddSource($"{group.Key!.Name}.ToExpr.g.cs", SourceText.From(classSource, Encoding.UTF8));
 				}
 			});
 		}
 
-		static IFieldSymbol GetFieldSymbolWithAttribute(GeneratorSyntaxContext context)
+		static IFieldSymbol? GetFieldSymbolWithAttribute(GeneratorSyntaxContext context)
 		{
 			if (context.Node is not FieldDeclarationSyntax fieldDeclaration)
 				return null;

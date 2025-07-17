@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/dotnet.yml" />
+  </Folder>
+  <Folder Name="/.root/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="LICENSE.TXT" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Source/Linq.Expressions.Deconstruct.csproj" />
+  <Project Path="SourceGenerators/SourceGenerators.csproj" />
+  <Project Path="Tests/Linq.Expressions.Deconstruct.Tests.csproj" />
+</Solution>

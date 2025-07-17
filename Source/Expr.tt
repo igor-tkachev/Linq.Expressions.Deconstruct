@@ -91,14 +91,14 @@ namespace Linq.Expressions.Deconstruct
 
 	foreach (var item in new []
 	{
-		"Add", "AddChecked", "And", "AndAlso", "ArrayIndex",
-		"Assign", "Coalesce", "Divide", "Equal", "ExclusiveOr",
-		"GreaterThan", "GreaterThanOrEqual", "LeftShift", "LessThan", "LessThanOrEqual",
-		"Modulo", "Multiply", "MultiplyChecked", "NotEqual", "Or",
-		"OrElse", "Power", "RightShift", "Subtract", "SubtractChecked",
-		"AddAssign", "AndAssign", "DivideAssign", "ExclusiveOrAssign", "LeftShiftAssign",
-		"ModuloAssign", "MultiplyAssign", "OrAssign", "PowerAssign", "RightShiftAssign",
-		"SubtractAssign", "AddAssignChecked", "MultiplyAssignChecked", "SubtractAssignChecked",
+		"Add",            "AddChecked",         "And",                   "AndAlso",           "ArrayIndex",
+		"Assign",         "Coalesce",           "Divide",                "Equal",             "ExclusiveOr",
+		"GreaterThan",    "GreaterThanOrEqual", "LeftShift",             "LessThan",          "LessThanOrEqual",
+		"Modulo",         "Multiply",           "MultiplyChecked",       "NotEqual",          "Or",
+		"OrElse",         "Power",              "RightShift",            "Subtract",          "SubtractChecked",
+		"AddAssign",      "AndAssign",          "DivideAssign",          "ExclusiveOrAssign", "LeftShiftAssign",
+		"ModuloAssign",   "MultiplyAssign",     "OrAssign",              "PowerAssign",       "RightShiftAssign",
+		"SubtractAssign", "AddAssignChecked",   "MultiplyAssignChecked", "SubtractAssignChecked",
 	})
 	{
 #>
@@ -148,9 +148,9 @@ namespace Linq.Expressions.Deconstruct
 
 	foreach (var item in new []
 	{
-		"ArrayLength", "Convert", "ConvertChecked", "Negate", "NegateChecked",
-		"Not", "Quote", "TypeAs", "UnaryPlus", "Decrement",
-		"Increment", "IsFalse", "IsTrue", "Throw", "Unbox",
+		"ArrayLength",        "Convert",            "ConvertChecked",      "Negate",              "NegateChecked",
+		"Not",                "Quote",              "TypeAs",              "UnaryPlus",           "Decrement",
+		"Increment",          "IsFalse",            "IsTrue",              "Throw",               "Unbox",
 		"PreIncrementAssign", "PreDecrementAssign", "PostIncrementAssign", "PostDecrementAssign", "OnesComplement",
 	})
 	{
