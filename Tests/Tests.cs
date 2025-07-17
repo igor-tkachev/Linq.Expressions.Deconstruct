@@ -263,21 +263,21 @@ namespace Linq.Expressions.Deconstruct.Tests
 
 			var f1 = f.TransformEx(ex => ex switch
 			{
-				Multiply(Constant(_, 0) e,   _)                => e,                   // 0 * e => 0
-				Multiply(_,                  Constant(_, 0) e) => e,                   // e * 0 => 0
-				Multiply(Constant(_, 1),     var e)            => e,                   // 1 * e => e
-				Multiply(var e,              Constant(_, 1))   => e,                   // e * 1 => e
-				Divide  (_,                  Constant(_, 0))   => ex,
-				Divide  (Constant(_, 0) e,   _)                => e,                   // 0 / e => 0
-				Divide  (var e,              Constant(_, 1))   => e,                   // e / 1 => e
-				Add     (Constant(_, 0),     var e)            => e,                   // 0 + e => e
-				Add     (var e,              Constant(_, 0))   => e,                   // e + 0 => e
-				Subtract(Constant(_, 0),     var e)            => Ex.Negate(e),        // 0 - e => -e
-				Subtract(var e,              Constant(_, 0))   => e,                   // e - 0 => e
-				Multiply(Constant(long x),   Constant(long y))  => Ex.Constant(x * y), // x * y => e
-				Divide  (Constant(long x),   Constant(long y))  => Ex.Constant(x / y), // x / y => e
-				Add     (Constant(var  x),   Constant(var  y))  => Add(ex, x, y),      // x + y => e
-				Subtract(Constant(long x),   Constant(long y))  => Ex.Constant(x - y), // x - y => e
+				Multiply(Constant(_, 0) e, _)                => e,                   // 0 * e => 0
+				Multiply(_,                Constant(_, 0) e) => e,                   // e * 0 => 0
+				Multiply(Constant(_, 1),   var e)            => e,                   // 1 * e => e
+				Multiply(var e,            Constant(_, 1))   => e,                   // e * 1 => e
+				Divide  (_,                Constant(_, 0))   => ex,
+				Divide  (Constant(_, 0) e, _)                => e,                   // 0 / e => 0
+				Divide  (var e,            Constant(_, 1))   => e,                   // e / 1 => e
+				Add     (Constant(_, 0),   var e)            => e,                   // 0 + e => e
+				Add     (var e,            Constant(_, 0))   => e,                   // e + 0 => e
+				Subtract(Constant(_, 0),   var e)            => Ex.Negate(e),        // 0 - e => -e
+				Subtract(var e,            Constant(_, 0))   => e,                   // e - 0 => e
+				Multiply(Constant(long x), Constant(long y))  => Ex.Constant(x * y), // x * y => e
+				Divide  (Constant(long x), Constant(long y))  => Ex.Constant(x / y), // x / y => e
+				Add     (Constant(var  x), Constant(var  y))  => Add(ex, x, y),      // x + y => e
+				Subtract(Constant(long x), Constant(long y))  => Ex.Constant(x - y), // x - y => e
 				_                                              => ex
 			});
 
