@@ -628,7 +628,7 @@ namespace Linq.Expressions.Deconstruct
 						case TypeCode.Int64   :
 							{
 								var value = (Int64)Expr.Value;
-								if (value <= int.MaxValue)
+								if (value >= int.MinValue && value <= int.MaxValue)
 									intValue = (int)value;
 								break;
 							}
@@ -642,7 +642,8 @@ namespace Linq.Expressions.Deconstruct
 						case TypeCode.Single  :
 							{
 								var value = (Single)Expr.Value;
-								if (value >= int.MinValue && value <= int.MaxValue)
+								// int.MaxValue is not representable as Single (it rounds up to 2^31), so the upper bound is exclusive.
+								if (value >= int.MinValue && value < 2147483648f)
 								{
 									var v = (int)value;
 									if ((Single)v == value)
@@ -1216,7 +1217,7 @@ namespace Linq.Expressions.Deconstruct
 		/// Visits expression tree.
 		/// </summary>
 		/// <param name="expr"><see cref="Expression"/> to visit.</param>
-		/// <param name="func">Visit function. Return true to stop.</param>
+		/// <param name="func">Visit function. Return true to visit the children of the expression, false to skip them.</param>
 		public static void Visit(this Expression? expr, Func<Expression, bool> func)
 		{
 			VisitInternal(expr, func);
@@ -1465,9 +1466,9 @@ namespace Linq.Expressions.Deconstruct
 		#region Find
 
 		/// <summary>
-		/// Finds and expression in expression tree.
+		/// Finds an expression in expression tree.
 		/// </summary>
-		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
+		/// <param name="expr"><see cref="Expression"/> to search.</param>
 		/// <param name="func">Find function. Return true if expression is found.</param>
 		/// <returns>Found expression or null.</returns>
 		public static Expression? FindEx(this Expression? expr, Func<Expr,bool> func)
@@ -1478,7 +1479,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <summary>
 		/// Finds an expression in expression tree.
 		/// </summary>
-		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
+		/// <param name="expr"><see cref="Expression"/> to search.</param>
 		/// <param name="exprToFind">Expression to find.</param>
 		/// <returns>Found expression or null.</returns>
 		public static Expression? Find(this Expression? expr, Expression exprToFind)
@@ -1487,12 +1488,11 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		/// <summary>
-		/// Finds and expression in expression tree.
+		/// Finds an expression in expression tree.
 		/// </summary>
-		/// <param name="expr"><see cref="Expression"/> to VisitInternal.</param>
+		/// <param name="expr"><see cref="Expression"/> to search.</param>
 		/// <param name="func">Find function. Return true if expression is found.</param>
 		/// <returns>Found expression or null.</returns>
-		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? Find(this Expression? expr, Func<Expression, bool> func)
 		{
 			return FindInternal(expr, func);
@@ -1757,7 +1757,6 @@ namespace Linq.Expressions.Deconstruct
 		/// <param name="func">Transform function.</param>
 		/// <returns>Modified expression.</returns>
 		[return: NotNullIfNotNull(nameof(expr))]
-		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? TransformEx(this Expression? expr, Func<Expr,Expr> func)
 		{
 			return TransformInternal(expr, false, ex => func(ex.ToExpr()));
@@ -1986,7 +1985,9 @@ namespace Linq.Expressions.Deconstruct
 					var b = TransformInternal(e.Body, forward, func);
 					var p = TransformInternal(e.Parameters, func, forward);
 
-					expr = b != e.Body || !ReferenceEquals(p, e.Parameters) ? Expression.Lambda(expr.Type, b, p.ToArray()) : expr;
+					if (b != e.Body || !ReferenceEquals(p, e.Parameters))
+						expr = Expression.Lambda(expr.Type, b, e.Name, e.TailCall, p);
+
 					break;
 				}
 
@@ -2175,14 +2176,80 @@ namespace Linq.Expressions.Deconstruct
 		{
 			public readonly HashSet<Expression> Visited = [];
 			public          bool                CompareConstantValues;
+
+			// Parameters declared by the enclosing lambdas, blocks and catch blocks, paired by position:
+			// left-hand parameter => right-hand parameter and back.
+			readonly Dictionary<ParameterExpression,ParameterExpression> _leftToRight = new();
+			readonly Dictionary<ParameterExpression,ParameterExpression> _rightToLeft = new();
+
+			public bool HasDeclaredParameters
+			{
+				get { return _leftToRight.Count > 0; }
+			}
+
+			/// <summary>
+			/// Declares two lists of parameters (lambda parameters, block variables) as pairwise equivalent.
+			/// Returns null if the lists do not match (different count or types).
+			/// The returned scope must be passed to <see cref="Leave"/>.
+			/// </summary>
+			public (ParameterExpression Left, ParameterExpression Right, ParameterExpression? PrevLeft, ParameterExpression? PrevRight)[]? Enter(
+				IList<ParameterExpression> left, IList<ParameterExpression> right)
+			{
+				if (left.Count != right.Count)
+					return null;
+
+				for (var i = 0; i < left.Count; i++)
+					if (left[i].Type != right[i].Type || left[i].IsByRef != right[i].IsByRef)
+						return null;
+
+				var scope = new (ParameterExpression, ParameterExpression, ParameterExpression?, ParameterExpression?)[left.Count];
+
+				for (var i = 0; i < left.Count; i++)
+				{
+					_leftToRight.TryGetValue(left[i],  out var prevRight);
+					_rightToLeft.TryGetValue(right[i], out var prevLeft);
+
+					scope[i] = (left[i], right[i], prevLeft, prevRight);
+
+					_leftToRight[left[i]]  = right[i];
+					_rightToLeft[right[i]] = left[i];
+				}
+
+				return scope;
+			}
+
+			public void Leave((ParameterExpression Left, ParameterExpression Right, ParameterExpression? PrevLeft, ParameterExpression? PrevRight)[] scope)
+			{
+				for (var i = scope.Length - 1; i >= 0; i--)
+				{
+					var (left, right, prevLeft, prevRight) = scope[i];
+
+					if (prevRight != null) _leftToRight[left]  = prevRight; else _leftToRight.Remove(left);
+					if (prevLeft  != null) _rightToLeft[right] = prevLeft;  else _rightToLeft.Remove(right);
+				}
+			}
+
+			public bool ParametersEqual(ParameterExpression left, ParameterExpression right)
+			{
+				// A declared parameter is equal only to the parameter declared at the same position.
+				if (_leftToRight.TryGetValue(left, out var mapped))
+					return mapped == right;
+
+				// A parameter declared outside of the compared trees (free) is equal only to itself.
+				return left == right && !_rightToLeft.ContainsKey(right);
+			}
 		}
 
 		static bool EqualsTo(this Expression? expr1, Expression? expr2, EqualsToInfo info)
 		{
-			if (expr1 == expr2)
+			if (expr1 == null || expr2 == null)
+				return expr1 == expr2;
+
+			// Once parameters are declared, the same node can still mean different things on the two sides.
+			if (expr1 == expr2 && !info.HasDeclaredParameters)
 				return true;
 
-			if (expr1 == null || expr2 == null || expr1.NodeType != expr2.NodeType || expr1.Type != expr2.Type)
+			if (expr1.NodeType != expr2.NodeType || expr1.Type != expr2.Type)
 				return false;
 
 			switch (expr1.NodeType)
@@ -2270,30 +2337,29 @@ namespace Linq.Expressions.Deconstruct
 
 				case ExpressionType.Goto                  :
 					return
-						((GotoExpression)expr1).Target.Type == ((GotoExpression)expr2).Target.Type &&
-						((GotoExpression)expr1).Target.Name == ((GotoExpression)expr2).Target.Name &&
-						((GotoExpression)expr1).Kind        == ((GotoExpression)expr2).Kind        &&
-						((GotoExpression)expr1).Value.EqualsTo(((GotoExpression)expr2).Value);
+						LabelsEqual(((GotoExpression)expr1).Target, ((GotoExpression)expr2).Target) &&
+						((GotoExpression)expr1).Kind == ((GotoExpression)expr2).Kind &&
+						((GotoExpression)expr1).Value.EqualsTo(((GotoExpression)expr2).Value, info);
 
 				case ExpressionType.Label                 :
 					return
-						((LabelExpression)expr1).Target.Type == ((LabelExpression)expr2).Target.Type &&
-						((LabelExpression)expr1).Target.Name == ((LabelExpression)expr2).Target.Name &&
-						((LabelExpression)expr1).DefaultValue.EqualsTo(((LabelExpression)expr2).DefaultValue);
+						LabelsEqual(((LabelExpression)expr1).Target, ((LabelExpression)expr2).Target) &&
+						((LabelExpression)expr1).DefaultValue.EqualsTo(((LabelExpression)expr2).DefaultValue, info);
 
 				case ExpressionType.Loop                  :
 					return
-						((LoopExpression)expr1).BreakLabel.   Type == ((LoopExpression)expr2).BreakLabel.   Type &&
-						((LoopExpression)expr1).BreakLabel.   Name == ((LoopExpression)expr2).BreakLabel.   Name &&
-						((LoopExpression)expr1).ContinueLabel.Type == ((LoopExpression)expr2).ContinueLabel.Type &&
-						((LoopExpression)expr1).ContinueLabel.Name == ((LoopExpression)expr2).ContinueLabel.Name &&
-						((LoopExpression)expr1).Body.EqualsTo(((LoopExpression)expr2).Body);
+						LabelsEqual(((LoopExpression)expr1).BreakLabel,    ((LoopExpression)expr2).BreakLabel)    &&
+						LabelsEqual(((LoopExpression)expr1).ContinueLabel, ((LoopExpression)expr2).ContinueLabel) &&
+						((LoopExpression)expr1).Body.EqualsTo(((LoopExpression)expr2).Body, info);
 
-				case ExpressionType.Default               :
-				case ExpressionType.Extension             :
-				case ExpressionType.DebugInfo             : return true;
+				case ExpressionType.Default               : return true;
 
-				case ExpressionType.Parameter             : return ((ParameterExpression) expr1).Name == ((ParameterExpression)expr2).Name;
+				// An extension node has no structure we know of; only the very same node is equal to itself.
+				case ExpressionType.Extension             : return ReferenceEquals(expr1, expr2);
+
+				case ExpressionType.DebugInfo             : return DebugInfoEqual((DebugInfoExpression)expr1, (DebugInfoExpression)expr2);
+
+				case ExpressionType.Parameter             : return info.ParametersEqual((ParameterExpression)expr1, (ParameterExpression)expr2);
 
 				case ExpressionType.Call                  : return EqualsTo(info, (MethodCallExpression)      expr1, (MethodCallExpression)      expr2);
 				case ExpressionType.Constant              : return EqualsTo(info, (ConstantExpression)        expr1, (ConstantExpression)        expr2);
@@ -2316,6 +2382,26 @@ namespace Linq.Expressions.Deconstruct
 			throw new InvalidOperationException();
 		}
 
+		static bool LabelsEqual(LabelTarget? label1, LabelTarget? label2)
+		{
+			if (label1 == null || label2 == null)
+				return label1 == label2;
+
+			return label1.Type == label2.Type && label1.Name == label2.Name;
+		}
+
+		static bool DebugInfoEqual(DebugInfoExpression expr1, DebugInfoExpression expr2)
+		{
+			return
+				expr1.IsClear     == expr2.IsClear     &&
+				expr1.StartLine   == expr2.StartLine   &&
+				expr1.StartColumn == expr2.StartColumn &&
+				expr1.EndLine     == expr2.EndLine     &&
+				expr1.EndColumn   == expr2.EndColumn   &&
+				expr1.Document.FileName == expr2.Document.FileName &&
+				expr1.Document.Language == expr2.Document.Language;
+		}
+
 		static bool EqualsTo(EqualsToInfo info, TryExpression expr1, TryExpression expr2)
 		{
 			if (expr1.Handlers.Count != expr2.Handlers.Count ||
@@ -2329,11 +2415,24 @@ namespace Linq.Expressions.Deconstruct
 				var h1 = expr1.Handlers[i];
 				var h2 = expr2.Handlers[i];
 
-				if (h1.Test != h2.Test ||
-					!h1.Body.    EqualsTo(h2.Body,     info) ||
-					!h1.Variable.EqualsTo(h2.Variable, info) ||
-					!h1.Filter.  EqualsTo(h2.Filter,   info))
+				if (h1.Test != h2.Test || (h1.Variable == null) != (h2.Variable == null))
 					return false;
+
+				var scope = h1.Variable == null ? null : info.Enter([h1.Variable], [h2.Variable!]);
+
+				if (h1.Variable != null && scope == null)
+					return false;
+
+				try
+				{
+					if (!h1.Body.EqualsTo(h2.Body, info) || !h1.Filter.EqualsTo(h2.Filter, info))
+						return false;
+				}
+				finally
+				{
+					if (scope != null)
+						info.Leave(scope);
+				}
 			}
 
 			return true;
@@ -2343,8 +2442,8 @@ namespace Linq.Expressions.Deconstruct
 		{
 			if (expr1.Comparison  != expr2.Comparison  ||
 				expr1.Cases.Count != expr2.Cases.Count ||
-				expr1.SwitchValue.EqualsTo(expr2.SwitchValue) ||
-				expr1.DefaultBody.EqualsTo(expr2.DefaultBody))
+				!expr1.SwitchValue.EqualsTo(expr2.SwitchValue, info) ||
+				!expr1.DefaultBody.EqualsTo(expr2.DefaultBody, info))
 				return false;
 
 			for (var i = 0; i < expr1.Cases.Count; i++)
@@ -2365,6 +2464,9 @@ namespace Linq.Expressions.Deconstruct
 
 		static bool EqualsTo(EqualsToInfo info, RuntimeVariablesExpression expr1, RuntimeVariablesExpression expr2)
 		{
+			if (expr1.Variables.Count != expr2.Variables.Count)
+				return false;
+
 			for (var i = 0; i < expr1.Variables.Count; i++)
 				if (!expr1.Variables[i].EqualsTo(expr2.Variables[i], info))
 					return false;
@@ -2382,7 +2484,7 @@ namespace Linq.Expressions.Deconstruct
 				if (!expr1.Arguments[i].EqualsTo(expr2.Arguments[i], info))
 					return false;
 
-			return expr1.Object.EqualsTo(expr2.Object);
+			return expr1.Object.EqualsTo(expr2.Object, info);
 		}
 
 		static bool EqualsTo(EqualsToInfo info, DynamicExpression expr1, DynamicExpression expr2)
@@ -2404,15 +2506,23 @@ namespace Linq.Expressions.Deconstruct
 				expr1.Variables.Count   != expr2.Variables.Count)
 				return false;
 
-			for (var i = 0; i < expr1.Expressions.Count; i++)
-				if (!expr1.Expressions[i].EqualsTo(expr2.Expressions[i], info))
-					return false;
+			var scope = info.Enter(expr1.Variables, expr2.Variables);
 
-			for (var i = 0; i < expr1.Variables.Count; i++)
-				if (!expr1.Variables[i].EqualsTo(expr2.Variables[i], info))
-					return false;
+			if (scope == null)
+				return false;
 
-			return true;
+			try
+			{
+				for (var i = 0; i < expr1.Expressions.Count; i++)
+					if (!expr1.Expressions[i].EqualsTo(expr2.Expressions[i], info))
+						return false;
+
+				return true;
+			}
+			finally
+			{
+				info.Leave(scope);
+			}
 		}
 
 		static bool EqualsTo(EqualsToInfo info, NewArrayExpression expr1, NewArrayExpression expr2)
@@ -2555,14 +2665,19 @@ namespace Linq.Expressions.Deconstruct
 
 		static bool EqualsTo(EqualsToInfo info, LambdaExpression expr1, LambdaExpression expr2)
 		{
-			if (expr1.Parameters.Count != expr2.Parameters.Count || !expr1.Body.EqualsTo(expr2.Body, info))
+			var scope = info.Enter(expr1.Parameters, expr2.Parameters);
+
+			if (scope == null)
 				return false;
 
-			for (var i = 0; i < expr1.Parameters.Count; i++)
-				if (!expr1.Parameters[i].EqualsTo(expr2.Parameters[i], info))
-					return false;
-
-			return true;
+			try
+			{
+				return expr1.Body.EqualsTo(expr2.Body, info);
+			}
+			finally
+			{
+				info.Leave(scope);
+			}
 		}
 
 		static bool EqualsTo(EqualsToInfo info, InvocationExpression expr1, InvocationExpression expr2)
