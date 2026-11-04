@@ -1,6 +1,11 @@
 ﻿# Changelog
 
-## Unreleased
+## 1.1.0 — 2026-11-04
+
+> **Upgrade note.** This release changes the behaviour of `EqualsTo`: parameters are now paired by their position in the
+> enclosing lambda, block or catch block, and a free parameter is equal only to itself. If your code relied on matching
+> free parameters by name, pass `EqualsToOptions.FreeParametersByName` to get the old behaviour back.
+> Review the breaking changes below before updating.
 
 ### Breaking changes
 

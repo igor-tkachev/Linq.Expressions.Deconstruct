@@ -14,7 +14,7 @@
 		<Description>Pattern matching support for System.Linq.Expressions.</Description>
 		<PackageLicenseFile>LICENSE.TXT</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>1.0.9</Version>
+		<Version>1.1.0</Version>
 
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 		<CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
