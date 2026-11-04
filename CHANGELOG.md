@@ -30,4 +30,5 @@
 ### Added
 
 - Tests for `EqualsTo`, `Transform` and `Visit` on statement nodes, and for the README examples.
+- CI checks that `Source/Expr.generated.cs` matches `Source/Expr.tt` (`dotnet-t4` as a local tool).
 - README: documentation of `ToExpr`, `Visit`, `Find`, `Transform` and `EqualsTo`.

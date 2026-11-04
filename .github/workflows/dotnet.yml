@@ -17,6 +17,12 @@ jobs:
         dotnet-version: |
           8.0.x
           10.0.x
+    - name: Check Expr.generated.cs is up to date
+      run: |
+        dotnet tool restore
+        dotnet t4 Source/Expr.tt -o "$RUNNER_TEMP/Expr"
+        # Ignore the BOM and line endings, which depend on the editor and on git settings.
+        diff <(sed 's/^\xEF\xBB\xBF//; s/\r$//' Source/Expr.generated.cs) <(sed 's/^\xEF\xBB\xBF//; s/\r$//' "$RUNNER_TEMP/Expr.generated.cs")
     - name: Restore
       run: dotnet restore Linq.Expressions.Deconstruct.slnx
     - name: Build
