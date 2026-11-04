@@ -194,10 +194,11 @@ Assert.That(log, Is.EqualTo(new[] { "Multiply", "Add", "Constant", "Constant", "
 * Parameters declared by lambdas, blocks (variables) and catch blocks are matched by position, not by name:
   `x => x * 2` equals `y => y * 2`, but `(a, b) => a` does not equal `(a, b) => b`.
   A parameter that is not declared inside the compared trees is equal only to itself.
+* Label targets (`goto`, `label`, `loop`) are paired by their first occurrence in the same way.
 * Constants of primitive types, strings, enums, etc. are always compared by value; constants that wrap
   queries or sequences are compared by their content. Other constants (closure objects, ...) are considered
   equal when their types are equal, unless `compareConstantValues: true` is passed, which compares them by reference.
-* An `Extension` node (a custom node type) is equal only to itself. `DebugInfo` nodes are compared by document and position.
+* Two `Extension` nodes (custom node types) are equal when they have the same type and `Equals` returns true. `DebugInfo` nodes are compared by document and position.
 
 ```c#
 Expression<Func<int,int>> f1 = x => x * 2;
@@ -216,6 +217,26 @@ var o2 = new object();
 
 Assert.That(Ex.Constant(o1).EqualsTo(Ex.Constant(o2)),                              Is.True);
 Assert.That(Ex.Constant(o1).EqualsTo(Ex.Constant(o2), compareConstantValues: true), Is.False);
+```
+
+`EqualsToOptions` (a `[Flags]` enum) can be passed instead of the `compareConstantValues` flag:
+
+* `CompareConstantValues` - the same as `compareConstantValues: true`.
+* `FreeParametersByName` - parameters that are not declared inside the compared trees are equal when
+  their names and types match. Use it to compare fragments of different lambdas, for example `l1.Body.EqualsTo(l2.Body, EqualsToOptions.FreeParametersByName)`.
+* `ParameterNamesMatter` - lambda parameters and block/catch variables matched by position must also have the same name.
+
+```c#
+Expression<Func<int,int>> f1 = a => a + 1;
+Expression<Func<int,int>> f2 = a => a + 1;
+
+f1.Body.EqualsTo(f2.Body);                                           // false: the two 'a' are different parameters
+f1.Body.EqualsTo(f2.Body, EqualsToOptions.FreeParametersByName);     // true
+
+Expression<Func<int,int>> f3 = b => b + 1;
+
+f1.EqualsTo(f3);                                                     // true
+f1.EqualsTo(f3, EqualsToOptions.ParameterNamesMatter);               // false
 ```
 
 ## Supported frameworks

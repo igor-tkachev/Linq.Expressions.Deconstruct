@@ -171,5 +171,20 @@ namespace Linq.Expressions.Deconstruct.Tests
 			Assert.That(Ex.Constant(o1).EqualsTo(Ex.Constant(o2)),                              Is.True);
 			Assert.That(Ex.Constant(o1).EqualsTo(Ex.Constant(o2), compareConstantValues: true), Is.False);
 		}
+
+		[Test]
+		public void EqualsToOptionsTest()
+		{
+			Expression<Func<int,int>> f1 = a => a + 1;
+			Expression<Func<int,int>> f2 = a => a + 1;
+
+			Assert.That(f1.Body.EqualsTo(f2.Body),                                       Is.False); // false: the two 'a' are different parameters
+			Assert.That(f1.Body.EqualsTo(f2.Body, EqualsToOptions.FreeParametersByName), Is.True);
+
+			Expression<Func<int,int>> f3 = b => b + 1;
+
+			Assert.That(f1.EqualsTo(f3),                                       Is.True);
+			Assert.That(f1.EqualsTo(f3, EqualsToOptions.ParameterNamesMatter), Is.False);
+		}
 	}
 }

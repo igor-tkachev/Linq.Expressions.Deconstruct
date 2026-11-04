@@ -693,6 +693,35 @@ namespace Linq.Expressions.Deconstruct
 		#endregion
 	}
 
+	/// <summary>
+	/// Options of <c>EqualsTo</c>.
+	/// </summary>
+	[Flags]
+	public enum EqualsToOptions
+	{
+		/// <summary>
+		/// Default comparison.
+		/// </summary>
+		None = 0,
+
+		/// <summary>
+		/// Constants of types other than primitives, strings and sequences are compared by reference;
+		/// by default they are equal if their types are equal.
+		/// </summary>
+		CompareConstantValues = 1,
+
+		/// <summary>
+		/// Parameters that are not declared inside the compared trees are equal if their names and types match;
+		/// by default a free parameter is equal only to itself.
+		/// </summary>
+		FreeParametersByName = 2,
+
+		/// <summary>
+		/// Declared parameters (lambda parameters, block and catch variables) matched by position must also have the same name.
+		/// </summary>
+		ParameterNamesMatter = 4,
+	}
+
 	public static partial class Extensions
 	{
 		#region ToExpr
@@ -1868,6 +1897,29 @@ namespace Linq.Expressions.Deconstruct
 			return modified ? (IEnumerable<T>)list : source;
 		}
 
+		// A declaration cannot be replaced by an arbitrary expression: if the function returns something
+		// other than a parameter, the original parameter is kept (its uses in the body are still replaced).
+		static ParameterExpression TransformParameter(ParameterExpression parameter, bool forward, Func<Expression,Expression> func)
+		{
+			return TransformInternal(parameter, forward, func) as ParameterExpression ?? parameter;
+		}
+
+		static IEnumerable<ParameterExpression> TransformParameters(
+			ICollection<ParameterExpression> source, Func<Expression,Expression> func, bool forward)
+		{
+			var modified = false;
+			var list     = new List<ParameterExpression>(source.Count);
+
+			foreach (var item in source)
+			{
+				var e = TransformParameter(item, forward, func);
+				list.Add(e);
+				modified = modified || e != item;
+			}
+
+			return modified ? list : source;
+		}
+
 		[return: NotNullIfNotNull(nameof(expr))]
 		static Expression? TransformInternal(this Expression? expr, bool forward, Func<Expression,Expression> func)
 		{
@@ -1989,7 +2041,7 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (LambdaExpression)expr;
 					var b = TransformInternal(e.Body, forward, func);
-					var p = TransformInternal(e.Parameters, func, forward);
+					var p = TransformParameters(e.Parameters, func, forward);
 
 					if (b != e.Body || !ReferenceEquals(p, e.Parameters))
 						expr = Expression.Lambda(expr.Type, b, e.Name, e.TailCall, p);
@@ -2070,7 +2122,7 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (BlockExpression)expr;
 					expr = e.Update(
-						TransformInternal(e.Variables, func, forward),
+						TransformParameters(e.Variables, func, forward),
 						TransformInternal(e.Expressions, func, forward));
 					break;
 				}
@@ -2115,7 +2167,7 @@ namespace Linq.Expressions.Deconstruct
 				case ExpressionType.RuntimeVariables:
 				{
 					var e = (RuntimeVariablesExpression)expr;
-					expr = e.Update(TransformInternal(e.Variables, func, forward));
+					expr = e.Update(TransformParameters(e.Variables, func, forward));
 					break;
 				}
 
@@ -2143,7 +2195,7 @@ namespace Linq.Expressions.Deconstruct
 						TransformInternal(e.Body, forward, func),
 						TransformInternal(e.Handlers, (func, forward), static (f,h) =>
 							h.Update(
-								(ParameterExpression?)TransformInternal(h.Variable, f.forward, f.func), TransformInternal(h.Filter, f.forward, f.func),
+								h.Variable == null ? null : TransformParameter(h.Variable, f.forward, f.func), TransformInternal(h.Filter, f.forward, f.func),
 								TransformInternal(h.Body, f.forward, f.func))),
 						TransformInternal(e.Finally, forward, func),
 						TransformInternal(e.Fault, forward, func));
@@ -2171,10 +2223,35 @@ namespace Linq.Expressions.Deconstruct
 		public static bool EqualsTo<T>(this T expr1, T expr2, bool compareConstantValues = false)
 			where T : notnull, LambdaExpression
 		{
-			return EqualsTo(expr1, expr2, new EqualsToInfo
-			{
-				CompareConstantValues = compareConstantValues
-			});
+			return EqualsTo(expr1, expr2, compareConstantValues ? EqualsToOptions.CompareConstantValues : EqualsToOptions.None);
+		}
+
+		/// <summary>
+		/// Compares two lambda expressions structurally. See <see cref="EqualsToOptions"/> for the available options.
+		/// </summary>
+		/// <param name="expr1">First expression.</param>
+		/// <param name="expr2">Second expression.</param>
+		/// <param name="options">Comparison options.</param>
+		/// <returns>True if the expressions are structurally equal.</returns>
+		public static bool EqualsTo<T>(this T expr1, T expr2, EqualsToOptions options)
+			where T : notnull, LambdaExpression
+		{
+			return EqualsTo(expr1, expr2, new EqualsToInfo(options));
+		}
+
+		/// <summary>
+		/// Compares two expressions structurally. See <see cref="EqualsToOptions"/> for the available options.
+		/// </summary>
+		/// <param name="expr1">First expression.</param>
+		/// <param name="expr2">Second expression.</param>
+		/// <param name="options">Comparison options.</param>
+		/// <returns>True if the expressions are structurally equal.</returns>
+		public static bool EqualsTo(this Expression? expr1, Expression? expr2, EqualsToOptions options)
+		{
+			if (expr1 == null || expr2 == null)
+				return expr1 == expr2;
+
+			return EqualsTo(expr1, expr2, new EqualsToInfo(options));
 		}
 
 		/// <summary>
@@ -2190,26 +2267,66 @@ namespace Linq.Expressions.Deconstruct
 			if (expr1 == null || expr2 == null)
 				return expr1 == expr2;
 
-			return EqualsTo(expr1, expr2, new EqualsToInfo
-			{
-				CompareConstantValues = compareConstantValues
-			});
+			return EqualsTo(expr1, expr2, compareConstantValues ? EqualsToOptions.CompareConstantValues : EqualsToOptions.None);
 		}
 
 		class EqualsToInfo
 		{
+			public EqualsToInfo(EqualsToOptions options)
+			{
+				Options = options;
+			}
+
 			public readonly HashSet<Expression> Visited = [];
-			public          bool                CompareConstantValues;
+			public readonly EqualsToOptions     Options;
+
+			public bool CompareConstantValues
+			{
+				get { return (Options & EqualsToOptions.CompareConstantValues) != 0; }
+			}
+
+			// Number of declared parameters and labels paired with a different object. While it is zero,
+			// both sides declare the same objects, so a node shared by both trees means the same on both sides.
+			int _renamed;
+
+			public bool HasRenamedPairs
+			{
+				get { return _renamed > 0; }
+			}
+
+			readonly Dictionary<LabelTarget,LabelTarget> _labelsLeftToRight = new();
+			readonly Dictionary<LabelTarget,LabelTarget> _labelsRightToLeft = new();
+
+			/// <summary>
+			/// Labels are paired by their first occurrence.
+			/// </summary>
+			public bool LabelsEqual(LabelTarget? left, LabelTarget? right)
+			{
+				if (left == null || right == null)
+					return left == right;
+
+				if (left.Type != right.Type || left.Name != right.Name)
+					return false;
+
+				var hasLeft  = _labelsLeftToRight.TryGetValue(left,  out var mappedRight);
+				var hasRight = _labelsRightToLeft.TryGetValue(right, out var mappedLeft);
+
+				if (hasLeft || hasRight)
+					return hasLeft && hasRight && mappedRight == right && mappedLeft == left;
+
+				_labelsLeftToRight[left]  = right;
+				_labelsRightToLeft[right] = left;
+
+				if (left != right)
+					_renamed++;
+
+				return true;
+			}
 
 			// Parameters declared by the enclosing lambdas, blocks and catch blocks, paired by position:
 			// left-hand parameter => right-hand parameter and back.
 			readonly Dictionary<ParameterExpression,ParameterExpression> _leftToRight = new();
 			readonly Dictionary<ParameterExpression,ParameterExpression> _rightToLeft = new();
-
-			public bool HasDeclaredParameters
-			{
-				get { return _leftToRight.Count > 0; }
-			}
 
 			/// <summary>
 			/// Declares two lists of parameters (lambda parameters, block variables) as pairwise equivalent.
@@ -2223,8 +2340,13 @@ namespace Linq.Expressions.Deconstruct
 					return null;
 
 				for (var i = 0; i < left.Count; i++)
+				{
 					if (left[i].Type != right[i].Type || left[i].IsByRef != right[i].IsByRef)
 						return null;
+
+					if ((Options & EqualsToOptions.ParameterNamesMatter) != 0 && left[i].Name != right[i].Name)
+						return null;
+				}
 
 				var scope = new (ParameterExpression, ParameterExpression, ParameterExpression?, ParameterExpression?)[left.Count];
 
@@ -2237,6 +2359,9 @@ namespace Linq.Expressions.Deconstruct
 
 					_leftToRight[left[i]]  = right[i];
 					_rightToLeft[right[i]] = left[i];
+
+					if (left[i] != right[i])
+						_renamed++;
 				}
 
 				return scope;
@@ -2248,6 +2373,9 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var (left, right, prevLeft, prevRight) = scope[i];
 
+					if (left != right)
+						_renamed--;
+
 					if (prevRight != null) _leftToRight[left]  = prevRight; else _leftToRight.Remove(left);
 					if (prevLeft  != null) _rightToLeft[right] = prevLeft;  else _rightToLeft.Remove(right);
 				}
@@ -2256,11 +2384,19 @@ namespace Linq.Expressions.Deconstruct
 			public bool ParametersEqual(ParameterExpression left, ParameterExpression right)
 			{
 				// A declared parameter is equal only to the parameter declared at the same position.
-				if (_leftToRight.TryGetValue(left, out var mapped))
-					return mapped == right;
+				// Both directions are checked: an object can be declared again in a nested scope on one side only.
+				if (_leftToRight.TryGetValue(left, out var mappedRight))
+					return mappedRight == right && _rightToLeft.TryGetValue(right, out var mappedLeft) && mappedLeft == left;
 
-				// A parameter declared outside of the compared trees (free) is equal only to itself.
-				return left == right && !_rightToLeft.ContainsKey(right);
+				if (_rightToLeft.ContainsKey(right))
+					return false;
+
+				// A parameter declared outside of the compared trees (free) is equal only to itself,
+				// or, with FreeParametersByName, to a free parameter with the same name and type.
+				if (left == right)
+					return true;
+
+				return (Options & EqualsToOptions.FreeParametersByName) != 0 && left.Type == right.Type && left.Name == right.Name;
 			}
 		}
 
@@ -2270,7 +2406,7 @@ namespace Linq.Expressions.Deconstruct
 				return expr1 == expr2;
 
 			// Once parameters are declared, the same node can still mean different things on the two sides.
-			if (expr1 == expr2 && !info.HasDeclaredParameters)
+			if (expr1 == expr2 && !info.HasRenamedPairs)
 				return true;
 
 			if (expr1.NodeType != expr2.NodeType || expr1.Type != expr2.Type)
@@ -2361,25 +2497,25 @@ namespace Linq.Expressions.Deconstruct
 
 				case ExpressionType.Goto                  :
 					return
-						LabelsEqual(((GotoExpression)expr1).Target, ((GotoExpression)expr2).Target) &&
+						info.LabelsEqual(((GotoExpression)expr1).Target, ((GotoExpression)expr2).Target) &&
 						((GotoExpression)expr1).Kind == ((GotoExpression)expr2).Kind &&
 						((GotoExpression)expr1).Value.EqualsTo(((GotoExpression)expr2).Value, info);
 
 				case ExpressionType.Label                 :
 					return
-						LabelsEqual(((LabelExpression)expr1).Target, ((LabelExpression)expr2).Target) &&
+						info.LabelsEqual(((LabelExpression)expr1).Target, ((LabelExpression)expr2).Target) &&
 						((LabelExpression)expr1).DefaultValue.EqualsTo(((LabelExpression)expr2).DefaultValue, info);
 
 				case ExpressionType.Loop                  :
 					return
-						LabelsEqual(((LoopExpression)expr1).BreakLabel,    ((LoopExpression)expr2).BreakLabel)    &&
-						LabelsEqual(((LoopExpression)expr1).ContinueLabel, ((LoopExpression)expr2).ContinueLabel) &&
+						info.LabelsEqual(((LoopExpression)expr1).BreakLabel,    ((LoopExpression)expr2).BreakLabel)    &&
+						info.LabelsEqual(((LoopExpression)expr1).ContinueLabel, ((LoopExpression)expr2).ContinueLabel) &&
 						((LoopExpression)expr1).Body.EqualsTo(((LoopExpression)expr2).Body, info);
 
 				case ExpressionType.Default               : return true;
 
-				// An extension node has no structure we know of; only the very same node is equal to itself.
-				case ExpressionType.Extension             : return ReferenceEquals(expr1, expr2);
+				// An extension node has no structure we know of; it is compared with its own Equals.
+				case ExpressionType.Extension             : return expr1.GetType() == expr2.GetType() && expr1.Equals(expr2);
 
 				case ExpressionType.DebugInfo             : return DebugInfoEqual((DebugInfoExpression)expr1, (DebugInfoExpression)expr2);
 
@@ -2406,14 +2542,6 @@ namespace Linq.Expressions.Deconstruct
 			throw new InvalidOperationException();
 		}
 
-		static bool LabelsEqual(LabelTarget? label1, LabelTarget? label2)
-		{
-			if (label1 == null || label2 == null)
-				return label1 == label2;
-
-			return label1.Type == label2.Type && label1.Name == label2.Name;
-		}
-
 		static bool DebugInfoEqual(DebugInfoExpression expr1, DebugInfoExpression expr2)
 		{
 			return
@@ -2423,7 +2551,9 @@ namespace Linq.Expressions.Deconstruct
 				expr1.EndLine     == expr2.EndLine     &&
 				expr1.EndColumn   == expr2.EndColumn   &&
 				expr1.Document.FileName == expr2.Document.FileName &&
-				expr1.Document.Language == expr2.Document.Language;
+				expr1.Document.Language       == expr2.Document.Language       &&
+				expr1.Document.LanguageVendor == expr2.Document.LanguageVendor &&
+				expr1.Document.DocumentType   == expr2.Document.DocumentType;
 		}
 
 		static bool EqualsTo(EqualsToInfo info, TryExpression expr1, TryExpression expr2)
