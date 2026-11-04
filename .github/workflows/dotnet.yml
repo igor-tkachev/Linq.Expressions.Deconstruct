@@ -1,10 +1,8 @@
-﻿# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+﻿name: CI
 
 on:
   push:
+    branches: [ master ]
   pull_request:
 
 jobs:
@@ -12,14 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+        dotnet-version: |
+          8.0.x
+          10.0.x
+    - name: Restore
+      run: dotnet restore Linq.Expressions.Deconstruct.slnx
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build Linq.Expressions.Deconstruct.slnx -c Release --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity detailed
+      run: dotnet test Linq.Expressions.Deconstruct.slnx -c Release --no-build
