@@ -697,6 +697,12 @@ namespace Linq.Expressions.Deconstruct
 	{
 		#region ToExpr
 
+		/// <summary>
+		/// Wraps an expression into the <see cref="Expr"/> node of the same kind, which can be used in pattern matching.
+		/// Children of the node are wrapped lazily.
+		/// </summary>
+		/// <param name="expr">Expression to wrap.</param>
+		/// <returns>Wrapped expression or null if <paramref name="expr"/> is null.</returns>
 		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expr? ToExpr(this Expression? expr)
 		{
@@ -1716,7 +1722,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <typeparam name="T">Type of expression.</typeparam>
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
-		/// <param name="forward">If True, scans expression tree forward.</param>
+		/// <param name="forward">If True, a node is passed to the function before its children and a replaced node is not descended into; otherwise children are transformed first.</param>
 		/// <returns>Modified expression.</returns>
 		public static T TransformEx<T>(this T expr, bool forward, Func<Expr,Expr> func)
 			where T : LambdaExpression
@@ -1725,7 +1731,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		/// <summary>
-		/// Transforms original expression. The expression tree is scanned backward.
+		/// Transforms original expression. Children are transformed before their parent (post-order).
 		/// </summary>
 		/// <typeparam name="T">Type of expression.</typeparam>
 		/// <param name="expr">Expression to transform.</param>
@@ -1742,7 +1748,7 @@ namespace Linq.Expressions.Deconstruct
 		/// </summary>
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
-		/// <param name="forward">If True, scans expression tree forward.</param>
+		/// <param name="forward">If True, a node is passed to the function before its children and a replaced node is not descended into; otherwise children are transformed first.</param>
 		/// <returns>Modified expression.</returns>
 		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? TransformEx(this Expression? expr, bool forward, Func<Expr,Expr> func)
@@ -1751,7 +1757,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		/// <summary>
-		/// Transforms original expression. The expression tree is scanned backward.
+		/// Transforms original expression. Children are transformed before their parent (post-order).
 		/// </summary>
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
@@ -1768,7 +1774,7 @@ namespace Linq.Expressions.Deconstruct
 		/// <typeparam name="T">Type of expression.</typeparam>
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
-		/// <param name="forward">If True, scans expression tree forward.</param>
+		/// <param name="forward">If True, a node is passed to the function before its children and a replaced node is not descended into; otherwise children are transformed first.</param>
 		/// <returns>Modified expression.</returns>
 		public static T Transform<T>(this T expr, bool forward, Func<Expression,Expression> func)
 			where T : LambdaExpression
@@ -1777,7 +1783,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		/// <summary>
-		/// Transforms original expression. The expression tree is scanned backward.
+		/// Transforms original expression. Children are transformed before their parent (post-order).
 		/// </summary>
 		/// <typeparam name="T">Type of expression.</typeparam>
 		/// <param name="expr">Expression to transform.</param>
@@ -1794,7 +1800,7 @@ namespace Linq.Expressions.Deconstruct
 		/// </summary>
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
-		/// <param name="forward">If True, scans expression tree forward.</param>
+		/// <param name="forward">If True, a node is passed to the function before its children and a replaced node is not descended into; otherwise children are transformed first.</param>
 		/// <returns>Modified expression.</returns>
 		[return: NotNullIfNotNull(nameof(expr))]
 		public static Expression? Transform(this Expression? expr, bool forward, Func<Expression,Expression> func)
@@ -1803,7 +1809,7 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		/// <summary>
-		/// Transforms original expression. The expression tree is scanned backward.
+		/// Transforms original expression. Children are transformed before their parent (post-order).
 		/// </summary>
 		/// <param name="expr">Expression to transform.</param>
 		/// <param name="func">Transform function.</param>
@@ -2152,6 +2158,16 @@ namespace Linq.Expressions.Deconstruct
 
 		#region EqualsTo
 
+		/// <summary>
+		/// Compares two lambda expressions structurally. Parameters declared by lambdas, blocks and catch blocks
+		/// are matched by position, not by name; a parameter that is not declared inside the compared trees
+		/// is equal only to itself.
+		/// </summary>
+		/// <param name="expr1">First expression.</param>
+		/// <param name="expr2">Second expression.</param>
+		/// <param name="compareConstantValues">If true, constants of types other than primitives, strings and
+		/// sequences are compared by reference; otherwise they are equal if their types are equal.</param>
+		/// <returns>True if the expressions are structurally equal.</returns>
 		public static bool EqualsTo<T>(this T expr1, T expr2, bool compareConstantValues = false)
 			where T : notnull, LambdaExpression
 		{
@@ -2161,6 +2177,14 @@ namespace Linq.Expressions.Deconstruct
 			});
 		}
 
+		/// <summary>
+		/// Compares two expressions structurally. See <see cref="EqualsTo{T}(T, T, bool)"/> for details.
+		/// </summary>
+		/// <param name="expr1">First expression.</param>
+		/// <param name="expr2">Second expression.</param>
+		/// <param name="compareConstantValues">If true, constants of types other than primitives, strings and
+		/// sequences are compared by reference; otherwise they are equal if their types are equal.</param>
+		/// <returns>True if the expressions are structurally equal.</returns>
 		public static bool EqualsTo(this Expression? expr1, Expression? expr2, bool compareConstantValues = false)
 		{
 			if (expr1 == null || expr2 == null)
