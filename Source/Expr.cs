@@ -916,35 +916,35 @@ namespace Linq.Expressions.Deconstruct
 			VisitInternal(expr, ex => func(ex.ToExpr()!));
 		}
 
-		static void VisitInternal<T>(IEnumerable<T> source, Action<T> func)
+		static void VisitInternal<T>(IReadOnlyList<T> source, Action<T> func)
 		{
-			foreach (var item in source)
-				func(item);
+			for (var i = 0; i < source.Count; i++)
+				func(source[i]);
 		}
 
-		static void VisitInternal<T1,T2>(IEnumerable<T1> source, Action<T2> f, Action<Action<T2>,T1> func)
+		static void VisitInternal<T1,T2>(IReadOnlyList<T1> source, Action<T2> f, Action<Action<T2>,T1> func)
 		{
-			foreach (var item in source)
-				func(f, item);
+			for (var i = 0; i < source.Count; i++)
+				func(f, source[i]);
 		}
 
-		static void VisitInternal<T1,T2>(IEnumerable<T1> source, Func<T2,bool> f, Func<Func<T2,bool>,T1,bool> func)
+		static void VisitInternal<T1,T2>(IReadOnlyList<T1> source, Func<T2,bool> f, Func<Func<T2,bool>,T1,bool> func)
 		{
-			foreach (var item in source)
-				func(f, item);
+			for (var i = 0; i < source.Count; i++)
+				func(f, source[i]);
 		}
 
-		static void VisitInternal<T1,T2>(IEnumerable<T1> source, Func<T2,bool> f, Action<Func<T2,bool>,T1> func)
+		static void VisitInternal<T1,T2>(IReadOnlyList<T1> source, Func<T2,bool> f, Action<Func<T2,bool>,T1> func)
 		{
-			foreach (var item in source)
-				func(f, item);
+			for (var i = 0; i < source.Count; i++)
+				func(f, source[i]);
 		}
 
-		static void VisitInternal<T>(IEnumerable<T> source, Action<Expression> func)
+		static void VisitInternal<T>(IReadOnlyList<T> source, Action<Expression> func)
 			where T : Expression
 		{
-			foreach (var item in source)
-				VisitInternal(item, func);
+			for (var i = 0; i < source.Count; i++)
+				VisitInternal(source[i], func);
 		}
 
 		static void VisitInternal(this Expression? expr, Action<Expression> func)
@@ -1235,17 +1235,17 @@ namespace Linq.Expressions.Deconstruct
 			func(expr);
 		}
 
-		static void VisitInternal<T>(IEnumerable<T> source, Func<T, bool> func)
+		static void VisitInternal<T>(IReadOnlyList<T> source, Func<T, bool> func)
 		{
-			foreach (var item in source)
-				func(item);
+			for (var i = 0; i < source.Count; i++)
+				func(source[i]);
 		}
 
-		static void VisitInternal<T>(IEnumerable<T> source, Func<Expression, bool> func)
+		static void VisitInternal<T>(IReadOnlyList<T> source, Func<Expression, bool> func)
 			where T : Expression
 		{
-			foreach (var item in source)
-				VisitInternal(item, func);
+			for (var i = 0; i < source.Count; i++)
+				VisitInternal(source[i], func);
 		}
 
 		/// <summary>
@@ -1533,11 +1533,11 @@ namespace Linq.Expressions.Deconstruct
 			return FindInternal(expr, func);
 		}
 
-		static Expression? FindInternal<T>(IEnumerable<T> source, Func<T,Expression?> func)
+		static Expression? FindInternal<T>(IReadOnlyList<T> source, Func<T,Expression?> func)
 		{
-			foreach (var item in source)
+			for (var i = 0; i < source.Count; i++)
 			{
-				var ex = func(item);
+				var ex = func(source[i]);
 				if (ex != null)
 					return ex;
 			}
@@ -1545,11 +1545,11 @@ namespace Linq.Expressions.Deconstruct
 			return null;
 		}
 
-		static Expression? FindInternal<T1,T2>(IEnumerable<T1> source, Func<T2,Expression?> f, Func<Func<T2,Expression?>,T1,Expression?> func)
+		static Expression? FindInternal<T1,T2>(IReadOnlyList<T1> source, Func<T2,Expression?> f, Func<Func<T2,Expression?>,T1,Expression?> func)
 		{
-			foreach (var item in source)
+			for (var i = 0; i < source.Count; i++)
 			{
-				var ex = func(f, item);
+				var ex = func(f, source[i]);
 				if (ex != null)
 					return ex;
 			}
@@ -1557,11 +1557,11 @@ namespace Linq.Expressions.Deconstruct
 			return null;
 		}
 
-		static Expression? FindInternal<T1,T2>(IEnumerable<T1> source, Func<T2,bool> f, Func<Func<T2,bool>,T1,Expression?> func)
+		static Expression? FindInternal<T1,T2>(IReadOnlyList<T1> source, Func<T2,bool> f, Func<Func<T2,bool>,T1,Expression?> func)
 		{
-			foreach (var item in source)
+			for (var i = 0; i < source.Count; i++)
 			{
-				var ex = func(f, item);
+				var ex = func(f, source[i]);
 				if (ex != null)
 					return ex;
 			}
@@ -1569,12 +1569,12 @@ namespace Linq.Expressions.Deconstruct
 			return null;
 		}
 
-		static Expression? FindInternal<T>(IEnumerable<T> source, Func<Expression,bool> func)
+		static Expression? FindInternal<T>(IReadOnlyList<T> source, Func<Expression,bool> func)
 			where T : Expression
 		{
-			foreach (var item in source)
+			for (var i = 0; i < source.Count; i++)
 			{
-				var found = FindInternal(item, func);
+				var found = FindInternal(source[i], func);
 				if (found != null)
 					return found;
 			}
@@ -1716,7 +1716,7 @@ namespace Linq.Expressions.Deconstruct
 				{
 					var e = (SwitchExpression)expr;
 					return FindInternal(e.SwitchValue, func) ??
-						FindInternal(e.Cases, cs => FindInternal(cs.TestValues, func) ?? FindInternal(cs.Body, func)) ??
+						FindInternal(e.Cases, func, static (f,cs) => FindInternal(cs.TestValues, f) ?? FindInternal(cs.Body, f)) ??
 							FindInternal(e.DefaultBody, func);
 				}
 
@@ -1849,52 +1849,40 @@ namespace Linq.Expressions.Deconstruct
 			return TransformInternal(expr, false, func);
 		}
 
-		static IEnumerable<T> TransformInternal<T>(ICollection<T> source, Func<T,T> func)
+		static IEnumerable<T> TransformInternal<T>(IReadOnlyList<T> source, Func<T,T> func)
 			where T : class
 		{
-			var modified = false;
-			var list     = new List<T>();
-
-			foreach (var item in source)
-			{
-				var e = func(item);
-				list.Add(e);
-				modified = modified || e != item;
-			}
-
-			return modified ? list : source;
+			return TransformInternal(source, func, static (f,item) => f(item));
 		}
 
-		static IEnumerable<T1> TransformInternal<T1,T2>(ICollection<T1> source, T2 f, Func<T2,T1,T1> func)
+		static IEnumerable<T1> TransformInternal<T1,T2>(IReadOnlyList<T1> source, T2 f, Func<T2,T1,T1> func)
 			where T1 : class
 		{
-			var modified = false;
-			var list     = new List<T1>();
+			List<T1>? list = null;
 
-			foreach (var item in source)
+			for (var i = 0; i < source.Count; i++)
 			{
-				var e = func(f, item);
-				list.Add(e);
-				modified = modified || e != item;
+				var item = source[i];
+				var e    = func(f, item);
+
+				if (list == null && e != item)
+				{
+					list = new List<T1>(source.Count);
+
+					for (var j = 0; j < i; j++)
+						list.Add(source[j]);
+				}
+
+				list?.Add(e);
 			}
 
-			return modified ? list : source;
+			return (IEnumerable<T1>?)list ?? source;
 		}
 
-		static IEnumerable<T> TransformInternal<T>(ICollection<T> source, Func<Expression,Expression> func, bool forward)
+		static IEnumerable<T> TransformInternal<T>(IReadOnlyList<T> source, Func<Expression,Expression> func, bool forward)
 			where T : Expression
 		{
-			var modified = false;
-			var list     = new List<T?>();
-
-			foreach (var item in source)
-			{
-				var e = TransformInternal(item, forward, func);
-				list.Add((T?)e);
-				modified = modified || e != item;
-			}
-
-			return modified ? (IEnumerable<T>)list : source;
+			return TransformInternal(source, (func,forward), static (f,item) => (T)TransformInternal(item, f.forward, f.func));
 		}
 
 		// A declaration cannot be replaced by an arbitrary expression: if the function returns something
@@ -1905,19 +1893,9 @@ namespace Linq.Expressions.Deconstruct
 		}
 
 		static IEnumerable<ParameterExpression> TransformParameters(
-			ICollection<ParameterExpression> source, Func<Expression,Expression> func, bool forward)
+			IReadOnlyList<ParameterExpression> source, Func<Expression,Expression> func, bool forward)
 		{
-			var modified = false;
-			var list     = new List<ParameterExpression>(source.Count);
-
-			foreach (var item in source)
-			{
-				var e = TransformParameter(item, forward, func);
-				list.Add(e);
-				modified = modified || e != item;
-			}
-
-			return modified ? list : source;
+			return TransformInternal(source, (func,forward), static (f,item) => TransformParameter(item, f.forward, f.func));
 		}
 
 		[return: NotNullIfNotNull(nameof(expr))]
