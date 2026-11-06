@@ -1,10 +1,13 @@
-﻿# Linq.Expressions.Deconstruct
+# Linq.Expressions.Deconstruct
 
 [![CI](https://github.com/igor-tkachev/Linq.Expressions.Deconstruct/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/igor-tkachev/Linq.Expressions.Deconstruct/actions/workflows/dotnet.yml) [![NuGet](https://img.shields.io/nuget/v/Linq.Expressions.Deconstruct.svg)](https://www.nuget.org/packages/Linq.Expressions.Deconstruct/)
 
 Pattern matching support for `System.Linq.Expressions`: every expression node can be wrapped into an `Expr`
 object that has a `Deconstruct` method, so expression trees can be matched with C# recursive patterns.
 On top of that the package provides `Visit`, `Find`, `Transform` and a structural `EqualsTo`.
+
+The NuGet package includes an agent skill at `skills/linq-expressions-deconstruct/`;
+start with `SKILL.md` in that folder for guidance on using the library.
 
 ```c#
 using Linq.Expressions.Deconstruct;

@@ -1,4 +1,4 @@
-﻿root = true
+root = true
 
 [*]
 charset = utf-8-bom
@@ -9,3 +9,5 @@ trim_trailing_whitespace = true
 [Skills/**/*.md]
 charset = utf-8
 
+[*.py]
+charset = utf-8
