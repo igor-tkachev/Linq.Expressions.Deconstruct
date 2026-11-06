@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Added
+
+- Packaged agent skill `linq-expressions-deconstruct` with pattern shapes, traversal, rewriting,
+  structural comparison and allocation guidance; CI validates the packed skill and its links.
+
 ### Performance
 
 - `Find`, `Visit` and `Transform` no longer allocate when walking a tree: `Find` over a `Switch` creates no closure,

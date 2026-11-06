@@ -25,6 +25,7 @@
 
 		<None Include="..\LICENSE.TXT" Pack="true" PackagePath="\" />
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\Skills\linq-expressions-deconstruct\**\*.md" Pack="true" PackagePath="skills/linq-expressions-deconstruct/%(RecursiveDir)%(Filename)%(Extension)" />
 
 		<ProjectReference Include="..\SourceGenerators\SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 

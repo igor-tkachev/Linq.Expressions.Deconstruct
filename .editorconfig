@@ -6,3 +6,6 @@ end_of_line = crlf
 indent_style = tab
 trim_trailing_whitespace = true
 
+[Skills/**/*.md]
+charset = utf-8
+

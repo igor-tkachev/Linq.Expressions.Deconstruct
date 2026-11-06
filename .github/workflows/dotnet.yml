@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      MSBUILDDISABLENODEREUSE: "1"
 
     steps:
     - uses: actions/checkout@v4
@@ -27,6 +29,11 @@ jobs:
     - name: Restore
       run: dotnet restore Linq.Expressions.Deconstruct.slnx
     - name: Build
-      run: dotnet build Linq.Expressions.Deconstruct.slnx -c Release --no-restore
+      run: dotnet build Linq.Expressions.Deconstruct.slnx -c Release --no-restore -nodeReuse:false
+    - name: Check packaged skill
+      run: |
+        python3 -m unittest discover -s Tests -p 'test_skill_package.py'
+        dotnet pack Source/Linq.Expressions.Deconstruct.csproj -c Release --no-build --no-restore -nodeReuse:false -o "$RUNNER_TEMP/skill-package"
+        python3 Tests/check_skill_package.py "$RUNNER_TEMP"/skill-package/*.nupkg
     - name: Test
       run: dotnet test Linq.Expressions.Deconstruct.slnx -c Release --no-build
