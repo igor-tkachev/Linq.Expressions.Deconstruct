@@ -1,5 +1,12 @@
 ﻿# Changelog
 
+## Unreleased
+
+### Performance
+
+- `Find`, `Visit` and `Transform` no longer allocate when walking a tree: `Find` over a `Switch` creates no closure,
+  `Transform` copies a child collection only when an element changes, and child collections are walked by index.
+
 ## 1.1.0 — 2026-11-04
 
 > **Upgrade note.** This release changes the behaviour of `EqualsTo`: parameters are now paired by their position in the
